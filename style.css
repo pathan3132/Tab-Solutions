@@ -1,0 +1,1874 @@
+:root {
+    --primary: #003366;
+    --accent: #28a745;
+}
+
+body { background-color: #f4f7f9; font-family: 'Segoe UI', sans-serif; }
+.hidden { display: none; }
+.navbar { background: var(--primary) !important; }
+
+/* Dashboard Buttons */
+.btn-white { background: white; color: #333; font-weight: 600; transition: 0.3s; }
+.btn-white:hover { background: #f8f9fa; transform: translateY(-3px); }
+
+/* Form Design */
+.entry-card { background: #fff; border-radius: 15px; border-top: 6px solid var(--primary); }
+.entry-header { 
+    background: #eaffea; 
+    color: #28a745; 
+    text-align: center; 
+    font-weight: 800; 
+    font-size: 24px; 
+    font-style: italic;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+label { font-size: 13px; font-weight: bold; color: #555; margin-bottom: 2px; }
+
+/* Trip Cards Styling */
+.trip-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 6px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.status-no { border-left-color: #dc3545 !important; background-color: #fffafa; }
+.status-yes { border-left-color: #28a745 !important; background-color: #fafffa; }
+
+.details-grid {
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.trip-amount { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+
+/* Home Header Gradient */
+.home-header {
+    background: linear-gradient(135deg, #003366 0%, #0056b3 100%);
+    margin: -24px -12px 20px -12px; /* Pull header to edges */
+}
+
+/* Action Cards */
+.action-card {
+    cursor: pointer;
+    transition: 0.2s;
+}
+.action-card:hover { transform: translateY(-5px); }
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px;
+}
+
+/* Light Backgrounds for icons */
+.bg-primary-light { background: #e7f1ff; }
+.bg-warning-light { background: #fff8e1; }
+.bg-success-light { background: #e8f5e9; }
+.bg-info-light { background: #e0f7fa; }
+
+/* Peek Trip Card */
+.peek-card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ATC Official Vehicle Identity Card */
+.atc-id-card {
+    background: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+/* Card ka Blue Header (Hologram look) */
+.atc-card-header {
+    background: linear-gradient(135deg, #003366 0%, #0056b3 100%);
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.atc-card-header h4 {
+    margin: 0;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+.atc-card-body {
+    padding: 20px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+}
+
+/* Data Sections */
+.data-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.data-value {
+    font-size: 13px;
+    color: #222;
+    font-weight: 600;
+    display: block;
+}
+
+/* Bank Details Box */
+.bank-box {
+    background: #fff3cd; /* Light Golden */
+    border: 1px dashed #ffc107;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 15px;
+}
+
+/* Official Stamp Look */
+.official-stamp {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0.1;
+    font-size: 50px;
+    transform: rotate(-20deg);
+}
+
+.doc-btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-upload {
+    background-color: #f8f9fa;
+    border: 1px dashed #0dcaf0;
+    color: #0dcaf0;
+    flex: 1;
+    font-size: 12px;
+}
+
+.btn-view-doc {
+    background-color: #0dcaf0;
+    color: white;
+    flex: 1;
+    font-size: 12px;
+}
+
+/* Simple Vehicle List Style */
+.v-list-item {
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.v-item-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.v-item-header:hover { background: #f8f9fa; }
+
+.v-item-details {
+    padding: 0 15px 15px 15px;
+    border-top: 1px dashed #eee;
+    background: #fafafa;
+}
+
+.btn-group-custom {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.doc-link-item {
+    display: block;
+    padding: 8px;
+    background: #eef2f7;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #003366;
+    border-left: 3px solid #0dcaf0;
+}
+
+.history-container {
+    background: white;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.history-item {
+    font-size: 11px;
+}
+
+.history-item:last-child {
+    border-bottom: none !important;
+}
+
+/* Tabs styling for small area */
+.nav-tabs .nav-link {
+    padding: 5px 10px;
+    color: #666;
+}
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.v-item-details {
+    transition: all 0.3s ease;
+}
+
+#vehicleCardsContainer .badge {
+    font-weight: 500;
+}
+
+/* --- PREMIUM TRIP CARDS (View All Trips) --- */
+.trip-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 18px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.trip-card:active { transform: scale(0.98); }
+
+/* Left Status Border */
+.status-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+}
+.bg-success-indicator { background: #20c997; }
+.bg-danger-indicator { background: #ff4d4d; }
+
+.trip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.trip-vno {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a202c;
+    letter-spacing: 0.5px;
+}
+
+.trip-route {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 10px 0;
+}
+
+.route-dot { height: 8px; width: 8px; background: #cbd5e1; border-radius: 50%; }
+
+/* --- VEHICLE MASTER IMPROVEMENTS --- */
+.v-stats-card {
+    background: white;
+    border: 1px solid #edf2f7;
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+}
+
+.v-stats-label { font-size: 10px; color: #718096; text-transform: uppercase; font-weight: 700; }
+.v-stats-value { font-size: 14px; font-weight: 800; color: #2d3748; display: block; }
+
+.history-item-new {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-left: 3px solid #e2e8f0;
+}
+
+.badge-soft-success { background: #e6fffa; color: #047481; padding: 4px 8px; border-radius: 6px; font-size: 10px; }
+.badge-soft-danger { background: #fff5f5; color: #c53030; padding: 4px 8px; border-radius: 6px; font-size: 10px; }
+
+/* --- ULTIMATE TRIP CARD DESIGN --- */
+.trip-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Timeline design for Route */
+.route-timeline {
+    position: relative;
+    padding-left: 25px;
+    margin: 15px 0;
+}
+
+.route-timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    border-left: 2px dashed #cbd5e1;
+}
+
+.point {
+    position: absolute;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--primary);
+}
+.point-start { top: 0; border-color: #28a745; }
+.point-end { bottom: 0; border-color: #dc3545; }
+
+/* Summary Bar Styling */
+#tripSummaryBar {
+    background: #003366;
+    color: white;
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(0,51,102,0.2);
+}
+
+.action-btn-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    color: #64748b;
+    border: none;
+    transition: 0.2s;
+}
+.btn-whatsapp { color: #25D366; background: #e8f5e9; }
+
+/* --- SUMMARY BAR --- */
+#tripSummaryBar {
+    background: #003366;
+    color: white;
+    border-radius: 15px;
+    padding: 12px;
+}
+
+/* --- COLORED TRIP CARDS --- */
+.trip-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    position: relative;
+    border-left: 8px solid #ccc; /* Default */
+}
+
+.status-collected {
+    background: linear-gradient(to right, #f0fff4, #ffffff) !important;
+    border-left-color: #28a745 !important;
+}
+
+.status-pending {
+    background: linear-gradient(to right, #fff5f5, #ffffff) !important;
+    border-left-color: #dc3545 !important;
+}
+
+/* --- ROUTE TIMELINE --- */
+.route-timeline {
+    position: relative;
+    padding-left: 25px;
+    margin: 12px 0;
+}
+
+.route-timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    border-left: 2px dashed #cbd5e1;
+}
+
+.point {
+    position: absolute;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #003366;
+}
+.point-start { top: 0; border-color: #28a745; }
+.point-end { bottom: 0; border-color: #dc3545; }
+
+.collector-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #28a745;
+    background: #eaffea;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.action-btn-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border: 1px solid #eee;
+    color: #666;
+}
+.btn-whatsapp { color: #25D366; background: #e8f5e9; border: none; }
+
+.overdue-tag {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Animations for old pending trips */
+.bg-danger.overdue-tag {
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* --- LOCK SCREEN STYLES --- */
+#lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+    z-index: 10000; /* Sabse upar */
+    transition: 0.5s;
+}
+
+.lock-card {
+    background: white;
+    width: 90%;
+    max-width: 350px;
+    border-radius: 25px;
+    border-top: 5px solid #28a745;
+}
+
+#appPin:focus {
+    box-shadow: none;
+    border-color: #003366;
+}
+
+/* Jab login ho jaye toh lock screen gayab karne ke liye */
+.lock-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+}
+
+/* Full Details Section */
+.trip-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+.detail-box {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 5px;
+}
+
+.detail-label {
+    font-size: 9px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.detail-value {
+    font-size: 11px;
+    color: #1e293b;
+    font-weight: 600;
+    display: block;
+}
+
+.remark-box {
+    grid-column: span 2;
+    background: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    border-left: 3px solid #003366;
+    font-size: 11px;
+    font-style: italic;
+}
+.details-grid {
+    background-color: #fcfcfc;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 8px 0;
+}
+
+.details-grid span {
+    font-size: 13px;
+    color: var(--primary);
+}
+
+.status-collected {
+    border-left: 8px solid #28a745 !important;
+}
+
+.status-pending {
+    border-left: 8px solid #dc3545 !important;
+}
+
+/* --- NEW PREMIUM LOCK SCREEN STYLES --- */
+/* --- LUXURY LOCK SCREEN DESIGN --- */
+#lock-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at top, #003366 0%, #001122 100%);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+}
+
+.lock-wrapper {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Avatar Styling with Floating Animation */
+.avatar-box {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 30px;
+}
+
+.main-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    animation: floating 3s ease-in-out infinite;
+}
+
+.avatar-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: #00aaff;
+    filter: blur(50px);
+    opacity: 0.3;
+    z-index: 1;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Text Styling */
+.welcome-text { margin-bottom: 40px; }
+.greet-title {
+    color: white;
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.greet-subtitle {
+    color: #8899aa;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Input Styling */
+#appPin {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    font-size: 22px;
+    padding: 15px;
+    width: 100%;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(10px);
+}
+
+#appPin:focus {
+    outline: none;
+    border-color: #00aaff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Unlock Button */
+.unlock-btn {
+    background: linear-gradient(90deg, #0056b3, #00aaff);
+    border: none;
+    padding: 18px;
+    width: 100%;
+    border-radius: 15px;
+    color: white;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(0, 170, 255, 0.3);
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.unlock-btn:active { transform: scale(0.95); }
+
+.error-msg {
+    color: #ff4444;
+    font-size: 13px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.copyright {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    color: rgba(255,255,255,0.2);
+    font-size: 11px;
+}
+
+/* Transition out */
+.lock-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.2);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.badge {
+    letter-spacing: 0.5px;
+    padding: 4px 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.filter-card {
+    border: 1px solid #edf2f7;
+}
+
+/* --- Party Ledger (Khata) --- */
+.party-chip {
+    background: #f4f7f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #003366;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+.party-chip:hover {
+    background: #003366;
+    color: white;
+}
+.party-chip:hover b {
+    color: white !important;
+}
+
+.ledger-table {
+    font-size: 12px;
+}
+.ledger-table thead {
+    background: #003366;
+    color: white;
+}
+.ledger-table thead th {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 8px;
+    border: none;
+}
+.ledger-table tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.ledger-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.filter-card label {
+    font-size: 10px;
+    margin-bottom: 4px;
+    color: #64748b;
+}
+
+.form-control-sm {
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+/* Home Premium Header */
+.home-hero-bg {
+    background: linear-gradient(135deg, #001a33 0%, #003366 100%);
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.2);
+}
+
+/* Glassmorphism Effect */
+.stats-glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Service Cards */
+.service-card {
+    background: white;
+    padding: 15px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    transition: 0.3s;
+    border: 1px solid #f0f0f0;
+}
+
+.service-card:active { transform: scale(0.95); }
+
+.icon-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 20px;
+}
+
+/* Floating Action Button (FAB) */
+.fab-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #003366;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    z-index: 999;
+    box-shadow: 0 8px 20px rgba(0, 51, 102, 0.4);
+}
+
+/* Recent Trip Items */
+.recent-item {
+    background: white;
+    padding: 12px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 5px solid #003366;
+}
+
+/* BEELTY PRINT STYLES */
+.beelty-container-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Mobile par swipe karne ke liye */
+    padding: 20px 0;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+}
+
+#receipt-to-print {
+    width: 800px; /* Fixed width for perfect PDF */
+    min-width: 800px;
+    background: #FFFCF8;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    transform-origin: top center; /* Central alignment */
+}
+
+
+.beelty-paper {
+    width: 800px; /* Standard Print Width */
+    background: #FFFCF8;
+    border: 2px solid #ddd;
+    padding: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    border: 3px double #c2185b;
+}
+
+.beelty-top-contacts {
+    display: flex;
+    justify-content: space-between;
+    color: #c2185b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.b-logo-atc span {
+    border: 2px solid #d4af37;
+    padding: 2px 8px;
+    font-size: 24px;
+    font-weight: 900;
+    margin: 0 2px;
+}
+.box-a, .box-c { color: #d35400; }
+.box-t { color: #27ae60; }
+
+.b-company-name { color: #900C3F; font-weight: 900; margin: 0; letter-spacing: 1px; }
+.b-sub-title { color: #c2185b; font-size: 16px; border-bottom: 2px solid #d4af37; display: inline-block; padding: 0 15px; margin: 5px 0; }
+.b-tagline { font-size: 10px; color: #666; font-weight: 700; text-transform: uppercase; }
+
+.b-identity-bar {
+    background: #e91e63;
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.b-input-white { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.5); color: white; outline: none; padding: 0 5px; }
+
+.b-input-line { border: none; border-bottom: 1px solid #ccc; background: transparent; outline: none; padding: 2px 5px; font-size: 14px; width: 60%; }
+
+.b-field { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.b-field label { font-size: 11px; font-weight: 800; text-transform: uppercase; width: 100px; }
+
+.b-math-table { width: 100%; border-collapse: collapse; border: 1.5px solid #03a9f4; }
+.b-math-table td { border: 1px solid #03a9f4; padding: 6px; font-weight: 700; font-size: 13px; }
+.b-math-table input { border: none; width: 100%; text-align: right; background: transparent; font-weight: 700; outline: none; }
+
+.b-row-gold { background: #fef9e7; color: #9a7d0a; }
+.b-row-pink { background: #fdedec; color: #c2185b; }
+.b-row-pink input { color: #c2185b; font-size: 16px; }
+
+.b-footer-strip { background: #e91e63; color: white; text-align: center; font-size: 10px; padding: 8px; margin-top: 20px; font-weight: 700; }
+
+.b-sign-box { font-size: 13px; font-weight: 700; color: #c2185b; }
+
+/* Mobile View Scaling */
+@media (max-width: 600px) {
+    .beelty-container-wrapper {
+        justify-content: flex-start;
+    }
+    .beelty-paper {
+        transform: scale(0.45); /* Mobile screen par poora dikhane ke liye scale */
+        transform-origin: top left;
+        margin-bottom: -400px; /* Scale ke baad bachi hui jagah handle karne ke liye */
+    }
+}
+
+/* Mobile responsive scaling for SCREEN ONLY */
+@media (max-width: 820px) {
+    .beelty-paper {
+        /* Mobile ki width ke hisaab se scale calculate karega */
+        transform: scale(calc(100vw / 850)); 
+        margin-bottom: -350px; /* Neeche ki extra space hatane ke liye */
+    }
+}
+
+/* Print layout settings */
+@media print {
+    body { background: none; padding: 0; }
+    .beelty-paper { transform: none !important; margin: 0 !important; box-shadow: none !important; }
+}
+
+/* --- PREMIUM BEELTY CSS --- */
+.professional-beelty {
+    width: 794px; /* Exact A4 width */
+    min-height: 1123px; /* Exact A4 height */
+    background: #FFFCF8;
+    padding: 40px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    transform-origin: top center;
+    flex-shrink: 0; /* Shrink hone se rokein */
+}
+
+.b-header { display: flex; justify-content: space-between; border-bottom: 2px solid #900C3F; padding-bottom: 10px; }
+.b-contact { font-size: 12px; font-weight: bold; color: #900C3F; line-height: 1.4; }
+.atc-boxes span { border: 2px solid #d4af37; padding: 2px 8px; font-size: 24px; font-weight: 900; margin: 0 2px; }
+.b-main-title { font-size: 20px; font-weight: 900; color: #900C3F; margin-top: 5px; }
+.b-sub-title { font-size: 14px; color: #c2185b; font-weight: bold; letter-spacing: 2px; text-align: center; }
+
+.b-id-strip { background: #e91e63; color: white; padding: 8px 20px; display: flex; justify-content: space-between; font-weight: bold; margin-top: 15px; }
+.b-id-strip input { background: transparent; border: none; border-bottom: 1px solid white; color: white; outline: none; padding: 0 5px; }
+
+.b-body { padding: 20px 0; flex-grow: 1; }
+.party-name-row { border-bottom: 2px solid #03a9f4; padding-bottom: 5px; margin-bottom: 20px; }
+.party-name-row input { border: none; font-size: 18px; outline: none; background: transparent; }
+
+.b-grid { display: flex; gap: 40px; }
+.b-col { flex: 1; }
+.b-input-group { border-bottom: 1px solid #ddd; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.b-input-group label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #666; }
+.b-input-group input { border: none; text-align: right; font-weight: 600; outline: none; background: transparent; }
+
+.b-calc-area { display: flex; margin-top: 30px; gap: 20px; }
+.b-table-wrap { flex: 1.2; }
+.b-table { width: 100%; border-collapse: collapse; border: 2px solid #03a9f4; }
+.b-table td { border: 1px solid #03a9f4; padding: 8px; font-weight: bold; font-size: 14px; }
+.b-table input { border: none; width: 100%; text-align: right; outline: none; font-weight: bold; }
+
+.row-gold { background: #fef9e7; color: #9a7d0a; }
+.row-pink { background: #fdedec; color: #c2185b; }
+
+.b-footer { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; font-weight: bold; color: #c2185b; }
+.b-address-bar { background: #900C3F; color: white; text-align: center; font-size: 10px; padding: 8px; border-radius: 0 0 10px 10px; margin-top: 20px; }
+
+
+
+/* --- MODERN CORPORATE BEELTY CSS --- */
+:root {
+    --atc-navy: #002347;
+    --atc-gold: #b38b00;
+    --atc-slate: #f1f4f9;
+}
+
+.corporate-beelty {
+    width: 794px;
+    min-height: 1123px;
+    background: white;
+    padding: 50px;
+    position: relative;
+    color: #333;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 150px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.03);
+    pointer-events: none;
+}
+
+/* Header Design */
+.c-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--atc-navy); padding-bottom: 20px; }
+.c-owner { font-weight: 900; font-size: 16px; color: var(--atc-navy); text-transform: uppercase; }
+.c-contact-left, .c-contact-right { font-size: 12px; font-weight: 600; color: #555; }
+
+.c-logo-section { text-align: center; }
+.c-atc-badge span {
+    background: var(--atc-navy);
+    color: white;
+    padding: 5px 12px;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 0 2px;
+    border-radius: 4px;
+}
+
+.c-company-title { font-size: 24px; font-weight: 900; color: var(--atc-navy); margin-top: 10px; letter-spacing: 1px; }
+.c-sub-text { font-size: 11px; font-weight: 800; color: var(--atc-gold); letter-spacing: 2px; }
+
+/* Info Bar */
+.c-info-bar { display: flex; justify-content: space-between; background: var(--atc-slate); padding: 15px 25px; margin-top: 20px; border-radius: 8px; }
+.c-info-item label { display: block; font-size: 10px; font-weight: 800; color: #777; margin-bottom: 3px; }
+.c-input-bold { background: transparent; border: none; font-size: 18px; font-weight: 800; color: var(--atc-navy); outline: none; }
+
+/* Body Elements */
+.c-party-section { margin-top: 30px; border-bottom: 1.5px solid #eee; padding-bottom: 10px; }
+.c-party-section label { font-weight: 800; font-size: 12px; color: #666; }
+.c-input-line { border: none; outline: none; width: 100%; font-size: 18px; font-weight: 700; color: #000; }
+
+.c-grid { display: flex; gap: 30px; margin-top: 30px; }
+.c-box { flex: 1; background: #fff; border: 1px solid #eef0f5; padding: 15px; border-radius: 10px; }
+.c-box-title { font-size: 12px; font-weight: 900; color: var(--atc-gold); border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 15px; }
+
+.c-fline { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #f0f0f0; }
+.c-fline label, .c-box-title {
+    color: #000 !important;
+    font-weight: 800;
+}
+.c-fline input { border: none; outline: none; text-align: right; font-size: 13px; font-weight: 600; width: 60%; }
+
+/* Finance Table */
+.c-finance-section { margin-top: 30px; }
+.c-table { width: 100%; border-collapse: collapse; }
+.c-table th { background: var(--atc-navy); color: white; padding: 12px 15px; font-size: 12px; text-align: left; }
+.c-table td { padding: 12px 15px; border-bottom: 1px solid #eee; font-size: 14px; font-weight: 600; }
+.c-table input { border: none; outline: none; text-align: right; font-weight: 700; background: transparent; }
+
+.c-total-row { background: var(--atc-slate); color: var(--atc-navy); }
+
+/* Footer */
+.c-footer { margin-top: 40px; display: flex; justify-content: space-between; }
+.c-terms { font-size: 10px; color: #777; width: 50%; }
+.c-terms ul { padding-left: 15px; margin-top: 5px; }
+
+.c-sigs { width: 40%; }
+.sig-space { height: 60px; border-bottom: 1px solid #ccc; margin-bottom: 5px; }
+.c-sig-box span { font-size: 10px; font-weight: 800; color: #999; }
+.c-official-sign { width: 100px; margin-bottom: -30px; position: relative; z-index: 1; }
+
+.c-address-strip { background: var(--atc-navy); color: white; text-align: center; font-size: 10px; padding: 10px; border-radius: 6px; margin-top: 40px; font-weight: 600; }
+
+/* Desktop/Mobile scaling is handled by JS during PDF gen as discussed */
+
+/* --- BEELTY CONTAINER FIX --- */
+#beelty-capture-area {
+    width: 100%;
+    background: #525659; /* Gray background like PDF viewer */
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* Bahar jane se rokega */
+    min-height: 600px;
+}
+
+/* Asli Beelty Paper - Iska size fixed rahega PDF ke liye */
+.corporate-beelty {
+    width: 794px;
+    min-height: 1123px;
+    background: white;
+    padding: 40px;
+    position: relative;
+    color: #333;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    transform-origin: top center; /* Scaling center se hogi */
+    flex-shrink: 0;
+}
+
+/* --- BUTTON VISIBILITY FIX --- */
+
+#beelty-capture-area {
+    width: 100%;
+    background: #525659;
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* Bahar ka area hide karne ke liye */
+    position: relative;
+    height: 520px; /* Mobile par itni height kaafi hai slip dikhane ke liye */
+    border-radius: 15px;
+}
+
+.corporate-beelty {
+    width: 794px;
+    min-height: 1123px;
+    background: white;
+    padding: 40px;
+    transform-origin: top center;
+    flex-shrink: 0;
+}
+
+/* Action Bar Styling */
+.slip-action-bar {
+    padding: 20px 0;
+    background: #f4f7f9;
+    position: relative;
+    z-index: 100;
+}
+
+/* Mobile Responsive Scaling */
+@media (max-width: 800px) {
+    .corporate-beelty {
+        transform: scale(0.42); /* Slip ko chota kiya */
+    }
+    
+    #beelty-capture-area {
+        height: 500px; /* Container ki height fix ki taaki button upar aa jaye */
+    }
+}
+
+/* --- GLOBAL STYLES & VARIABLES --- */
+:root {
+    --atc-navy: #002347;
+    --atc-gold: #b38b00;
+    --atc-slate: #f8fafc;
+    --primary: #003366;
+    --success: #28a745;
+    --danger: #dc3545;
+}
+
+body { background-color: #f4f7f9; font-family: 'Segoe UI', Roboto, sans-serif; }
+.hidden { display: none; }
+
+/* --- SHARED COMPONENTS --- */
+.entry-card { background: #fff; border-radius: 15px; border-top: 6px solid var(--primary); padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.trip-card {
+    background: #ffffff; border-radius: 20px; padding: 18px; margin-bottom: 20px;
+    border-left: 8px solid #ccc; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s;
+}
+.status-collected { border-left-color: var(--success) !important; background: linear-gradient(to right, #f0fff4, #ffffff); }
+.status-pending { border-left-color: var(--danger) !important; background: linear-gradient(to right, #fff5f5, #ffffff); }
+
+/* --- PREMIUM CORPORATE BEELTY DESIGN (Fixed for A4) --- */
+/* --- BEELTY CONTAINER FIX --- */
+#beelty-capture-area {
+    width: 100%;
+    background: #525659;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0; /* Sirf screen par gap dikhane ke liye */
+    overflow: visible; /* Hidden ko visible karein taaki capture pura ho */
+    position: relative;
+}
+
+.corporate-beelty {
+    width: 794px;
+    height: 1122px; /* Fixed A4 height */
+    background: white;
+    padding: 30px 40px; /* Thoda kam padding taki jagah bache */
+    display: flex;
+    flex-direction: column; /* Content upar se niche flow karega */
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 !important;
+}
+
+
+/* Watermark */
+/* --- IMAGE WATERMARK SYSTEM --- */
+.watermark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-0deg); /* Thoda sa rotate kiya hai style ke liye */
+    width: 70%; /* Image ka size page ke hisaab se */
+    z-index: 0;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.watermark-img {
+    width: 100%;
+    height: auto;
+    
+    /* --- VISIBILITY CONTROL (YAHAN SE KAM/JYADA KAREIN) --- */
+    /* 0.05 ka matlab hai 5% visibility. 
+       Isse 0.01 (bahut halka) se 1.0 (bilkul dark) ke beech set karein */
+    opacity: 0.10; 
+    
+    /* Agar image color mein hai aur aap usey halka grey/black-white karna chahte hain */
+    filter: grayscale(00%); 
+}
+
+/* Header */
+.c-header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    border-bottom: 4px solid var(--atc-navy); padding-bottom: 15px; 
+}
+.c-contact-info { font-size: 13px; font-weight: 700; color: var(--atc-navy); line-height: 1.2; }
+.c-atc-badge span {
+    background: var(--atc-navy); color: white; padding: 4px 12px;
+    font-size: 32px; font-weight: 900; margin: 0 2px; border-radius: 6px;
+}
+.c-company-title { font-size: 26px; font-weight: 900; color: var(--atc-navy); margin: 5px 0 0 0; }
+.c-sub-text { font-size: 12px; font-weight: 800; color: var(--atc-gold); letter-spacing: 3px; }
+
+/* Highlighted Info Bar */
+.c-info-bar { 
+    display: flex; justify-content: space-between; background: var(--atc-navy); 
+    padding: 12px 25px; margin-top: 20px; border-radius: 8px; color: white;
+}
+.c-info-item label { display: block; font-size: 10px; font-weight: 700; opacity: 0.8; margin-bottom: 2px; }
+.c-info-bar input { 
+    background: transparent; 
+    border: none; 
+    color: white !important; 
+    font-size: 20px; 
+    font-weight: 900; /* Super Bold */
+    outline: none; 
+    width: 100%; 
+    border-bottom: 1.5px solid rgba(255,255,255,0.4);
+    text-transform: uppercase;
+}
+
+
+
+/* Form Sections */
+.c-party-section { margin-top: 25px; padding: 10px 0; border-bottom: 2px solid #edf2f7; }
+.c-party-section label { font-weight: 800; font-size: 12px; color: #4a5568; display: block; }
+.c-party-section input { 
+    width: 100%; 
+    border: none; 
+    font-size: 24px; 
+    font-weight: 900; 
+    color: #000 !important; /* Pure Black */
+    outline: none; 
+    padding: 5px 0;
+    border-bottom: 2.5px solid #000;
+}
+
+
+.c-grid { display: flex; gap: 25px; margin-top: 20px; }
+.c-box { flex: 1; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: #fff; }
+.c-box-title { 
+    font-size: 12px; font-weight: 900; color: var(--atc-gold); 
+    border-bottom: 1px solid #edf2f7; padding-bottom: 8px; margin-bottom: 12px; text-transform: uppercase;
+}
+.c-fline { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+.c-fline label { font-size: 11px; font-weight: 700; color: #718096; }
+.c-fline input { 
+    border: none; 
+    border-bottom: 1.5px solid #000; 
+    outline: none; 
+    text-align: right; 
+    font-size: 16px; 
+    font-weight: 900; 
+    color: #000 !important; 
+    width: 65%; 
+    background: transparent;
+}
+
+
+
+/* Finance Table Premium */
+.c-finance-section { margin-top: 25px; }
+.c-table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 8px; border: 1px solid #e2e8f0; }
+.c-table th { background: #f1f5f9; color: var(--atc-navy); padding: 12px 15px; font-size: 12px; text-align: left; text-transform: uppercase; }
+.c-table td { padding: 12px 15px; border-bottom: 1px solid #edf2f7; font-size: 14px; font-weight: 700; }
+.c-table input { 
+    border: none; 
+    outline: none; 
+    text-align: right; 
+    font-weight: 900; 
+    background: transparent; 
+    width: 100%; 
+    color: #000 !important; 
+    font-size: 17px;
+}
+
+
+
+
+.c-total-row { background: #fffaf0; color: var(--atc-navy); border-top: 2px solid var(--atc-navy); }
+/* Net Payable (Final Amount) */
+.c-total-row input { 
+    color: var(--atc-navy) !important; 
+    font-size: 28px; 
+    font-weight: 900;
+    text-align: right;
+}
+
+
+/* Footer */
+.c-footer {
+    margin-top: 20px; /* Content aur sig ke beech ka gap */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Signatures ko niche se align karein */
+}
+.sig-space {
+    height: 35px; /* Height kam ki taki upar na chade */
+    border-bottom: 1px solid #94a3b8;
+    margin-bottom: 5px;
+    width: 180px; /* Width fix ki */
+    position: relative;
+}
+
+.sig-space { height: 50px; border-bottom: 1px solid #cbd5e1; margin-bottom: 10px; position: relative; }
+.c-official-sign {
+    width: 90px; /* Sign thoda chota kiya professional look ke liye */
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.c-sig-label { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; }
+
+/* ADDRESS BAR FIX (Sabse niche rahega) */
+.c-address-strip {
+    background: var(--atc-navy);
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: auto; /* YE SABSE ZAROORI HAI: Footer ko page ke end mein bhej dega */
+    font-weight: 600;
+}
+
+/* Mobile Scale (Screen Only) */
+@media (max-width: 800px) {
+    .corporate-beelty { transform: scale(0.42); }
+    #beelty-capture-area { height: 480px; }
+}
+
+/* --- FOOTER AREA RE-DESIGN --- */
+.c-footer-new {
+    margin-top: auto; /* Push to bottom of A4 */
+    padding-top: 15px;
+    border-top: 1px solid #edf2f7;
+}
+
+.footer-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+/* Notes Section */
+.c-notes {
+    width: 45%;
+    font-size: 10px;
+    color: #64748b;
+}
+.c-notes strong, .c-notes b {
+    color: #000;
+    font-weight: 900;
+}
+.c-notes ul { padding-left: 15px; margin: 0; }
+
+/* Signatures Section */
+.sigs-container {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.sig-block {
+    text-align: center;
+    flex: 1;
+    position: relative;
+}
+
+.sig-line {
+    border-bottom: 1px solid #cbd5e1;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.sig-block span {
+    font-size: 10px;
+    font-weight: 900; /* Labels bold */
+    color: #1e293b; /* Dark Slate */
+}
+
+
+
+/* Official Seal Image */
+.official-seal {
+    width: 90px;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    opacity: 0.9;
+}
+
+/* Address Text Style (No Strip) */
+.c-address-text {
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 11px;
+    color: #475569;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.c-address-text i {
+    color: var(--atc-navy);
+    margin-right: 5px;
+}
+
+/* Corporate Beelty Height Adjustment */
+/* FIX: 'height' fixed thi (1122px) jiski wajah se agar content thoda bhi zyada ho
+   jaaye (extra rows, lambi party naam, etc.) to neeche ka hissa (footer/signature)
+   cramped/overlap ho jaata tha. Ab 'min-height' use kar rahe hain — chota content A4
+   jitna hi dikhega, lekin lamba content bina overlap ke neeche badh jayega. */
+.corporate-beelty {
+    width: 794px;
+    min-height: 1122px;
+    padding: 40px 50px; /* Reduced padding slightly for better fit */
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- PREMIUM COLOR-CODED INPUTS --- */
+
+/* 1. Header Section (Vehicle & Date) - Professional White */
+#slip_vNo, #slip_date {
+    color: #ffffff !important;
+    font-weight: 900;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* 2. Main Party Name - Deep Black */
+#slip_party {
+    color: #000000 !important;
+    font-weight: 900;
+    border-bottom-color: #000 !important;
+}
+
+/* 3. Route Details - Corporate Navy Blue */
+#slip_from, #slip_to {
+    color: #003366 !important; /* ATC Navy */
+    font-weight: 900;
+}
+
+/* 4. Lorry Owner Details - Forest Green (Trust/Asset) */
+#slip_lOwner, #slip_oMob, #slip_oVillage {
+    color: #1b5e20 !important; /* Dark Green */
+    font-weight: 800;
+}
+
+/* 5. Driver Details - Royal Blue (Personnel) */
+#slip_dName, #slip_dMob, #slip_dVillage, #slip_licence {
+    color: #0d47a1 !important; /* Royal Blue */
+    font-weight: 800;
+}
+
+/* 6. Finance Table - Specific Coding */
+
+/* Freight Charges - Standard Black */
+#slip_freight {
+    color: #212121 !important;
+    font-weight: 900;
+}
+
+/* Advance - Red (Deduction/Negative) */
+#slip_advance {
+    color: #b71c1c !important; /* Dark Red */
+    font-weight: 900;
+}
+
+/* Driver Price / Loading - Purple (Extra Addition) */
+#slip_dPrice {
+    color: #4a148c !important; /* Dark Purple */
+    font-weight: 900;
+}
+
+/* Timing - Grey */
+#slip_timing {
+    color: #455a64 !important;
+    font-weight: 800;
+}
+
+/* 7. Final Net Payable - Bold Navy (The "Hero" Figure) */
+#slip_toPay {
+    color: #002347 !important;
+    font-size: 28px;
+    font-weight: 900;
+    background: rgba(0, 35, 71, 0.03); /* Halki patti background mein */
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.text-navy { color: #003366; }
+
+.v-list-item {
+    transition: 0.3s;
+    border: 1px solid #eee;
+}
+
+.bg-success-subtle { background-color: #e8f5e9 !important; border: 1px solid #c8e6c9; }
+.bg-danger-subtle { background-color: #ffebee !important; border: 1px solid #ffcdd2; }
+
+/* Sorting container fix */
+#vehicleCardsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.border-start-4 {
+    border-left-width: 5px !important;
+}
+
+/* Priority sorting style */
+.v-list-item[style*="order: -1"] {
+    background: #f8fbff; /* Uploaded gaadiyon ka background halka blue */
+}
+
+/* --- CAPITAL LETTERS FOR ALL INPUTS --- */
+.corporate-beelty input, 
+.corporate-beelty textarea {
+    text-transform: uppercase; /* Likhte waqt screen par capital dikhega */
+}
+
+/* --- HEADER ALIGNMENT FIX --- */
+.c-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; /* Vertical center alignment */
+    border-bottom: 4px solid var(--atc-navy); 
+    padding-bottom: 15px; 
+}
+
+.c-contact-left, .c-contact-right { 
+    flex: 1; 
+    font-size: 13px; 
+    font-weight: 700; 
+    color: var(--atc-navy); 
+    line-height: 1.4; /* Better spacing for numbers */
+}
+
+.c-contact-left { text-align: left; }
+.c-contact-right { text-align: right; }
+
+.c-logo-section { 
+    flex: 2; 
+    text-align: center; 
+}
+
+/* Freight field ko editable banane ke liye style */
+#slip_freight {
+    background: #fff;
+    border-bottom: 2px solid #03a9f4 !important;
+}
+
+/* --- UPDATED PROFESSIONAL HEADER --- */
+.c-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    border-bottom: 4px solid var(--atc-navy); 
+    padding: 5px 0 20px 0; /* 10 se badha kar 20 kiya, taaki line niche jaye */
+    margin-bottom: 10px;   /* Line aur niche ke blue bar mein gap maintain rahe */
+}
+
+.c-contact-left, .c-contact-right { 
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.contact-top-row {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--atc-navy);
+    line-height: 1.2;
+    margin-bottom: 10px; /* Text aur logo ke beech gap */
+}
+
+.c-logo-section { 
+    flex: 1.8; 
+    text-align: center;
+    padding-top: 10px;
+}
+
+/* Logos Positioning */
+.logo-row-left { text-align: left; }
+.logo-row-right { text-align: right; }
+
+.header-side-img {
+    height: 75px; /* Logos ka size yahan se adjust karein */
+    width: auto;
+    object-fit: contain;
+    margin-top: 5px;
+}
+
+/* Input Fields automatically Capital */
+.corporate-beelty input {
+    text-transform: uppercase;
+}
+
+/* Center Branding Scaling */
+.c-company-title {
+    font-size: 24px;
+    margin-top: 5px;
+}
+
+/* --- VEGETABLE LINE SINGLE LINE FIX --- */
+.c-sub-text {
+    font-size: 10px; /* Thoda chota kiya taaki fit ho jaye */
+    font-weight: 800;
+    color: var(--atc-gold);
+    letter-spacing: 1px; /* Spacing kam ki taaki single line mein aaye */
+    text-align: center;
+    white-space: nowrap; /* Isse line kabhi break nahi hogi */
+    display: block;
+    margin-top: 2px;
+    width: 100%;
+}
+
+/* Center Section ki width thodi badha dete hain taaki jagah mile */
+.c-logo-section { 
+    flex: 2.5; /* Center ko thodi zyada jagah di */
+    text-align: center;
+    padding-top: 5px;
+}
+
+.c-company-title {
+    font-size: 22px; /* Title size perfect adjustment */
+    margin: 2px 0;
+    white-space: nowrap;
+}
+
+/* Blue Bar (Vehicle/Date) ka margin */
+.c-info-bar { 
+    display: flex; 
+    justify-content: space-between; 
+    background: var(--atc-navy); 
+    padding: 12px 25px; 
+    margin-top: 1px;   /* Upar ki line se thoda sate rahe */
+    border-radius: 8px; 
+    color: white;
+}
+
+/* Party Name section ka gap kam karne ke liye */
+.c-party-section { 
+    margin-top: 8px;   /* 25px se kam karke 8px kar diya */
+    padding: 5px 0;    /* Padding bhi kam ki taaki gap na dikhe */
+    border-bottom: 2px solid #edf2f7; 
+}
+
+.c-party-section label { 
+    font-weight: 800; 
+    font-size: 11px;   /* Label thoda aur sleek kiya */
+    color: #4a5568; 
+    display: block; 
+}
+/* ============================================================
+   MOBILE FIX: Prevent iOS Safari auto-zoom on input focus.
+   iOS zooms in automatically when a focused input's font-size
+   is below 16px. Our .form-control-sm and several custom inputs
+   use 12px for a compact look, so we bump the effective font
+   size back to 16px ONLY on small screens, keeping the compact
+   look on desktop. This does not change layout/spacing.
+   ============================================================ */
+@media (max-width: 767px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+    /* Keep visually compact fields readable but not zoom-triggering */
+    .form-control-sm, .c-input-line, .c-input-bold {
+        font-size: 16px !important;
+    }
+}
+
+/* Drag & Drop Upload Zone (RC Fleet - Vehicle Documents) */
+.upload-drop-zone {
+    border: 2px dashed #adb5bd;
+    border-radius: 10px;
+    padding: 14px;
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+}
+.upload-drop-zone.drag-over {
+    border-color: #003366;
+    background: #e7f0ff;
+    color: #003366;
+}
+
+/* Beelty Header Address (ab top par) */
+.c-address-text-top {
+    font-size: 9.5px;
+    color: #555;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* ===== Beelty Mobile Wizard ===== */
+.wizard-nav-bar {
+    display: none;
+    position: sticky;
+    bottom: 0;
+    z-index: 50;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 8px 12px;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+
+/* FIX: Review step par nav bar ko sticky se static kar dete hain, taaki ye lambi
+   beelty ke content ke upar overlap na ho (jo pehle "beech mein patti" wali problem thi). */
+.wizard-nav-bar.review-mode {
+    position: static;
+    box-shadow: none;
+    border-top: none;
+    margin-top: 16px;
+}
+.wizard-step-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 6px;
+}
+.wizard-nav-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* Jab wizard-mode active ho, sirf current step dikhao */
+#receipt-to-print.wizard-mode [data-wizard-step] {
+    display: none;
+}
+#receipt-to-print.wizard-mode [data-wizard-step].wizard-active {
+    display: block;
+    animation: wizardFadeIn 0.25s ease;
+}
+/* c-grid ek CSS grid hai, ismein direct child c-box hide/show hote hain to grid tootne na de */
+#receipt-to-print.wizard-mode .c-grid {
+    display: block;
+}
+
+@keyframes wizardFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Wizard mode ke waqt header/watermark hata ke sirf form pe focus rahe, taaki mobile pe chota na lage */
+#receipt-to-print.wizard-mode .c-header,
+#receipt-to-print.wizard-mode .watermark-container {
+    display: none;
+}
+/* --- SCROLL-BACK HIGHLIGHT (View All Trips) --- */
+/* Jab list reload hokar pichli baar wali trip card tak auto-scroll hoti hai,
+   thodi der ke liye ise highlight karte hain taaki user ko turant pata chale
+   "yahi wo entry hai jahan se main gaya tha". */
+.trip-card-highlight {
+    box-shadow: 0 0 0 3px #003366, 0 5px 15px rgba(0,0,0,0.15) !important;
+    transition: box-shadow 0.3s ease;
+}
+
+/* ================= NEW TRIP ENTRY — SMART STEP WIZARD ================= */
+.trip-step-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.trip-step-dots .t-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #dfe6ee;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+.trip-step-dots .t-dot.active {
+    background: var(--primary);
+    transform: scale(1.2);
+}
+.trip-step {
+    animation: tripStepFade 0.25s ease;
+}
+@keyframes tripStepFade {
+    from { opacity: 0; transform: translateX(8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+#tripReviewBox .d-flex {
+    padding: 4px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.08);
+}
+#tripReviewBox .d-flex:last-child { border-bottom: none; }

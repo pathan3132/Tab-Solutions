@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTC - Kunal Transport Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA Meta Tags -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#003366">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="Images/ATC_Logo.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- Service Worker Registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js');
+    });
+  }
+</script>
+</head>
+<body>
+
+    <!-- Sidebar Menu -->
+    <div class="offcanvas offcanvas-start" id="sidebar">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="fw-bold text-primary">KTC MENU</h5>
+            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item p-3" onclick="showSection('home')"><i class="bi bi-house-door me-2"></i> Home</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('new-trip')"><i class="bi bi-plus-circle me-2 text-primary"></i> New Trip Entry</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('view-trips')"><i class="bi bi-truck me-2 text-warning"></i> View All Trips</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('daily-followup')"><i class="bi bi-whatsapp me-2 text-success"></i> Daily Follow-up</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('accounts')"><i class="bi bi-wallet2 me-2 text-success"></i> Hisaab-Kitaab</a>
+               <a href="#" class="list-group-item p-3" onclick="showSection('loading-slip')">
+    <i class="bi bi-file-earmark-pdf me-2 text-danger"></i> Generate Loading Slip (Beelty)
+</a>
+<a href="#" class="list-group-item p-3" onclick="showSection('slip-history')">
+    <i class="bi bi-folder-check me-2 text-warning"></i> Loading Slip
+</a>
+
+                <a href="#" class="list-group-item p-3" onclick="showSection('vehicles')">
+    <i class="bi bi-folder-check me-2 text-info"></i> Gaadi Documents & History
+</a>
+                <hr>
+                <a href="#" class="list-group-item p-3 text-danger" onclick="location.reload()"><i class="bi bi-arrow-clockwise me-2"></i> Refresh App</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- LUXURY SMART LOCK SCREEN -->
+<!-- LOGIN SCREEN -->
+<div id="lock-screen">
+    <div class="lock-wrapper">
+        <div class="avatar-box">
+            <img src="Images/Lockscreen_image.png" alt="KTC Admin" class="main-avatar">
+        </div>
+
+        <div class="welcome-text">
+            <h2 class="greet-title">TRANSPORT LOGIN</h2>
+            <p class="greet-subtitle">Kripya Username aur Password dalein</p>
+        </div>
+
+        <div class="pin-container">
+            <input type="text" id="loginUser" class="form-control mb-2" placeholder="Username" style="letter-spacing: normal;">
+            <input type="password" id="loginPass" class="form-control" placeholder="Password" style="letter-spacing: normal;">
+            
+            <div id="lock-error" class="error-msg hidden">
+                <i class="bi bi-shield-slash"></i> Galat Details!
+            </div>
+        </div>
+
+        <button id="loginBtn" class="unlock-btn" onclick="handleLogin()">
+            <span>LOGIN SYSTEM</span>
+            <i class="bi bi-box-arrow-in-right"></i>
+        </button>
+    </div>
+</div>
+
+    <!-- Top Navbar -->
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-dark bg-primary p-3 shadow-sm sticky-top d-flex justify-content-between">
+        <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
+            <i class="bi bi-list fs-4"></i>
+        </button>
+        <span class="navbar-brand fw-bold mb-0">KTC MANAGEMENT</span>
+        <button class="btn btn-outline-light btn-sm rounded-circle" onclick="logout()" title="Logout">
+            <i class="bi bi-power fs-5"></i>
+        </button>
+    </nav>
+
+    <div class="container py-4">
+        
+        <!-- HOME SECTION -->
+    <!-- HOME SECTION -->
+<div id="home-section" class="app-section">
+    <!-- Premium Header -->
+    <div class="home-hero-bg p-4 mb-3 text-white">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <small id="greetingText" class="opacity-75">Good Morning,</small>
+                <h3 class="fw-bold mb-0">Kunal Transport Company</h3>
+                <p style="font-size: 11px; letter-spacing: 1px;" class="mb-0 text-info">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</p>
+            </div>
+            <div class="live-clock text-end">
+                <h5 id="homeTime" class="mb-0 fw-bold">00:00</h5>
+                <small id="homeDate" class="opacity-50" style="font-size: 10px;">Date</small>
+            </div>
+        </div>
+        
+        <!-- Live Quick Stats Card -->
+        <div class="stats-glass-card mt-4 p-3 d-flex justify-content-around">
+            <div class="stat-item text-center">
+                <small class="d-block opacity-75">Today's Trips</small>
+                <span id="todayCount" class="fw-bold fs-5">0</span>
+            </div>
+            <div class="stat-item text-center border-start border-end px-3">
+                <small class="d-block opacity-75">Today's Biz</small>
+                <span id="todayBiz" class="fw-bold fs-5">₹0</span>
+            </div>
+            <div class="stat-item text-center">
+                <small class="d-block opacity-75">Pending</small>
+                <span id="homePendingCount" class="fw-bold fs-5 text-warning">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Services Grid -->
+    <div class="px-3">
+        <h6 class="fw-bold mb-3 text-secondary">MAIN SERVICES</h6>
+        <div class="row g-3">
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('new-trip')">
+                    <div class="icon-circle bg-primary-subtle text-primary">
+                        <i class="bi bi-plus-square-fill"></i>
+                    </div>
+                    <span>New Entry</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('view-trips')">
+                    <div class="icon-circle bg-warning-subtle text-warning">
+                        <i class="bi bi-truck-flatbed"></i>
+                    </div>
+                    <span>View History</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('accounts')">
+                    <div class="icon-circle bg-success-subtle text-success">
+                        <i class="bi bi-wallet-fill"></i>
+                    </div>
+                    <span>Ledger</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('vehicles')">
+                    <div class="icon-circle bg-info-subtle text-info">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <span>Fleet (RC)</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('daily-followup')">
+                    <div class="icon-circle bg-success-subtle text-success">
+                        <i class="bi bi-whatsapp"></i>
+                    </div>
+                    <span>Follow-up</span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="service-card" onclick="showSection('loading-slip')">
+                    <div class="icon-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </div>
+                    <span>Loading Slip</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Timeline -->
+    <div class="mt-4 px-3 mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-secondary mb-0">RECENT TRIPS</h6>
+            <button class="btn btn-sm text-primary p-0" onclick="showSection('view-trips')">View All</button>
+        </div>
+        <div id="homeRecentTrips" class="recent-list">
+            <!-- Dynamic Data -->
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab-btn shadow-lg" onclick="showSection('new-trip')">
+        <i class="bi bi-plus-lg"></i>
+    </button>
+</div>
+
+        <!-- ACCOUNTS SECTION -->
+        <div id="accounts-section" class="app-section hidden">
+            <h4 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill me-2 text-success"></i>Hisaab-Kitaab</h4>
+            <!-- Accounts Filter -->
+<div class="filter-card bg-white p-3 rounded-4 shadow-sm mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-5">
+            <label class="small fw-bold">From</label>
+            <input type="date" id="acc-start-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-5">
+            <label class="small fw-bold">To</label>
+            <input type="date" id="acc-end-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-success btn-sm w-100" onclick="updateAccounts()">
+                <i class="bi bi-check-lg"></i>
+            </button>
+        </div>
+    </div>
+</div>
+            <div class="card shadow-sm border-0 mb-3 text-white p-3" style="background: linear-gradient(45deg, #003366, #0056b3);">
+                <small class="opacity-75">Total Business Value</small>
+                <h2 id="acc-total-business" class="fw-bold">₹0</h2>
+            </div>
+            <div class="row g-2 mb-4">
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 bg-danger text-white p-3">
+                        <small class="opacity-75">Total Pending</small>
+                        <h4 id="acc-total-pending" class="mb-0 fw-bold">₹0</h4>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card shadow-sm border-0 bg-success text-white p-3">
+                        <small class="opacity-75">Total Received</small>
+                        <h4 id="acc-total-received" class="mb-0 fw-bold">₹0</h4>
+                    </div>
+                </div>
+            </div>
+            <h6 class="fw-bold border-bottom pb-2 mb-3">Money Received By (Collector List)</h6>
+            <div id="collector-list" class="list-group shadow-sm">
+                <!-- Collector data yahan aayega -->
+            </div>
+        </div>
+
+        <!-- NEW / EDIT TRIP FORM SECTION (Smart Step-Wise Form) -->
+        <div id="new-trip-section" class="app-section hidden">
+            <div class="entry-card shadow-lg p-4">
+                <div class="entry-header d-flex justify-content-between align-items-center">
+                    <span id="tripFormTitle">New Trip Entry</span>
+                    <small id="tripStepLabel" class="opacity-75" style="font-size:12px;">Step 1 of 4</small>
+                </div>
+
+                <!-- Step Progress Dots -->
+                <div class="trip-step-dots mb-3">
+                    <span class="t-dot active" data-dot="1"></span>
+                    <span class="t-dot" data-dot="2"></span>
+                    <span class="t-dot" data-dot="3"></span>
+                    <span class="t-dot" data-dot="4"></span>
+                </div>
+
+                <form id="tripForm" onsubmit="return false;">
+                    <input type="hidden" id="tripEditRow" value="">
+
+                    <!-- STEP 1: Vehicle & Date -->
+                    <div class="trip-step" data-trip-step="1">
+                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-truck me-1"></i> Vehicle & Date</h6>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label>Vehicle No</label>
+                                <input type="text" id="vNo" list="dl-vNo" class="form-control form-control-lg" placeholder="MH 20 AC 0000" required>
+                                <datalist id="dl-vNo"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Date</label>
+                                <input type="date" id="date" class="form-control form-control-lg" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Route & Party -->
+                    <div class="trip-step hidden" data-trip-step="2">
+                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-signpost-split me-1"></i> Route & Party</h6>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label>From</label>
+                                <input type="text" id="from" list="dl-from" class="form-control">
+                                <datalist id="dl-from"></datalist>
+                            </div>
+                            <div class="col-6">
+                                <label>To</label>
+                                <input type="text" id="to" list="dl-to" class="form-control">
+                                <datalist id="dl-to"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Party Name</label>
+                                <input type="text" id="partyName" list="dl-partyName" class="form-control" placeholder="Party Name">
+                                <datalist id="dl-partyName"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Material</label>
+                                <input type="text" id="material" list="dl-material" class="form-control">
+                                <datalist id="dl-material"></datalist>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Rate & Payment -->
+                    <div class="trip-step hidden" data-trip-step="3">
+                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-cash-coin me-1"></i> Rate & Payment</h6>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label>Rate</label>
+                                <input type="number" id="rate" list="dl-rate" class="form-control">
+                                <datalist id="dl-rate"></datalist>
+                            </div>
+                            <div class="col-6">
+                                <label>Capacity (Ton)</label>
+                                <input type="number" id="capacity" list="dl-capacity" class="form-control">
+                                <datalist id="dl-capacity"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Amount (Auto-Calculated)</label>
+                                <input type="number" id="amount" class="form-control fw-bold text-success" readonly>
+                            </div>
+                            <div class="col-12">
+    <label>Received Status</label>
+    <select id="received" class="form-select" onchange="toggleCollectorField()">
+        <option value="No">❌ Pending</option>
+        <option value="Yes">✅ Received</option>
+    </select>
+</div>
+<div class="col-6">
+    <label>Commission Amount</label>
+    <input type="number" id="commissionAmt" class="form-control" placeholder="0">
+</div>
+<div class="col-6">
+    <label>Collected By</label>
+    <input type="text" id="collectorName" list="dl-collectorName" class="form-control" placeholder="Name">
+    <datalist id="dl-collectorName"></datalist>
+</div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Driver & Remark (Final Review) -->
+                    <div class="trip-step hidden" data-trip-step="4">
+                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-person-vcard me-1"></i> Driver & Remark</h6>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label>Driver No</label>
+                                <input type="text" id="dNo" list="dl-dNo" class="form-control">
+                                <datalist id="dl-dNo"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Owner No</label>
+                                <input type="text" id="ownerNo" list="dl-ownerNo" class="form-control">
+                                <datalist id="dl-ownerNo"></datalist>
+                            </div>
+                            <div class="col-12">
+                                <label>Remark</label>
+                                <textarea id="remark" class="form-control" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div id="tripReviewBox" class="mt-3 p-3 rounded-4" style="background:rgba(0,0,0,0.03); font-size:13px;"></div>
+                    </div>
+                </form>
+
+                <!-- Wizard Nav -->
+                <div class="d-flex gap-2 mt-4">
+                    <button type="button" id="tripBackBtn" class="btn btn-outline-secondary hidden" onclick="tripWizardBack()">
+                        <i class="bi bi-chevron-left"></i> Back
+                    </button>
+                    <button type="button" id="tripNextBtn" class="btn btn-primary flex-fill fw-bold" onclick="tripWizardNext()">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </button>
+                    <button type="button" id="submitBtn" class="btn btn-success flex-fill fw-bold hidden" onclick="submitTrip()">
+                        <i class="bi bi-cloud-arrow-up-fill me-1"></i> <span id="submitBtnText">SAVE TRIP</span>
+                    </button>
+                </div>
+                <button type="button" id="tripCancelEditBtn" class="btn btn-link text-danger w-100 mt-2 hidden" onclick="cancelTripEdit()">
+                    Cancel Edit
+                </button>
+            </div>
+        </div>
+
+    <div id="view-trips-section" class="app-section hidden">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold">Trip Records</h4>
+        <button class="btn btn-sm btn-outline-primary" onclick="loadTrips()">🔄 Refresh</button>
+    </div>
+
+    <!-- View Trips Filter -->
+<div class="filter-card bg-white p-3 rounded-4 shadow-sm mb-3">
+    <small class="fw-bold text-muted d-block mb-2">DATE RANGE FILTER</small>
+    <div class="row g-2">
+        <div class="col-5">
+            <input type="date" id="trip-start-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-5">
+            <input type="date" id="trip-end-date" class="form-control form-control-sm">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary btn-sm w-100" onclick="loadTrips()">
+                <i class="bi bi-filter"></i>
+            </button>
+        </div>
+    </div>
+</div>
+    
+    <!-- Simplified Top Summary Bar (No Amounts) -->
+    <div id="tripSummaryBar" class="hidden d-flex align-items-center justify-content-around shadow-sm mb-3">
+        <div class="summary-item text-center flex-fill">
+            <small class="opacity-75 d-block">Total Trips</small>
+            <b id="sumCount" class="fs-5 text-white">0</b>
+        </div>
+        <div class="summary-item text-center flex-fill border-start border-end">
+            <small class="opacity-75 d-block">Collected</small>
+            <b id="sumColCount" class="fs-5 text-success">0</b>
+        </div>
+        <div class="summary-item text-center flex-fill">
+            <small class="opacity-75 d-block">Pending</small>
+            <b id="sumPenCount" class="fs-5 text-danger">0</b>
+        </div>
+    </div>
+
+    <input type="text" id="tripSearch" class="form-control mb-3 shadow-sm rounded-pill" placeholder="🔍 Search Anything..." onkeyup="filterTrips()">
+    
+    <div id="tripCardsContainer"></div>
+</div>
+
+<!-- DAILY FOLLOW-UP: SAARE PENDING COMMISSION WALE EK JAGAH, HIGHEST AMOUNT SABSE UPAR -->
+<div id="daily-followup-section" class="app-section hidden">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold" style="color:#003366;"><i class="bi bi-whatsapp me-2 text-success"></i>Daily Follow-up</h4>
+        <button class="btn btn-sm btn-outline-primary" onclick="loadDailyFollowup()">🔄 Refresh</button>
+    </div>
+
+    <div class="row g-2 mb-3 text-center">
+        <div class="col-6">
+            <div class="p-2 border rounded bg-white shadow-sm">
+                <small class="text-danger fw-bold">PENDING PARTIES</small>
+                <h4 id="followupCount" class="mb-0 text-danger">0</h4>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="p-2 border rounded bg-white shadow-sm">
+                <small class="fw-bold" style="color:#003366;">TOTAL PENDING</small>
+                <h4 id="followupTotal" class="mb-0" style="color:#003366;">₹0</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-light border small mb-3" style="font-size:12px;">
+        💡 Sabse zyada pending wale sabse upar hain. Message/Call bhej kar list <b>roz subah</b> yahin se nipta dein — ek baar bhej dene ke baad card green ho jayega.
+    </div>
+
+    <div id="followupCardsContainer"></div>
+</div>
+
+ <!-- GAADI DOCUMENTS & HISTORY SECTION -->
+<!-- GAADI DOCUMENTS & HISTORY -->
+<div id="vehicles-section" class="app-section hidden">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold" style="color: #003366;"><i class="bi bi-truck me-2"></i>Gaadi Documents & History</h4>
+        <button class="btn btn-sm btn-outline-primary" onclick="loadVehicles()">🔄 Refresh</button>
+    </div>
+
+    <!-- Naya Counter Box -->
+    <div class="row g-2 mb-3 text-center">
+        <div class="col-6">
+            <div class="p-2 border rounded bg-white shadow-sm">
+                <small class="text-success fw-bold">RC UPDATED ✅</small>
+                <h4 id="count-done" class="mb-0 text-success">0</h4>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="p-2 border rounded bg-white shadow-sm">
+                <small class="text-danger fw-bold">RC PENDING ❌</small>
+                <h4 id="count-pending" class="mb-0 text-danger">0</h4>
+            </div>
+        </div>
+    </div>
+
+    <input type="text" id="vSearch" class="form-control mb-3 shadow-sm" placeholder="🔍 Search Gaadi No..." onkeyup="filterVehicles()">
+    <div id="vehicleCardsContainer"></div>
+</div>
+
+
+<!-- SLIP HISTORY SECTION -->
+<div id="slip-history-section" class="app-section hidden">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold"><i class="bi bi-folder-check text-warning me-2"></i>Loading Slips</h4>
+            <button class="btn btn-sm btn-outline-secondary" onclick="loadSlipHistory()">🔄 Refresh</button>
+        </div>
+        <div id="slipHistoryList" class="row g-3 pb-5">
+            <!-- Data yahan dikhega -->
+        </div>
+    </div>
+</div>
+
+
+<!-- LOADING SLIP SECTION -->
+<!-- LOADING SLIP SECTION -->
+<div id="loading-slip-section" class="app-section hidden">
+    <!-- SEARCH AREA UPDATED -->
+<div class="card p-3 mb-3 shadow-sm border-0 bg-white" style="border-radius: 15px;">
+    <label class="fw-bold text-primary mb-2">Search Record or Enter New Vehicle</label>
+    <div class="input-group">
+        <!-- list="vehicleListOptions" hi autocomplete enable karega -->
+        <input type="text" id="slipSearchVNo" class="form-control" list="vehicleListOptions" placeholder="Enter Vehicle No (e.g. MH 20)...">
+        <datalist id="vehicleListOptions"></datalist>
+        
+        <button class="btn btn-primary px-4 fw-bold" onclick="searchVehicleForSlip()">
+            <i class="bi bi-search me-1"></i> GO
+        </button>
+    </div>
+    
+    <!-- Agar record mil jaye toh dropdown yahan dikhega -->
+    <div id="tripSelectionArea" class="mt-3 hidden p-2 bg-light rounded border">
+        <small class="text-muted d-block mb-1 fw-bold">Multiple Trips Found. Select One:</small>
+        <select id="tripSelectDropdown" class="form-select form-select-sm" onchange="fillSlipFromSelection()"></select>
+    </div>
+    
+    <!-- Nayi gaadi ke liye message -->
+    <div id="newVehicleAlert" class="mt-2 hidden">
+        <span class="badge bg-warning text-dark"><i class="bi bi-info-circle"></i> New Vehicle: Manual Entry Mode Active</span>
+    </div>
+</div>
+
+    
+
+    <!-- 2. The New Professional Beelty Design -->
+   <!-- THE MODERN CORPORATE BEELTY DESIGN -->
+<div id="beelty-capture-area">
+    <div id="receipt-to-print" class="corporate-beelty">
+        <!-- Watermark -->
+        <!-- Text watermark ki jagah ab Image Watermark -->
+<div class="watermark-container">
+    <img src="Images/Background.png" class="watermark-img">
+</div>
+
+       <!-- TOP HEADER: CONTACTS & LOGOS -->
+<div class="c-header">
+    <!-- LEFT SIDE: RAJU HIWALE + TRUCK LOGO -->
+    <div class="c-contact-left">
+        <div class="contact-top-row">
+            <span class="c-owner">Raju Hiwale</span><br>
+            <i class="bi bi-telephone-fill"></i> 9403691888 | 7744059190
+        </div>
+        <div class="logo-row-left">
+            <img src="Images/Truck.png" class="header-side-img">
+        </div>
+    </div>
+
+    <!-- CENTER: KTC BRANDING -->
+    <div class="c-logo-section">
+        <div class="c-atc-badge">
+            <span>K</span><span>T</span><span>C</span>
+        </div>
+        <h1 class="c-company-title">KUNAL TRANSPORT COMPANY</h1>
+        <div class="c-sub-text">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</div>
+        <div class="c-address-text-top">
+            <i class="bi bi-geo-alt-fill"></i> Lasur Station, Vaijapur Highway, Tq. Gangapur, Dist. Chh. Sambhajinagar
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE: FIROJ SHAIKH + KTC LOGO -->
+    <div class="c-contact-right">
+        <div class="contact-top-row">
+            <span class="c-owner">Firoj Shaikh</span><br>
+            <i class="bi bi-telephone-fill"></i> 9527691888 | 9657691888
+        </div>
+        <div class="logo-row-right">
+            <img src="Images/ATC_Logo.png" class="header-side-img">
+        </div>
+    </div>
+</div>
+        <!-- Is line ko Select Trip waale div ke niche add karein -->
+<input type="hidden" id="slip_rowNum">
+<input type="hidden" id="slip_archiveRow">
+
+        <!-- Info Bar: Vehicle & Date -->
+        <div class="c-info-bar" data-wizard-step="1">
+            <div class="c-info-item">
+                <label>VEHICLE NO</label>
+                <input type="text" id="slip_vNo" class="c-input-bold" placeholder="MH 20 EL 0000" onblur="autoFillOwnerDriver(this.value)">
+            </div>
+            <div class="c-info-item text-end">
+                <label>DATE</label>
+                <input type="text" id="slip_date" class="c-input-bold" placeholder="DD-MM-YYYY">
+            </div>
+        </div>
+
+        <!-- Body Section -->
+        <div class="c-body">
+            <div class="c-party-section" data-wizard-step="2">
+                <label>CONSIGNOR / PARTY NAME:</label>
+                <input type="text" id="slip_party" class="c-input-line" placeholder="Enter Party Name">
+            </div>
+
+            <div class="c-grid">
+                <!-- Route & Logistics -->
+                <div class="c-box" data-wizard-step="3">
+                    <h6 class="c-box-title">ROUTE DETAILS</h6>
+                    <div class="c-fline"><label>FROM:</label><input type="text" id="slip_from"></div>
+                    <div class="c-fline"><label>TO:</label><input type="text" id="slip_to"></div>
+                    <div class="c-fline mt-3"><label>LORRY OWNER:</label><input type="text" id="slip_lOwner" class="text-success fw-bold"></div>
+                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_oVillage"></div>
+                    <div class="c-fline"><label>CONTACT:</label><input type="text" id="slip_oMob"></div>
+                </div>
+
+                <!-- Driver Details -->
+                <div class="c-box" data-wizard-step="4">
+                    <h6 class="c-box-title">DRIVER DETAILS</h6>
+                    <div class="c-fline"><label>DRIVER NAME:</label><input type="text" id="slip_dName" class="text-primary fw-bold"></div>
+                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_dVillage"></div>
+                    <div class="c-fline"><label>CONTACT NO:</label><input type="text" id="slip_dMob"></div>
+                    <div class="c-fline"><label>LICENCE NO:</label><input type="text" id="slip_licence"></div>
+                </div>
+            </div>
+
+            <!-- Finance Table -->
+            <div class="c-finance-section" data-wizard-step="5">
+                <table class="c-table">
+                    <thead>
+                        <tr>
+                            <th>PARTICULARS / DESCRIPTION</th>
+                            <th class="text-end">AMOUNT (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+    <td>
+        FREIGHT CHARGES 
+        <small>(Rate: <input type="number" id="slip_rate" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> 
+        | Weight: <input type="number" step="0.001" id="slip_weight" oninput="calculateSlip()" style="width:80px; border-bottom:1px solid #ddd;"> TON)</small>
+    </td>
+    <td class="text-end">
+        <!-- 'readonly' hata diya hai taaki direct amount bhi daal sakein -->
+        <input type="number" id="slip_freight" oninput="calculateTotalFromManual()" class="fw-bold">
+    </td>
+</tr>
+                        <tr>
+    <td>
+        OVERLOADING CHARGES
+        <small>(Extra Wt: <input type="number" step="0.001" id="slip_overWeight" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> TON
+        | O.Rate: <input type="number" id="slip_overRate" oninput="calculateSlip()" style="width:65px; border-bottom:1px solid #ddd;" placeholder="if diff"> )</small>
+    </td>
+    <td class="text-end">
+        <!-- Overload ka rate normal freight rate se alag ho sakta hai; O.Rate khaali ho to normal Rate hi use hoga -->
+        <input type="number" id="slip_overCharge" oninput="calculateTotalFromManual()" class="text-warning fw-bold">
+    </td>
+</tr>
+                        <tr>
+                            <td>LESS: ADVANCE RECEIVED</td>
+                            <td class="text-end"><input type="number" id="slip_advance" oninput="calculateSlip()" class="text-danger"></td>
+                        </tr>
+                        <tr>
+                            <td>ADD: DRIVER PRICE / LOADING EXP.</td>
+                            <td class="text-end"><input type="number" id="slip_dPrice" oninput="calculateSlip()" class="text-primary"></td>
+                        </tr>
+                        <tr>
+                            <td>TIMING / DELIVERY TAT</td>
+                            <td class="text-end"><input type="text" id="slip_timing" placeholder="0 Hr"></td>
+                        </tr>
+                        <tr class="c-total-row">
+                            <td class="fw-bold">NET PAYABLE BALANCE</td>
+                            <td class="text-end fw-bold" style="font-size: 20px;">₹ <input type="text" id="slip_toPay" readonly style="width:120px; font-size:20px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Terms & Signatures -->
+        <!-- Footer Section (Terms, Signatures & Address combined) -->
+<div class="c-footer-new" data-wizard-step="5">
+    <div class="footer-top-row">
+        <!-- Notes & Conditions -->
+        <div class="c-notes">
+            <strong>Notes & Conditions:</strong>
+            <ul>
+                <li>Subject to Chh. Sambhajinagar Jurisdiction.</li>
+                <li>Not responsible for leakage/damage after delivery.</li>
+                <li>Payment should be made as per agreed terms.</li>
+            </ul>
+        </div>
+
+        <!-- Signatures Row -->
+        <div class="sigs-container">
+            <div class="sig-block">
+                <div class="sig-line"></div>
+                <span>DRIVER'S SIGNATURE</span>
+            </div>
+            <div class="sig-block official">
+                <img src="Images/Sign.png" class="official-seal">
+                <div class="sig-line"></div>
+                <span>FOR, KUNAL TRANSPORT COMPANY</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- WIZARD NAV BAR: Step-by-step mobile fill -->
+    <div id="wizardNavBar" class="wizard-nav-bar">
+        <div id="wizardStepLabel" class="wizard-step-label">Step 1 of 5: Vehicle & Date</div>
+        <div class="wizard-nav-buttons">
+            <button type="button" id="wizardBackBtn" class="btn btn-outline-secondary btn-sm" onclick="wizardBack()">
+                <i class="bi bi-chevron-left"></i> Back
+            </button>
+            <button type="button" id="wizardNextBtn" class="btn btn-primary btn-sm flex-grow-1" onclick="wizardNext()">
+                Next <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+ <!-- 3. BUTTON SECTION (Ye zaroori hai) -->
+    <div class="slip-action-bar">
+        <button id="slipSubmitBtn" class="btn btn-success btn-lg w-100 shadow-lg fw-bold py-3" onclick="generateBeeltyPDF()">
+            <i class="bi bi-cloud-arrow-up-fill me-2"></i> FINALIZE, SAVE & WHATSAPP
+        </button>
+    </div>
+
+
+    <!-- "WHAT'S NEW" UPDATE NOTIFICATION MODAL -->
+    <!-- Jab bhi app update hokar deploy hoti hai (naya APP_VERSION script.js mein), -->
+    <!-- ye popup sabhi users ko ek baar dikhega aur bata dega ki kya naya add/fix hua hai -->
+    <div class="modal fade" id="whatsNewModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 text-white" style="background: linear-gradient(45deg, #003366, #0056b3);">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-stars me-2"></i>App Update Hui Hai!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div id="whatsNewBody"><!-- Changelog yahan JS se bharega --></div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary fw-bold w-100" data-bs-dismiss="modal">
+                        <i class="bi bi-check-circle me-1"></i> Theek Hai, Samajh Gaya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+
+    
+</body>
+</html>
