@@ -1,758 +1,2027 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KTC - Kunal Transport Company</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
-    <!-- PWA Meta Tags -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#003366">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="Images/ATC_Logo.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>GS Pashukhadya — पशु आहार व्यापार</title>
+<meta name="description" content="GS Pashukhadya — party ledger, stock aur sale-purchase tracker">
 
-<!-- Service Worker Registration -->
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js');
-    });
+<!-- ===== PWA ===== -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6B2333">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GS Pashukhadya">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFF5F1;
+  --paper-line:rgba(20,92,67,0.05);
+  --surface:#FFFFFF;
+  --cover:#0F5C46;
+  --cover-dark:#0A3D2F;
+  --teal:#0E7C86;
+  --teal-dark:#0A5960;
+  --gold:#E8A33D;
+  --gold-soft:#FCEACB;
+  --rose:#E0533D;
+  --rose-soft:#FBDCD4;
+  --ink:#16241C;
+  --ink-soft:#5C6F63;
+  --credit:#2E9E6D;
+  --debit:#E0533D;
+  --shadow:0 8px 22px rgba(10,61,47,0.12);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  padding-bottom:78px;
+  background-image:radial-gradient(circle at 100% 0%, rgba(14,124,134,0.07), transparent 40%),
+                    radial-gradient(circle at 0% 30%, rgba(232,163,61,0.06), transparent 35%);
+  background-attachment:fixed;
+}
+h1,h2,h3,.brand,.big-number{font-family:'Sora',sans-serif;}
+
+/* ===== HEADER ===== */
+.topbar{
+  background:linear-gradient(180deg,var(--cover),var(--cover-dark));
+  color:#F4E6C8;
+  padding:14px 16px 16px;
+  position:sticky;top:0;z-index:50;
+  box-shadow:0 3px 12px rgba(0,0,0,0.25);
+}
+.topbar-row{display:flex;align-items:center;gap:12px;}
+.seal{
+  width:46px;height:46px;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;font-weight:700;font-size:15px;
+  color:var(--gold);flex-shrink:0;
+  background:radial-gradient(circle at 35% 30%, rgba(201,154,46,0.18), transparent 70%);
+}
+.brand-block{flex:1;min-width:0;}
+.brand{font-size:20px;font-weight:700;letter-spacing:0.3px;line-height:1.15;}
+.brand small{display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:11.5px;color:#D9C79C;margin-top:2px;letter-spacing:0.2px;}
+.sync-btn{
+  background:rgba(244,230,200,0.12);border:1px solid rgba(244,230,200,0.3);
+  color:#F4E6C8;width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;
+}
+.sync-btn svg{width:18px;height:18px;}
+.sync-btn.spinning svg{animation:spin 0.9s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.sync-meta{font-size:10.5px;color:#C9B78B;margin-top:8px;padding-left:2px;}
+
+/* ===== CONTAINER ===== */
+.container{max-width:640px;margin:0 auto;padding:14px 12px 4px;}
+.section{display:none;}
+.section.active{display:block;animation:fade .25s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* ===== CARD w/ signature margin rule (ledger paper) ===== */
+.card{
+  background:var(--surface);
+  border-left:3px solid var(--cover);
+  border-radius:0 var(--radius) var(--radius) 0;
+  box-shadow:var(--shadow);
+  padding:14px 14px 14px 16px;
+  margin-bottom:12px;
+}
+.section-title{font-size:17px;font-weight:600;color:var(--cover-dark);margin:4px 2px 12px;display:flex;align-items:center;justify-content:space-between;}
+.section-title span.count{font-family:'Inter';font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--gold-soft);padding:3px 9px;border-radius:20px;}
+
+/* ===== DASHBOARD STATS ===== */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.stat-card{
+  background:linear-gradient(160deg,var(--cover) 0%, var(--cover-dark) 100%);
+  color:#EAF6EF;border-radius:var(--radius);padding:14px 14px 12px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.stats-grid .stat-card:nth-child(4n+2){background:linear-gradient(160deg,var(--teal) 0%, var(--teal-dark) 100%);color:#E7F7F8;}
+.stats-grid .stat-card:nth-child(4n+3){background:linear-gradient(160deg,#3C7A50 0%, #285A3A 100%);color:#EAF6EF;}
+.stats-grid .stat-card:nth-child(4n+4){background:linear-gradient(160deg,#B4832A 0%, #8A6220 100%);color:#FCF3DE;}
+.stats-grid .stat-card.gold{background:linear-gradient(160deg,var(--rose) 0%, #A83A28 100%);color:#FDEAE6;}
+.stats-grid .stat-card.credit-tile{background:linear-gradient(160deg,var(--credit) 0%, #1F6B4A 100%);color:#EAF9F0;}
+.stat-card .label{font-size:11px;text-transform:uppercase;letter-spacing:0.6px;opacity:0.9;font-weight:700;}
+.stat-card .big-number{font-size:22px;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums;}
+.stat-card .seal-mark{position:absolute;right:-8px;bottom:-14px;font-size:56px;opacity:0.12;font-family:'Sora';}
+
+/* ===== TOP SELLING ITEM ===== */
+.highlight-item-card{background:linear-gradient(160deg,var(--cover) 0%, var(--teal-dark) 100%);border-left:none;color:#EAF6EF;}
+.highlight-item-card .section-title{color:#EAF6EF;}
+.top-item-row{display:flex;align-items:center;gap:14px;}
+.top-item-row .medal{
+  width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.14);
+  display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;
+}
+.top-item-row .info{flex:1;min-width:0;}
+.top-item-row .name{font-family:'Sora';font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-item-row .meta{font-size:12px;opacity:0.85;margin-top:3px;}
+.top-item-row .revenue{text-align:right;flex-shrink:0;}
+.top-item-row .revenue .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;}
+.top-item-row .revenue .k{font-size:10px;opacity:0.8;text-transform:uppercase;}
+
+/* ===== MONTH SUMMARY ROW ===== */
+.month-stat-row{display:flex;flex-wrap:wrap;gap:10px;}
+.month-stat-row .m-pill{flex:1 1 calc(33.333% - 7px);min-width:90px;background:var(--paper);border-radius:12px;padding:12px 10px;text-align:center;}
+.month-stat-row .m-pill .k{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;font-weight:700;letter-spacing:0.3px;}
+.month-stat-row .m-pill .v{font-size:15.5px;font-weight:700;margin-top:5px;font-variant-numeric:tabular-nums;}
+.month-stat-row .m-pill.buy .v{color:var(--debit);}
+.month-stat-row .m-pill.sell .v{color:var(--teal-dark);}
+.month-stat-row .m-pill.stock .v{color:var(--ink);}
+.month-stat-row .m-pill.lena .v{color:var(--credit);}
+.month-stat-row .m-pill.dena .v{color:var(--debit);}
+.month-stat-row .m-pill.profit .v.pos{color:var(--credit);}
+.month-stat-row .m-pill.profit .v.neg{color:var(--debit);}
+.hero-card{
+  background:linear-gradient(135deg,var(--cover) 0%, var(--teal-dark) 100%);
+  color:#EAF6EF;border-radius:var(--radius);padding:18px 18px 16px;margin-bottom:14px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.hero-card::after{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.06);}
+.hero-card .greet{font-family:'Sora';font-size:17px;font-weight:700;}
+.hero-card .date{font-size:11.5px;opacity:0.75;margin-top:2px;}
+.hero-card .hero-row{display:flex;gap:18px;margin-top:14px;}
+.hero-card .hero-stat .k{font-size:10.5px;text-transform:uppercase;letter-spacing:0.4px;opacity:0.75;font-weight:600;}
+.hero-card .hero-stat .v{font-size:19px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;}
+
+/* ===== SEARCH ===== */
+.search-box{position:relative;margin-bottom:12px;}
+.search-box input{
+  width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(107,35,51,0.18);
+  border-radius:10px;font-size:14.5px;font-family:'Inter';background:var(--surface);color:var(--ink);
+}
+.search-box input:focus{outline:none;border-color:var(--cover);}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--ink-soft);}
+
+/* ===== LISTS ===== */
+.list-row{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 4px;border-bottom:1px dashed rgba(107,35,51,0.15);
+  cursor:pointer;
+}
+.list-row:last-child{border-bottom:none;}
+.avatar{
+  width:36px;height:36px;border-radius:50%;background:var(--gold-soft);color:var(--cover-dark);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;
+  font-family:'Sora';
+}
+.list-row .main{flex:1;min-width:0;}
+.list-row .title{font-weight:600;font-size:14.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-row .sub{font-size:12px;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.list-row .amt{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums;flex-shrink:0;text-align:right;}
+.tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;text-transform:uppercase;letter-spacing:0.3px;}
+.tag.sale{background:#E3F0E6;color:var(--credit);}
+.tag.purchase{background:#F5E3E1;color:var(--debit);}
+.tag.recv{background:#E3F0E6;color:var(--credit);}
+.tag.pay{background:#F5E3E1;color:var(--debit);}
+
+/* ===== ENTRY CARDS (sale/purchase — no horizontal scroll) ===== */
+.entries-list{display:flex;flex-direction:column;gap:10px;}
+.entry-card{
+  background:var(--surface);border-left:3px solid var(--cover);
+  border-radius:0 12px 12px 0;box-shadow:var(--shadow);padding:13px 14px;
+}
+.entry-card.is-purchase{border-left-color:var(--debit);}
+.entry-head{
+  display:flex;align-items:center;gap:8px;margin-bottom:11px;
+  padding-bottom:10px;border-bottom:1px solid rgba(20,92,67,0.08);
+}
+.entry-head .tag{font-size:10.5px;padding:3px 9px;border-radius:6px;flex-shrink:0;font-weight:700;}
+.entry-date{font-size:12px;color:var(--ink-soft);flex:1;}
+.entry-bill{font-size:12.5px;font-weight:600;color:var(--ink);flex-shrink:0;font-variant-numeric:tabular-nums;}
+.entry-body{display:flex;flex-direction:column;gap:10px;}
+.entry-main{display:flex;flex-direction:column;gap:3px;}
+.entry-party{font-weight:700;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.entry-item{font-weight:600;font-size:13.5px;color:var(--ink-soft);}
+.entry-details{display:flex;flex-direction:column;gap:7px;background:rgba(20,92,67,0.04);padding:10px 12px;border-radius:8px;}
+.detail-row{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  font-size:13px;line-height:1.4;
+}
+.detail-row .label{color:var(--ink-soft);font-weight:600;flex-shrink:0;min-width:60px;}
+.detail-row .value{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums;}
+.detail-row.amount{
+  font-size:14px;padding-top:5px;border-top:1px solid rgba(20,92,67,0.1);
+  font-weight:700;color:var(--cover-dark);
+}
+.detail-row.remark .value{text-align:left;font-style:italic;color:var(--ink-soft);}
+.entry-card.is-purchase .detail-row.amount{color:var(--debit);}
+.detail-row.margin{
+  background:rgba(232,163,61,0.08);padding:6px 8px;border-radius:6px;
+  font-size:12.5px;border-left:2px solid var(--gold);
+}
+.detail-row.margin .value.pos{color:var(--credit);font-weight:700;}
+.detail-row.margin .value.neg{color:var(--debit);font-weight:700;}
+.receiver-box{
+  background:rgba(232,163,61,0.12);padding:9px 11px;border-radius:6px;
+  font-size:12.5px;color:var(--ink);font-weight:600;border-left:2px solid var(--gold);
+}
+.entry-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.entry-amt{font-weight:700;font-size:15.5px;font-variant-numeric:tabular-nums;flex-shrink:0;color:var(--cover-dark);}
+.entry-card.is-purchase .entry-amt{color:var(--debit);}
+.entry-mid{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;color:var(--ink);margin-bottom:6px;}
+.entry-qty{color:var(--ink-soft);font-size:12.5px;flex-shrink:0;font-variant-numeric:tabular-nums;}
+.entry-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;color:var(--ink-soft);}
+.entry-receiver{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.entry-margin{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.entry-margin.pos{background:#E3F0E6;color:var(--credit);}
+.entry-margin.neg{background:#F5E3E1;color:var(--debit);}
+
+/* ===== TABLE (compact, mobile-scrollable) ===== */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
+th{background:var(--cover);color:#F4E6C8;padding:9px 8px;text-align:left;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:0.3px;position:sticky;top:0;}
+td{padding:9px 8px;border-bottom:1px solid rgba(107,35,51,0.08);white-space:nowrap;}
+tbody tr:nth-child(even){background:rgba(107,35,51,0.03);}
+.amt-cell{font-variant-numeric:tabular-nums;font-weight:600;}
+
+/* ===== EMPTY / LOADING ===== */
+.empty{text-align:center;padding:38px 16px;color:var(--ink-soft);}
+.empty svg{width:44px;height:44px;stroke:var(--gold);margin-bottom:10px;}
+.empty p{font-size:13.5px;}
+
+/* ===== LEDGER ===== */
+.ledger-select-wrap{margin-bottom:12px;}
+.ledger-select-wrap select{
+  width:100%;padding:11px 12px;border-radius:10px;border:1px solid rgba(107,35,51,0.18);
+  background:var(--surface);font-size:14.5px;font-family:'Inter';color:var(--ink);
+}
+.ledger-summary{display:flex;gap:10px;margin-bottom:12px;}
+.ledger-summary .pill{flex:1;background:var(--surface);border-radius:10px;padding:10px;text-align:center;box-shadow:var(--shadow);}
+.ledger-summary .pill .k{font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;font-weight:600;}
+.ledger-summary .pill .v{font-size:16px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;}
+.share-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--credit);color:#fff;border:none;padding:11px;border-radius:10px;
+  font-weight:600;font-size:13.5px;width:100%;margin-bottom:14px;cursor:pointer;
+}
+.share-btn svg{width:16px;height:16px;}
+
+/* ===== FILTER CHIPS ===== */
+.filter-chips{display:flex;gap:7px;margin-bottom:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px;scrollbar-width:none;}
+.filter-chips::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;background:var(--surface);border:1px solid rgba(107,35,51,0.2);color:var(--ink-soft);
+  font-size:12.5px;font-weight:600;font-family:'Inter';padding:7px 13px;border-radius:20px;
+  white-space:nowrap;cursor:pointer;transition:all .15s;
+}
+.chip.active{background:var(--cover);color:#F4E6C8;border-color:var(--cover);}
+.chip-row-label{font-size:11px;color:var(--ink-soft);font-weight:600;margin:2px 2px 6px;text-transform:uppercase;letter-spacing:0.4px;}
+
+/* ===== CUSTOM DATE RANGE ===== */
+.custom-range-row{display:none;align-items:center;gap:8px;background:var(--surface);border:1px solid rgba(107,35,51,0.15);border-radius:12px;padding:10px;margin:-4px 0 12px;flex-wrap:wrap;}
+.custom-range-row.show{display:flex;}
+.custom-range-row input[type="date"]{
+  flex:1;min-width:118px;border:1px solid rgba(107,35,51,0.2);border-radius:8px;padding:7px 8px;
+  font-family:'Inter';font-size:12.5px;color:var(--ink);background:var(--paper);
+}
+.custom-range-row .to-label{font-size:11px;color:var(--ink-soft);font-weight:600;}
+.custom-range-row .apply-btn{
+  flex-shrink:0;background:var(--cover);color:#F4E6C8;border:none;border-radius:8px;
+  padding:8px 14px;font-family:'Inter';font-weight:700;font-size:12.5px;cursor:pointer;
+}
+
+/* ===== LOAD MORE ===== */
+.loadmore-wrap{text-align:center;margin-top:12px;}
+.loadmore-btn{
+  background:transparent;border:1.5px dashed rgba(107,35,51,0.35);color:var(--cover-dark);
+  font-family:'Inter';font-weight:700;font-size:13px;padding:10px 20px;border-radius:10px;
+  cursor:pointer;width:100%;
+}
+.loadmore-btn:active{background:var(--accent-color,var(--gold-soft));}
+.loadmore-hint{font-size:11px;color:var(--ink-soft);margin-top:6px;}
+
+/* ===== OPENING ROW (ledger, pinned to bottom = oldest) ===== */
+tr.opening-row td{border-top:2px solid var(--gold);}
+
+/* ===== INSTALL BANNER ===== */
+.install-banner{
+  display:none;align-items:center;gap:10px;background:var(--gold-soft);color:var(--cover-dark);
+  padding:10px 12px;border-radius:12px;margin-bottom:12px;box-shadow:var(--shadow);
+}
+.install-banner.show{display:flex;}
+.install-banner .txt{flex:1;font-size:12.5px;font-weight:600;line-height:1.3;}
+.install-banner button.go{
+  background:var(--cover);color:#F4E6C8;border:none;padding:8px 14px;border-radius:8px;
+  font-weight:700;font-size:12.5px;font-family:'Inter';cursor:pointer;flex-shrink:0;
+}
+.install-banner button.close{background:none;border:none;color:var(--cover-dark);font-size:18px;line-height:1;cursor:pointer;padding:4px;flex-shrink:0;opacity:0.6;}
+
+/* ===== BOTTOM NAV ===== */
+.bottomnav{
+  position:fixed;bottom:0;left:0;right:0;background:var(--surface);
+  border-top:1px solid rgba(107,35,51,0.14);
+  display:flex;justify-content:space-around;padding:6px 2px 8px;z-index:50;
+  box-shadow:0 -4px 14px rgba(74,23,34,0.10);
+}
+.navbtn{
+  background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:var(--ink-soft);font-size:10px;font-weight:600;padding:5px 4px;cursor:pointer;flex:1;
+  font-family:'Inter';
+}
+.navbtn svg{width:20px;height:20px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;}
+.navbtn.active{color:var(--cover);}
+.navbtn.active svg{stroke:var(--cover);}
+
+@media(min-width:640px){
+  .stats-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+/* ===== ENTRY CARD TYPES (Color Coding) ===== */
+.entry-card.type-sale {
+  border-left: 4px solid #0F5C46;
+  background: #FFFFFF;
+}
+
+.entry-card.type-receipt {
+  border-left: 4px solid #2563EB;
+  background: #F4F8FF; /* हल्का नीला बैकग्राउंड ताकि स्क्रॉल में तुरंत चमके */
+}
+
+.entry-card.type-purchase {
+  border-left: 4px solid #D97706;
+  background: #FFFFFF;
+}
+
+.entry-card.type-payment {
+  border-left: 4px solid #E0533D;
+  background: #FFF7F5;
+}
+
+/* ===== TAG COLORS ===== */
+.tag.sale {
+  background: #DCFCE7;
+  color: #15803D;
+  border: 1px solid rgba(21, 128, 61, 0.2);
+}
+
+.tag.recv {
+  background: #DBEAFE;
+  color: #1D4ED8;
+  border: 1px solid rgba(29, 78, 216, 0.25);
+}
+
+.tag.purchase {
+  background: #FEF3C7;
+  color: #B45309;
+  border: 1px solid rgba(180, 83, 9, 0.2);
+}
+
+.tag.pay {
+  background: #FEE2E2;
+  color: #B91C1C;
+  border: 1px solid rgba(185, 28, 28, 0.2);
+}
+
+/* ===== 0 STOCK TOGGLE BUTTON & LIST ===== */
+.zero-stock-wrap {
+  margin-top: 12px;
+  border-top: 1px dashed rgba(20,92,67,0.18);
+  padding-top: 10px;
+}
+.zero-stock-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(20,92,67,0.06);
+  border: 1px solid rgba(20,92,67,0.18);
+  color: var(--cover-dark);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.zero-stock-btn:active {
+  background: var(--gold-soft);
+}
+.zero-stock-container {
+  margin-top: 8px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 10px;
+  padding: 2px 8px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* ===== MONTH SUMMARY STRUCTURE ===== */
+.month-flow-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.month-sub-section {
+  background: var(--paper);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(20,92,67,0.07);
+}
+.month-sub-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--cover-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.m-pill-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.m-pill-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 480px) {
+  .m-pill-grid.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
   }
-</script>
+  .m-pill-grid.cols-3 .m-pill.stock-pill {
+    grid-column: span 2;
+  }
+}
+.month-sub-section .m-pill {
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.month-sub-section .m-pill .k {
+  font-size: 10px;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+.month-sub-section .m-pill .v {
+  font-size: 14.5px;
+  font-weight: 800;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.month-sub-section .m-pill.buy .v { color: #D97706; }
+.month-sub-section .m-pill.pay .v { color: var(--debit); }
+.month-sub-section .m-pill.sell .v { color: var(--teal-dark); }
+.month-sub-section .m-pill.recv .v { color: var(--credit); }
+.month-sub-section .m-pill.lena .v { color: var(--credit); }
+.month-sub-section .m-pill.dena .v { color: var(--debit); }
+.month-sub-section .m-pill.stock .v { color: var(--cover-dark); }
+
+/* ===== MONTH SELECTOR DROPDOWN ===== */
+.month-select-dropdown {
+  background: #FFFFFF;
+  border: 1.5px solid var(--cover);
+  color: var(--cover-dark);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15,92,70,0.08);
+}
+
+</style>
 </head>
 <body>
 
-    <!-- Sidebar Menu -->
-    <div class="offcanvas offcanvas-start" id="sidebar">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold text-primary">KTC MENU</h5>
-            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body p-0">
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item p-3" onclick="showSection('home')"><i class="bi bi-house-door me-2"></i> Home</a>
-                <a href="#" class="list-group-item p-3" onclick="showSection('new-trip')"><i class="bi bi-plus-circle me-2 text-primary"></i> New Trip Entry</a>
-                <a href="#" class="list-group-item p-3" onclick="showSection('view-trips')"><i class="bi bi-truck me-2 text-warning"></i> View All Trips</a>
-                <a href="#" class="list-group-item p-3" onclick="showSection('daily-followup')"><i class="bi bi-whatsapp me-2 text-success"></i> Daily Follow-up</a>
-                <a href="#" class="list-group-item p-3" onclick="showSection('accounts')"><i class="bi bi-wallet2 me-2 text-success"></i> Hisaab-Kitaab</a>
-               <a href="#" class="list-group-item p-3" onclick="showSection('loading-slip')">
-    <i class="bi bi-file-earmark-pdf me-2 text-danger"></i> Generate Loading Slip (Beelty)
-</a>
-<a href="#" class="list-group-item p-3" onclick="showSection('slip-history')">
-    <i class="bi bi-folder-check me-2 text-warning"></i> Loading Slip
-</a>
-
-                <a href="#" class="list-group-item p-3" onclick="showSection('vehicles')">
-    <i class="bi bi-folder-check me-2 text-info"></i> Gaadi Documents & History
-</a>
-                <hr>
-                <a href="#" class="list-group-item p-3 text-danger" onclick="location.reload()"><i class="bi bi-arrow-clockwise me-2"></i> Refresh App</a>
-            </div>
-        </div>
+<div class="topbar">
+  <div class="topbar-row">
+    <div class="seal">GS</div>
+    <div class="brand-block">
+      <div class="brand">GS Pashukhadya</div>
+      <small>प्रोप्राइटर: मुख्तार खान (खान बाबा)</small>
     </div>
-
-    <!-- LUXURY SMART LOCK SCREEN -->
-<!-- LOGIN SCREEN -->
-<div id="lock-screen">
-    <div class="lock-wrapper">
-        <div class="avatar-box">
-            <img src="Images/Lockscreen_image.png" alt="KTC Admin" class="main-avatar">
-        </div>
-
-        <div class="welcome-text">
-            <h2 class="greet-title">TRANSPORT LOGIN</h2>
-            <p class="greet-subtitle">Kripya Username aur Password dalein</p>
-        </div>
-
-        <div class="pin-container">
-            <input type="text" id="loginUser" class="form-control mb-2" placeholder="Username" style="letter-spacing: normal;">
-            <input type="password" id="loginPass" class="form-control" placeholder="Password" style="letter-spacing: normal;">
-            
-            <div id="lock-error" class="error-msg hidden">
-                <i class="bi bi-shield-slash"></i> Galat Details!
-            </div>
-        </div>
-
-        <button id="loginBtn" class="unlock-btn" onclick="handleLogin()">
-            <span>LOGIN SYSTEM</span>
-            <i class="bi bi-box-arrow-in-right"></i>
-        </button>
-    </div>
-</div>
-
-    <!-- Top Navbar -->
-    <!-- Top Navbar -->
-    <nav class="navbar navbar-dark bg-primary p-3 shadow-sm sticky-top d-flex justify-content-between">
-        <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-            <i class="bi bi-list fs-4"></i>
-        </button>
-        <span class="navbar-brand fw-bold mb-0">KTC MANAGEMENT</span>
-        <button class="btn btn-outline-light btn-sm rounded-circle" onclick="logout()" title="Logout">
-            <i class="bi bi-power fs-5"></i>
-        </button>
-    </nav>
-
-    <div class="container py-4">
-        
-        <!-- HOME SECTION -->
-    <!-- HOME SECTION -->
-<div id="home-section" class="app-section">
-    <!-- Premium Header -->
-    <div class="home-hero-bg p-4 mb-3 text-white">
-        <div class="d-flex justify-content-between align-items-start">
-            <div>
-                <small id="greetingText" class="opacity-75">Good Morning,</small>
-                <h3 class="fw-bold mb-0">Kunal Transport Company</h3>
-                <p style="font-size: 11px; letter-spacing: 1px;" class="mb-0 text-info">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</p>
-            </div>
-            <div class="live-clock text-end">
-                <h5 id="homeTime" class="mb-0 fw-bold">00:00</h5>
-                <small id="homeDate" class="opacity-50" style="font-size: 10px;">Date</small>
-            </div>
-        </div>
-        
-        <!-- Live Quick Stats Card -->
-        <div class="stats-glass-card mt-4 p-3 d-flex justify-content-around">
-            <div class="stat-item text-center">
-                <small class="d-block opacity-75">Today's Trips</small>
-                <span id="todayCount" class="fw-bold fs-5">0</span>
-            </div>
-            <div class="stat-item text-center border-start border-end px-3">
-                <small class="d-block opacity-75">Today's Biz</small>
-                <span id="todayBiz" class="fw-bold fs-5">₹0</span>
-            </div>
-            <div class="stat-item text-center">
-                <small class="d-block opacity-75">Pending</small>
-                <span id="homePendingCount" class="fw-bold fs-5 text-warning">0</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quick Services Grid -->
-    <div class="px-3">
-        <h6 class="fw-bold mb-3 text-secondary">MAIN SERVICES</h6>
-        <div class="row g-3">
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('new-trip')">
-                    <div class="icon-circle bg-primary-subtle text-primary">
-                        <i class="bi bi-plus-square-fill"></i>
-                    </div>
-                    <span>New Entry</span>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('view-trips')">
-                    <div class="icon-circle bg-warning-subtle text-warning">
-                        <i class="bi bi-truck-flatbed"></i>
-                    </div>
-                    <span>View History</span>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('accounts')">
-                    <div class="icon-circle bg-success-subtle text-success">
-                        <i class="bi bi-wallet-fill"></i>
-                    </div>
-                    <span>Ledger</span>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('vehicles')">
-                    <div class="icon-circle bg-info-subtle text-info">
-                        <i class="bi bi-shield-check"></i>
-                    </div>
-                    <span>Fleet (RC)</span>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('daily-followup')">
-                    <div class="icon-circle bg-success-subtle text-success">
-                        <i class="bi bi-whatsapp"></i>
-                    </div>
-                    <span>Follow-up</span>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="service-card" onclick="showSection('loading-slip')">
-                    <div class="icon-circle bg-danger-subtle text-danger">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                    </div>
-                    <span>Loading Slip</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity Timeline -->
-    <div class="mt-4 px-3 mb-5">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="fw-bold text-secondary mb-0">RECENT TRIPS</h6>
-            <button class="btn btn-sm text-primary p-0" onclick="showSection('view-trips')">View All</button>
-        </div>
-        <div id="homeRecentTrips" class="recent-list">
-            <!-- Dynamic Data -->
-        </div>
-    </div>
-
-    <!-- Floating Action Button -->
-    <button class="fab-btn shadow-lg" onclick="showSection('new-trip')">
-        <i class="bi bi-plus-lg"></i>
+    <button class="sync-btn" id="refreshBtn" onclick="loadData(true)" aria-label="Refresh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-2.6-6.36M21 4v6h-6"/></svg>
     </button>
+  </div>
+  <div class="sync-meta" id="syncMeta">डेटा लोड हो रहा है...</div>
 </div>
 
-        <!-- ACCOUNTS SECTION -->
-        <div id="accounts-section" class="app-section hidden">
-            <h4 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill me-2 text-success"></i>Hisaab-Kitaab</h4>
-            <!-- Accounts Filter -->
-<div class="filter-card bg-white p-3 rounded-4 shadow-sm mb-3">
-    <div class="row g-2 align-items-end">
-        <div class="col-5">
-            <label class="small fw-bold">From</label>
-            <input type="date" id="acc-start-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-5">
-            <label class="small fw-bold">To</label>
-            <input type="date" id="acc-end-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-2">
-            <button class="btn btn-success btn-sm w-100" onclick="updateAccounts()">
-                <i class="bi bi-check-lg"></i>
-            </button>
-        </div>
-    </div>
-</div>
-            <div class="card shadow-sm border-0 mb-3 text-white p-3" style="background: linear-gradient(45deg, #003366, #0056b3);">
-                <small class="opacity-75">Total Business Value</small>
-                <h2 id="acc-total-business" class="fw-bold">₹0</h2>
-            </div>
-            <div class="row g-2 mb-4">
-                <div class="col-6">
-                    <div class="card shadow-sm border-0 bg-danger text-white p-3">
-                        <small class="opacity-75">Total Pending</small>
-                        <h4 id="acc-total-pending" class="mb-0 fw-bold">₹0</h4>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card shadow-sm border-0 bg-success text-white p-3">
-                        <small class="opacity-75">Total Received</small>
-                        <h4 id="acc-total-received" class="mb-0 fw-bold">₹0</h4>
-                    </div>
-                </div>
-            </div>
-            <h6 class="fw-bold border-bottom pb-2 mb-3">Money Received By (Collector List)</h6>
-            <div id="collector-list" class="list-group shadow-sm">
-                <!-- Collector data yahan aayega -->
-            </div>
-        </div>
+<div class="container">
 
-        <!-- NEW / EDIT TRIP FORM SECTION (Smart Step-Wise Form) -->
-        <div id="new-trip-section" class="app-section hidden">
-            <div class="entry-card shadow-lg p-4">
-                <div class="entry-header d-flex justify-content-between align-items-center">
-                    <span id="tripFormTitle">New Trip Entry</span>
-                    <small id="tripStepLabel" class="opacity-75" style="font-size:12px;">Step 1 of 4</small>
-                </div>
+  <div class="install-banner" id="installBanner">
+    <span class="txt">📲 GS Pashukhadya ko apne phone ki home screen par app ki tarah install karo</span>
+    <button class="go" id="installGoBtn">Install</button>
+    <button class="close" id="installCloseBtn" aria-label="Band karo">×</button>
+  </div>
 
-                <!-- Step Progress Dots -->
-                <div class="trip-step-dots mb-3">
-                    <span class="t-dot active" data-dot="1"></span>
-                    <span class="t-dot" data-dot="2"></span>
-                    <span class="t-dot" data-dot="3"></span>
-                    <span class="t-dot" data-dot="4"></span>
-                </div>
-
-                <form id="tripForm" onsubmit="return false;">
-                    <input type="hidden" id="tripEditRow" value="">
-
-                    <!-- STEP 1: Vehicle & Date -->
-                    <div class="trip-step" data-trip-step="1">
-                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-truck me-1"></i> Vehicle & Date</h6>
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <label>Vehicle No</label>
-                                <input type="text" id="vNo" list="dl-vNo" class="form-control form-control-lg" placeholder="MH 20 AC 0000" required>
-                                <datalist id="dl-vNo"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Date</label>
-                                <input type="date" id="date" class="form-control form-control-lg" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- STEP 2: Route & Party -->
-                    <div class="trip-step hidden" data-trip-step="2">
-                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-signpost-split me-1"></i> Route & Party</h6>
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <label>From</label>
-                                <input type="text" id="from" list="dl-from" class="form-control">
-                                <datalist id="dl-from"></datalist>
-                            </div>
-                            <div class="col-6">
-                                <label>To</label>
-                                <input type="text" id="to" list="dl-to" class="form-control">
-                                <datalist id="dl-to"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Party Name</label>
-                                <input type="text" id="partyName" list="dl-partyName" class="form-control" placeholder="Party Name">
-                                <datalist id="dl-partyName"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Material</label>
-                                <input type="text" id="material" list="dl-material" class="form-control">
-                                <datalist id="dl-material"></datalist>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- STEP 3: Rate & Payment -->
-                    <div class="trip-step hidden" data-trip-step="3">
-                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-cash-coin me-1"></i> Rate & Payment</h6>
-                        <div class="row g-3">
-                            <div class="col-6">
-                                <label>Rate</label>
-                                <input type="number" id="rate" list="dl-rate" class="form-control">
-                                <datalist id="dl-rate"></datalist>
-                            </div>
-                            <div class="col-6">
-                                <label>Capacity (Ton)</label>
-                                <input type="number" id="capacity" list="dl-capacity" class="form-control">
-                                <datalist id="dl-capacity"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Amount (Auto-Calculated)</label>
-                                <input type="number" id="amount" class="form-control fw-bold text-success" readonly>
-                            </div>
-                            <div class="col-12">
-    <label>Received Status</label>
-    <select id="received" class="form-select" onchange="toggleCollectorField()">
-        <option value="No">❌ Pending</option>
-        <option value="Yes">✅ Received</option>
-    </select>
-</div>
-<div class="col-6">
-    <label>Commission Amount</label>
-    <input type="number" id="commissionAmt" class="form-control" placeholder="0">
-</div>
-<div class="col-6">
-    <label>Collected By</label>
-    <input type="text" id="collectorName" list="dl-collectorName" class="form-control" placeholder="Name">
-    <datalist id="dl-collectorName"></datalist>
-</div>
-                        </div>
-                    </div>
-
-                    <!-- STEP 4: Driver & Remark (Final Review) -->
-                    <div class="trip-step hidden" data-trip-step="4">
-                        <h6 class="text-muted fw-bold mb-3"><i class="bi bi-person-vcard me-1"></i> Driver & Remark</h6>
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <label>Driver No</label>
-                                <input type="text" id="dNo" list="dl-dNo" class="form-control">
-                                <datalist id="dl-dNo"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Owner No</label>
-                                <input type="text" id="ownerNo" list="dl-ownerNo" class="form-control">
-                                <datalist id="dl-ownerNo"></datalist>
-                            </div>
-                            <div class="col-12">
-                                <label>Remark</label>
-                                <textarea id="remark" class="form-control" rows="2"></textarea>
-                            </div>
-                        </div>
-                        <div id="tripReviewBox" class="mt-3 p-3 rounded-4" style="background:rgba(0,0,0,0.03); font-size:13px;"></div>
-                    </div>
-                </form>
-
-                <!-- Wizard Nav -->
-                <div class="d-flex gap-2 mt-4">
-                    <button type="button" id="tripBackBtn" class="btn btn-outline-secondary hidden" onclick="tripWizardBack()">
-                        <i class="bi bi-chevron-left"></i> Back
-                    </button>
-                    <button type="button" id="tripNextBtn" class="btn btn-primary flex-fill fw-bold" onclick="tripWizardNext()">
-                        Next <i class="bi bi-chevron-right"></i>
-                    </button>
-                    <button type="button" id="submitBtn" class="btn btn-success flex-fill fw-bold hidden" onclick="submitTrip()">
-                        <i class="bi bi-cloud-arrow-up-fill me-1"></i> <span id="submitBtnText">SAVE TRIP</span>
-                    </button>
-                </div>
-                <button type="button" id="tripCancelEditBtn" class="btn btn-link text-danger w-100 mt-2 hidden" onclick="cancelTripEdit()">
-                    Cancel Edit
-                </button>
-            </div>
-        </div>
-
-    <div id="view-trips-section" class="app-section hidden">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold">Trip Records</h4>
-        <button class="btn btn-sm btn-outline-primary" onclick="loadTrips()">🔄 Refresh</button>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="section active">
+    <div class="hero-card">
+      <div class="greet">Assalamualaikum, Khan Baba 👋</div>
+      <div class="date" id="heroDate"></div>
+      <div class="hero-row">
+        <div class="hero-stat"><div class="k">Parties</div><div class="v" id="heroParties">0</div></div>
+        <div class="hero-stat"><div class="k">Outstanding</div><div class="v" id="heroOutstanding">₹0</div></div>
+        <div class="hero-stat"><div class="k">Stock Items</div><div class="v" id="heroStock">0</div></div>
+      </div>
     </div>
 
-    <!-- View Trips Filter -->
-<div class="filter-card bg-white p-3 rounded-4 shadow-sm mb-3">
-    <small class="fw-bold text-muted d-block mb-2">DATE RANGE FILTER</small>
-    <div class="row g-2">
-        <div class="col-5">
-            <input type="date" id="trip-start-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-5">
-            <input type="date" id="trip-end-date" class="form-control form-control-sm">
-        </div>
-        <div class="col-2">
-            <button class="btn btn-primary btn-sm w-100" onclick="loadTrips()">
-                <i class="bi bi-filter"></i>
-            </button>
-        </div>
-    </div>
-</div>
-    
-    <!-- Simplified Top Summary Bar (No Amounts) -->
-    <div id="tripSummaryBar" class="hidden d-flex align-items-center justify-content-around shadow-sm mb-3">
-        <div class="summary-item text-center flex-fill">
-            <small class="opacity-75 d-block">Total Trips</small>
-            <b id="sumCount" class="fs-5 text-white">0</b>
-        </div>
-        <div class="summary-item text-center flex-fill border-start border-end">
-            <small class="opacity-75 d-block">Collected</small>
-            <b id="sumColCount" class="fs-5 text-success">0</b>
-        </div>
-        <div class="summary-item text-center flex-fill">
-            <small class="opacity-75 d-block">Pending</small>
-            <b id="sumPenCount" class="fs-5 text-danger">0</b>
-        </div>
+    <div class="card highlight-item-card">
+      <div class="section-title">🏆 सबसे ज़्यादा बिकने वाला आइटम</div>
+      <div id="topSellingItem"></div>
     </div>
 
-    <input type="text" id="tripSearch" class="form-control mb-3 shadow-sm rounded-pill" placeholder="🔍 Search Anything..." onkeyup="filterTrips()">
-    
-    <div id="tripCardsContainer"></div>
-</div>
-
-<!-- DAILY FOLLOW-UP: SAARE PENDING COMMISSION WALE EK JAGAH, HIGHEST AMOUNT SABSE UPAR -->
-<div id="daily-followup-section" class="app-section hidden">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold" style="color:#003366;"><i class="bi bi-whatsapp me-2 text-success"></i>Daily Follow-up</h4>
-        <button class="btn btn-sm btn-outline-primary" onclick="loadDailyFollowup()">🔄 Refresh</button>
+    <!-- 📊 सिंगल मंथली रिपोर्ट कार्ड (ड्रॉपडाउन बटन के साथ) -->
+    <div class="card">
+      <div class="section-title" style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span>📊 महीने का हिसाब</span>
+        <select id="reportMonthSelect" onchange="changeReportMonth(this.value)" class="month-select-dropdown"></select>
+      </div>
+      <div id="monthReportFlow"></div>
     </div>
 
-    <div class="row g-2 mb-3 text-center">
-        <div class="col-6">
-            <div class="p-2 border rounded bg-white shadow-sm">
-                <small class="text-danger fw-bold">PENDING PARTIES</small>
-                <h4 id="followupCount" class="mb-0 text-danger">0</h4>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="p-2 border rounded bg-white shadow-sm">
-                <small class="fw-bold" style="color:#003366;">TOTAL PENDING</small>
-                <h4 id="followupTotal" class="mb-0" style="color:#003366;">₹0</h4>
-            </div>
-        </div>
-    </div>
-
-    <div class="alert alert-light border small mb-3" style="font-size:12px;">
-        💡 Sabse zyada pending wale sabse upar hain. Message/Call bhej kar list <b>roz subah</b> yahin se nipta dein — ek baar bhej dene ke baad card green ho jayega.
-    </div>
-
-    <div id="followupCardsContainer"></div>
-</div>
-
- <!-- GAADI DOCUMENTS & HISTORY SECTION -->
-<!-- GAADI DOCUMENTS & HISTORY -->
-<div id="vehicles-section" class="app-section hidden">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold" style="color: #003366;"><i class="bi bi-truck me-2"></i>Gaadi Documents & History</h4>
-        <button class="btn btn-sm btn-outline-primary" onclick="loadVehicles()">🔄 Refresh</button>
-    </div>
-
-    <!-- Naya Counter Box -->
-    <div class="row g-2 mb-3 text-center">
-        <div class="col-6">
-            <div class="p-2 border rounded bg-white shadow-sm">
-                <small class="text-success fw-bold">RC UPDATED ✅</small>
-                <h4 id="count-done" class="mb-0 text-success">0</h4>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="p-2 border rounded bg-white shadow-sm">
-                <small class="text-danger fw-bold">RC PENDING ❌</small>
-                <h4 id="count-pending" class="mb-0 text-danger">0</h4>
-            </div>
-        </div>
-    </div>
-
-    <input type="text" id="vSearch" class="form-control mb-3 shadow-sm" placeholder="🔍 Search Gaadi No..." onkeyup="filterVehicles()">
-    <div id="vehicleCardsContainer"></div>
-</div>
-
-
-<!-- SLIP HISTORY SECTION -->
-<div id="slip-history-section" class="app-section hidden">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold"><i class="bi bi-folder-check text-warning me-2"></i>Loading Slips</h4>
-            <button class="btn btn-sm btn-outline-secondary" onclick="loadSlipHistory()">🔄 Refresh</button>
-        </div>
-        <div id="slipHistoryList" class="row g-3 pb-5">
-            <!-- Data yahan dikhega -->
-        </div>
-    </div>
-</div>
-
-
-<!-- LOADING SLIP SECTION -->
-<!-- LOADING SLIP SECTION -->
-<div id="loading-slip-section" class="app-section hidden">
-    <!-- SEARCH AREA UPDATED -->
-<div class="card p-3 mb-3 shadow-sm border-0 bg-white" style="border-radius: 15px;">
-    <label class="fw-bold text-primary mb-2">Search Record or Enter New Vehicle</label>
-    <div class="input-group">
-        <!-- list="vehicleListOptions" hi autocomplete enable karega -->
-        <input type="text" id="slipSearchVNo" class="form-control" list="vehicleListOptions" placeholder="Enter Vehicle No (e.g. MH 20)...">
-        <datalist id="vehicleListOptions"></datalist>
-        
-        <button class="btn btn-primary px-4 fw-bold" onclick="searchVehicleForSlip()">
-            <i class="bi bi-search me-1"></i> GO
+    <div class="card">
+      <div class="section-title">📦 Stock Summary <span class="count" id="stockCount">0</span></div>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="stockSearch" placeholder="Item search karo..." oninput="populateStock(true)">
+      </div>
+      
+      <!-- In-stock aur Minus items yahan dikhenge -->
+      <div id="stockList"></div>
+      
+      <!-- 0 Stock Toggle Button aur List -->
+      <div class="zero-stock-wrap" id="zeroStockWrap" style="display:none;">
+        <button type="button" class="zero-stock-btn" onclick="toggleZeroStock()">
+          <span id="zeroStockBtnLabel">📦 0 स्टॉक वाले आइटम (0)</span>
+          <span id="zeroStockIcon" style="font-size:11px;opacity:0.8;">▼ देखें</span>
         </button>
+        <div id="zeroStockList" class="zero-stock-container" style="display:none;"></div>
+      </div>
+
+      <div class="loadmore-wrap" id="stockMoreWrap" style="display:none;">
+        <button class="loadmore-btn" onclick="loadMore('stock', populateStock)">Aur Items Dikhao</button>
+      </div>
     </div>
-    
-    <!-- Agar record mil jaye toh dropdown yahan dikhega -->
-    <div id="tripSelectionArea" class="mt-3 hidden p-2 bg-light rounded border">
-        <small class="text-muted d-block mb-1 fw-bold">Multiple Trips Found. Select One:</small>
-        <select id="tripSelectDropdown" class="form-select form-select-sm" onchange="fillSlipFromSelection()"></select>
+
+    <div class="card">
+      <div class="section-title">Recent Activity</div>
+      <div class="filter-chips" id="dashboardRangeChips">
+        <button class="chip active" data-range="all" onclick="setRange('dashboard','all',this)">सब</button>
+        <button class="chip" data-range="today" onclick="setRange('dashboard','today',this)">आज</button>
+        <button class="chip" data-range="week" onclick="setRange('dashboard','week',this)">यह हफ्ता</button>
+        <button class="chip" data-range="month" onclick="setRange('dashboard','month',this)">यह महीना</button>
+        <button class="chip" data-range="custom" onclick="setRange('dashboard','custom',this)">📅 Custom</button>
+      </div>
+      <div class="custom-range-row" id="dashboardCustomRange">
+        <input type="date" id="dashboardFrom">
+        <span class="to-label">to</span>
+        <input type="date" id="dashboardTo">
+        <button class="apply-btn" onclick="applyCustomRange('dashboard')">Apply</button>
+      </div>
+      <div id="recentActivity"></div>
     </div>
-    
-    <!-- Nayi gaadi ke liye message -->
-    <div id="newVehicleAlert" class="mt-2 hidden">
-        <span class="badge bg-warning text-dark"><i class="bi bi-info-circle"></i> New Vehicle: Manual Entry Mode Active</span>
+  </div>
+
+  <!-- PARTIES -->
+  <div id="parties" class="section">
+    <div class="section-title">Party Masters <span class="count" id="partiesCount">0</span></div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="partySearch" placeholder="Party naam search karo..." oninput="populateParties(true)">
     </div>
+    <div class="filter-chips" id="partiesFilterChips">
+      <button class="chip active" data-f="all" onclick="setPartyFilter('all',this)">सब</button>
+      <button class="chip" data-f="debtor" onclick="setPartyFilter('debtor',this)">🟢 लेना है</button>
+      <button class="chip" data-f="creditor" onclick="setPartyFilter('creditor',this)">🔴 देना है</button>
+      <button class="chip" data-f="clear" onclick="setPartyFilter('clear',this)">✅ क्लियर</button>
+    </div>
+    <div class="card" style="padding-left:14px;border-left:none;" id="partiesList"></div>
+    <div class="loadmore-wrap" id="partiesMoreWrap" style="display:none;">
+      <button class="loadmore-btn" onclick="loadMore('parties', populateParties)">Aur Parties Dikhao</button>
+    </div>
+  </div>
+
+  <!-- SALES -->
+  <div id="sales" class="section">
+    <div class="section-title">Sale Entries <span class="count" id="salesCount">0</span></div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="salesSearch" placeholder="Party ya item search karo..." oninput="populateSales(true)">
+    </div>
+    <div class="filter-chips" id="salesRangeChips">
+      <button class="chip active" data-range="all" onclick="setRange('sales','all',this)">सब</button>
+      <button class="chip" data-range="today" onclick="setRange('sales','today',this)">आज</button>
+      <button class="chip" data-range="week" onclick="setRange('sales','week',this)">यह हफ्ता</button>
+      <button class="chip" data-range="month" onclick="setRange('sales','month',this)">यह महीना</button>
+      <button class="chip" data-range="custom" onclick="setRange('sales','custom',this)">📅 Custom</button>
+    </div>
+    <div class="custom-range-row" id="salesCustomRange">
+      <input type="date" id="salesFrom">
+      <span class="to-label">to</span>
+      <input type="date" id="salesTo">
+      <button class="apply-btn" onclick="applyCustomRange('sales')">Apply</button>
+    </div>
+    <div class="entries-list" id="salesList"></div>
+    <div class="loadmore-wrap" id="salesMoreWrap" style="display:none;">
+      <button class="loadmore-btn" onclick="loadMore('sales', populateSales)">Aur Entries Dikhao</button>
+    </div>
+  </div>
+
+  <!-- PURCHASE -->
+  <div id="purchase" class="section">
+    <div class="section-title">Purchase Entries <span class="count" id="purchaseCount">0</span></div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="purchaseSearch" placeholder="Party ya item search karo..." oninput="populatePurchase(true)">
+    </div>
+    <div class="filter-chips" id="purchaseRangeChips">
+      <button class="chip active" data-range="all" onclick="setRange('purchase','all',this)">सब</button>
+      <button class="chip" data-range="today" onclick="setRange('purchase','today',this)">आज</button>
+      <button class="chip" data-range="week" onclick="setRange('purchase','week',this)">यह हफ्ता</button>
+      <button class="chip" data-range="month" onclick="setRange('purchase','month',this)">यह महीना</button>
+      <button class="chip" data-range="custom" onclick="setRange('purchase','custom',this)">📅 Custom</button>
+    </div>
+    <div class="custom-range-row" id="purchaseCustomRange">
+      <input type="date" id="purchaseFrom">
+      <span class="to-label">to</span>
+      <input type="date" id="purchaseTo">
+      <button class="apply-btn" onclick="applyCustomRange('purchase')">Apply</button>
+    </div>
+    <div class="entries-list" id="purchaseList"></div>
+    <div class="loadmore-wrap" id="purchaseMoreWrap" style="display:none;">
+      <button class="loadmore-btn" onclick="loadMore('purchase', populatePurchase)">Aur Entries Dikhao</button>
+    </div>
+  </div>
+
+  <!-- LEDGER -->
+  <div id="ledger" class="section">
+    <div class="section-title">Party Ledger</div>
+    <div class="ledger-select-wrap">
+      <select id="partySelect" onchange="showLedger()">
+        <option>Choose Party...</option>
+      </select>
+    </div>
+    <div class="filter-chips" id="ledgerRangeChips">
+      <button class="chip active" data-range="all" onclick="setRange('ledger','all',this)">सब</button>
+      <button class="chip" data-range="today" onclick="setRange('ledger','today',this)">आज</button>
+      <button class="chip" data-range="week" onclick="setRange('ledger','week',this)">यह हफ्ता</button>
+      <button class="chip" data-range="month" onclick="setRange('ledger','month',this)">यह महीना</button>
+      <button class="chip" data-range="custom" onclick="setRange('ledger','custom',this)">📅 Custom</button>
+    </div>
+    <div class="custom-range-row" id="ledgerCustomRange">
+      <input type="date" id="ledgerFrom">
+      <span class="to-label">to</span>
+      <input type="date" id="ledgerTo">
+      <button class="apply-btn" onclick="applyCustomRange('ledger')">Apply</button>
+    </div>
+    <div id="ledgerSummaryWrap"></div>
+    <button class="share-btn" id="shareLedgerBtn" onclick="shareLedger()" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
+      WhatsApp पर भेजो
+    </button>
+    <div class="entries-list" id="ledgerList"></div>
+  </div>
+
+  <!-- PAYMENTS -->
+  <div id="payments" class="section">
+    <div class="section-title">Receipts &amp; Payments <span class="count" id="paymentsCount">0</span></div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="paymentsSearch" placeholder="Account naam search karo..." oninput="populatePayments(true)">
+    </div>
+    <div class="filter-chips" id="paymentsRangeChips">
+      <button class="chip active" data-range="all" onclick="setRange('payments','all',this)">सब</button>
+      <button class="chip" data-range="today" onclick="setRange('payments','today',this)">आज</button>
+      <button class="chip" data-range="week" onclick="setRange('payments','week',this)">यह हफ्ता</button>
+      <button class="chip" data-range="month" onclick="setRange('payments','month',this)">यह महीना</button>
+      <button class="chip" data-range="custom" onclick="setRange('payments','custom',this)">📅 Custom</button>
+    </div>
+    <div class="custom-range-row" id="paymentsCustomRange">
+      <input type="date" id="paymentsFrom">
+      <span class="to-label">to</span>
+      <input type="date" id="paymentsTo">
+      <button class="apply-btn" onclick="applyCustomRange('payments')">Apply</button>
+    </div>
+    <div class="card table-wrap" style="border-left:none;padding:0;">
+      <table id="paymentsTable">
+        <thead><tr><th>Date</th><th>Bill</th><th>Account</th><th>Debit</th><th>Credit</th><th>Narration</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="loadmore-wrap" id="paymentsMoreWrap" style="display:none;">
+      <button class="loadmore-btn" onclick="loadMore('payments', populatePayments)">Aur Entries Dikhao</button>
+    </div>
+  </div>
+
 </div>
 
+<div class="bottomnav">
+  <button class="navbtn active" data-sec="dashboard" onclick="showSection('dashboard',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg>Home
+  </button>
+  <button class="navbtn" data-sec="parties" onclick="showSection('parties',this)">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.5 14.2c2.8.3 4.9 2.3 4.9 5.3"/></svg>Parties
+  </button>
+  <button class="navbtn" data-sec="sales" onclick="showSection('sales',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.2A2 2 0 0 0 9.36 17H18a2 2 0 0 0 2-1.6L21.5 8H6"/><circle cx="9.5" cy="21" r="1.3"/><circle cx="17.5" cy="21" r="1.3"/></svg>Sales
+  </button>
+  <button class="navbtn" data-sec="purchase" onclick="showSection('purchase',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 7h15l2 12H5z"/><path d="M8 7a3.5 3.5 0 0 1 7 0"/></svg>Purchase
+  </button>
+  <button class="navbtn" data-sec="ledger" onclick="showSection('ledger',this)">
+    <svg viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5z"/><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg>Ledger
+  </button>
+  <button class="navbtn" data-sec="payments" onclick="showSection('payments',this)">
+    <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19"/><circle cx="17" cy="14.5" r="1"/></svg>Khata
+  </button>
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyn0ZdABa3yLWfxzH8d163FrE7OU0DLsje3GfwJ9D00nM8s1qb534thcR-5elbFP6hJ/exec";
+const CACHE_KEY = 'gsPashukhadyaCache';
+let allData = {};
+let balancesMap = {}; // partyName -> {debit,credit,lastDate}
+
+// ===== HELPERS =====
+function esc(v){
+  if(v===undefined||v===null) return '';
+  return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function fmt(n){
+  n = parseFloat(n)||0;
+  return '₹' + n.toLocaleString('en-IN', {maximumFractionDigits:0});
+}
+function forwardFill(rows, cols){
+  const filled = []; const last = {};
+  rows.forEach(row=>{
+    const copy = row.slice();
+    cols.forEach(c=>{
+      if(copy[c]!==undefined && copy[c]!=='' && copy[c]!==null){ last[c]=copy[c]; }
+      else if(last[c]!==undefined){ copy[c]=last[c]; }
+    });
+    filled.push(copy);
+  });
+  return filled;
+}
+// Kuch cells Google Sheets me "Date" type ke hain (text nahi), aur Apps Script unhe
+// JSON me "2026-03-31T18:30:00.000Z" jaisi ISO string bana deta hai. `new Date(...)` se
+// parse karke local (IST) date nikalne par sahi din wapas mil jaata hai. Baaki cells
+// normal "DD-MM-YYYY" text hain, unhe seedha parse karte hain.
+function parseAnyDate(str){
+  if(!str) return new Date(NaN);
+  const s = String(str).trim();
+  if(s.includes('T') && s.includes('Z')){
+    return new Date(s); // browser local time (IST) se sahi din nikal aata hai
+  }
+  const parts = s.split('-');
+  if(parts.length===3){
+    if(parts[0].length===4) return new Date(+parts[0], +parts[1]-1, +parts[2]); // YYYY-MM-DD
+    return new Date(+parts[2], +parts[1]-1, +parts[0]); // DD-MM-YYYY
+  }
+  const d = new Date(s);
+  return d;
+}
+function parseIndianDate(str){ return parseAnyDate(str); }
+// Table/ledger me dikhane ke liye hamesha DD-MM-YYYY format me consistent date string.
+function formatDateDisplay(str){
+  const d = parseAnyDate(str);
+  if(isNaN(d.getTime())) return esc(str);
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  return `${dd}-${mm}-${d.getFullYear()}`;
+}
+function setRows(sel, arr){ document.querySelector(sel).innerHTML = arr.join(''); }
+function initials(name){
+  return (name||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+
+// ===== FILTERS: date range, party status, pagination =====
+// Data jyada hone par pura list ek saath render karna slow ho sakta hai, isliye:
+// (a) date-range chips se list chhoti ho jaati hai, (b) "Aur Dikhao" se page-by-page load hota hai.
+const PAGE_STEP = 25;
+let pageState = { sales: PAGE_STEP, purchase: PAGE_STEP, payments: PAGE_STEP, parties: PAGE_STEP, stock: 50 };
+let rangeState = { dashboard: 'all', sales: 'all', purchase: 'all', payments: 'all', ledger: 'all' };
+let customRangeState = { dashboard:{from:null,to:null}, sales:{from:null,to:null}, purchase:{from:null,to:null}, payments:{from:null,to:null}, ledger:{from:null,to:null} };
+let partyFilterState = 'all';
+
+const SECTION_RENDER = {dashboard:updateDashboard, sales:populateSales, purchase:populatePurchase, payments:populatePayments, ledger:showLedger};
+
+function inRange(dateStr, section){
+  const range = rangeState[section];
+  if(range==='all' || !range) return true;
+  const d = parseAnyDate(dateStr);
+  if(isNaN(d.getTime())) return true;
+  const dd = new Date(d); dd.setHours(0,0,0,0);
+  if(range==='custom'){
+    const cr = customRangeState[section] || {};
+    if(!cr.from && !cr.to) return true;
+    if(cr.from && dd < cr.from) return false;
+    if(cr.to && dd > cr.to) return false;
+    return true;
+  }
+  const now = new Date(); now.setHours(0,0,0,0);
+  if(range==='today') return dd.getTime()===now.getTime();
+  if(range==='week'){ const from = new Date(now); from.setDate(from.getDate()-6); return dd>=from && dd<=now; }
+  if(range==='month'){ const from = new Date(now); from.setDate(from.getDate()-29); return dd>=from && dd<=now; }
+  return true;
+}
+function setRange(section, range, btn){
+  rangeState[section] = range;
+  btn.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  pageState[section] = PAGE_STEP;
+
+  const customRow = document.getElementById(section+'CustomRange');
+  if(range==='custom'){
+    if(customRow) customRow.classList.add('show');
+    // agar pehle se koi custom dates chuni hui hain to turant apply karo, warna user ke "Apply" ka wait karo
+    const cr = customRangeState[section];
+    if(cr && (cr.from || cr.to)) SECTION_RENDER[section]();
+  } else {
+    if(customRow) customRow.classList.remove('show');
+    SECTION_RENDER[section]();
+  }
+}
+function applyCustomRange(section){
+  const fromVal = document.getElementById(section+'From').value;
+  const toVal = document.getElementById(section+'To').value;
+  if(!fromVal && !toVal){
+    alert('Kam se kam ek date chuno');
+    return;
+  }
+  const from = fromVal ? new Date(fromVal+'T00:00:00') : null;
+  const to = toVal ? new Date(toVal+'T00:00:00') : null;
+  customRangeState[section] = { from, to };
+  pageState[section] = PAGE_STEP;
+  SECTION_RENDER[section]();
+}
+function setPartyFilter(f, btn){
+  partyFilterState = f;
+  btn.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  pageState.parties = PAGE_STEP;
+  populateParties();
+}
+function loadMore(key, fn){
+  pageState[key] += (key==='stock' ? 50 : PAGE_STEP);
+  fn();
+}
+function renderMoreBtn(key, wrapId, totalCount){
+  const wrap = document.getElementById(wrapId);
+  if(!wrap) return;
+  const shown = Math.min(pageState[key], totalCount);
+  const remaining = totalCount - shown;
+  if(remaining > 0){
+    wrap.style.display = 'block';
+    wrap.querySelector('.loadmore-btn').textContent = `Aur Dikhao (${remaining} baaki)`;
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+// ===== NAV =====
+function showSection(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openPartyLedger(name){
+  document.getElementById('partySelect').value = name;
+  showSection('ledger', document.querySelector('.navbtn[data-sec="ledger"]'));
+  showLedger();
+}
+
+// ===== LOAD =====
+function loadData(forceSpin){
+  const btn = document.getElementById('refreshBtn');
+  if(forceSpin) btn.classList.add('spinning');
+  document.getElementById('syncMeta').textContent = 'डेटा लोड हो रहा है...';
+
+  fetch(SCRIPT_URL).then(r=>r.json()).then(raw=>{
+    processData(raw);
+    localStorage.setItem(CACHE_KEY, JSON.stringify({raw, time:Date.now()}));
+    setSyncMeta();
+    btn.classList.remove('spinning');
+  }).catch(err=>{
+    console.error('Load error:', err);
+    btn.classList.remove('spinning');
+    const cached = localStorage.getItem(CACHE_KEY);
+    if(cached){
+      const {raw, time} = JSON.parse(cached);
+      processData(raw);
+      document.getElementById('syncMeta').textContent = '⚠️ Offline — पुराना data दिखा रहे हैं (' + new Date(time).toLocaleString('en-IN') + ')';
+    } else {
+      document.getElementById('syncMeta').textContent = '⚠️ Data load नहीं हुआ। Internet check करो।';
+    }
+  });
+}
+
+function setSyncMeta(){
+  document.getElementById('syncMeta').textContent = 'Last update: ' + new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'});
+}
+
+// ===== SALE + PURCHASE COMBINED SHEET =====
+// Ab Sales aur Purchase ek hi sheet me hain, columns:
+// Date | Type | Vch/Bill No | Particulars | Item Details | Qty | Unit | Price | Amount
+// Type = "Sale" -> Sales me, Type = "Purchase" -> Purchase me jaata hai.
+// Har real entry ke neeche "DHOODWALE : naam" wali row us transaction ki
+// receiver info hoti hai, ALAG transaction nahi. "DHOODWALE : DIRECT" ka
+// matlab party khud maal le gayi (koi alag receiver nahi). Ye row kabhi
+// amount/stock/count/balance me nahi jodi jaati — sirf last real entry ke
+// "receiver" (col index 8) me chipka di jaati hai, party ka account wahi rehta hai.
+function processEntries(rawEntries){
+  const salesOut = [['Date','Vch/Bill No','Party','Item Details','Qty','Unit','Price','Amount','Receiver']];
+  const purchaseOut = [['Date','Vch/Bill No','Party','Item Details','Qty','Unit','Price','Amount','Receiver']];
+
+  let last = {date:'', type:'', vchno:'', particulars:''}; // continuation rows (blank cells) ke liye
+  let lastPushed = null; // sabse aakhri real Sale/Purchase row — DHOODWALE receiver isी pe chipkega
+
+  (rawEntries||[]).slice(1).forEach(row=>{
+    const rawParticulars = String(row[3]||'').trim();
+
+    // ===== DHOODWALE row: receiver info, transaction nahi =====
+    if(/^dhoodwale\s*:/i.test(rawParticulars)){
+      if(lastPushed){
+        const receiverName = rawParticulars.replace(/^dhoodwale\s*:/i,'').trim();
+        if(receiverName && !/^direct$/i.test(receiverName)){
+          lastPushed[8] = receiverName; // party wahi rahegi, sirf receiver naam show hoga
+        }
+      }
+      return; // count/amount/stock me kabhi shaamil nahi
+    }
+
+    // continuation rows me date/type/vchno/particulars blank ho sakte hain — forward-fill
+    const date = row[0] || last.date;
+    const type = String(row[1] || last.type || '').trim();
+    const vchno = row[2] || last.vchno;
+    const particulars = row[3] || last.particulars;
+    const item = row[4], qty = row[5], unit = row[6], price = row[7], amount = row[8];
+
+    // poori tarah blank spacer row — skip karo, state carry mat karo
+    if(!date && !type && !particulars && !item && !amount) return;
+
+    last = {date, type, vchno, particulars};
+
+    const outRow = [date, vchno, particulars, item, qty, unit, price, amount, ''];
+    if(/^sale/i.test(type)){
+      salesOut.push(outRow);
+      lastPushed = outRow;
+    } else if(/^purc/i.test(type)){ // sheet me "Purc" likha hota hai, poora "Purchase" nahi
+      purchaseOut.push(outRow);
+      lastPushed = outRow;
+    } else {
+      lastPushed = null; // anjaan Type — agar iske baad DHOODWALE aayi to kahin nahi chipkegi
+    }
+  });
+
+  return {sales: salesOut, purchase: purchaseOut};
+}
+
+function processData(raw){
+  const combined = processEntries(raw.entries || []);
+  allData = {
+    masters: raw.masters || [],
+    sales: combined.sales,
+    purchase: combined.purchase,
+    receipts: [raw.receipts && raw.receipts[0] || [], ...forwardFill((raw.receipts||[]).slice(1),[0])],
+    payments: [raw.payments && raw.payments[0] || [], ...forwardFill((raw.payments||[]).slice(1),[0])]
+  };
+  computeBalances();
+  computeStock();
+  populateAll();
+}
+
+// single-pass balance computation (avoids O(n * parties) that froze the page before)
+// Party balance: Sale = udhaar diya -> party ka debit badhta hai (party ko hume dena hai... party HUME dena hai)
+// Receipt = party se payment mila -> credit badhta hai (uska debit kam ho jata hai)
+// Purchase = humne maal khareeda -> supplier ka credit badhta hai (hum supplier ko dena hai)
+// Payment = humne supplier ko diya -> uska debit badhta hai (jo hum dena the wo kam hua)
+// balance = debit - credit  → positive = party HUMSE lena hai (customer's outstanding), negative = HUM party ko dena hai (supplier payable)
+// Masters sheet: A=Sr No, B=Party Name, C=Type (Sundry Debtors/Sundry Creditors/Expenses..),
+// D=Contact Number, E=Opening Amount, F=Stock Item, G=Opening Stock
+function isCreditorType(type){ return /creditor/i.test(type||''); }
+function computeBalances(){
+  balancesMap = {};
+  const touch = (name, debit, credit, date)=>{
+    if(!name) return;
+    if(!balancesMap[name]) balancesMap[name] = {debit:0, credit:0, lastDate:date};
+    balancesMap[name].debit += debit;
+    balancesMap[name].credit += credit;
+    if(date) balancesMap[name].lastDate = date;
+  };
+  // Opening balances (Masters column D) — Sundry Creditors ka opening credit side jaata hai
+  // (hum unhe dena hai), baaki sab (Sundry Debtors, Expenses, etc) debit side jaata hai.
+  (allData.masters||[]).slice(1).forEach(r=>{
+    const name = r[1], type = r[2], opening = parseFloat(r[4])||0;
+    if(!name || !opening) return;
+    if(isCreditorType(type)) touch(name, 0, opening, null);
+    else touch(name, opening, 0, null);
+  });
+  allData.sales.slice(1).forEach(r=> touch(r[2], parseFloat(r[7])||0, 0, r[0]));
+  allData.purchase.slice(1).forEach(r=> touch(r[2], 0, parseFloat(r[7])||0, r[0]));
+  allData.receipts.slice(1).forEach(r=> touch(r[2], parseFloat(r[3])||0, parseFloat(r[4])||0, r[0]));
+  allData.payments.slice(1).forEach(r=> touch(r[2], parseFloat(r[3])||0, parseFloat(r[4])||0, r[0]));
+}
+
+// Stock: Masters sheet ke Stock Items column (F) se item list aur Opening Stock (G) milta hai.
+// Purchase entries se qty stock me add hoti hai, Sale entries se stock me se ghatti hai.
+// Item naam Sale/Purchase ki "Item Details" column se match karke jodte hain.
+let stockMap = {};
+// itemRateMap: har item ka purchase rate — 'last' (sabse recent purchase entry ka rate)
+// aur 'avg' (total purchase amount / total purchase qty), Sale card me margin dikhane ke liye.
+let itemRateMap = {};
+// Stock: सिर्फ वही आइटम्स दिखेंगे जो Masters शीट (कॉलम F) में मौजूद हैं
+function computeStock(){
+  stockMap = {};
+  itemRateMap = {};
+
+  // 1. सबसे पहले सिर्फ Masters शीट (col F & G) से अधिकृत आइटम्स को रजिस्टर करो
+  (allData.masters || []).slice(1).forEach(r => {
+    const item = String(r[5] || '').trim();
+    if (item) {
+      stockMap[item] = {
+        opening: parseFloat(r[6]) || 0,
+        purchased: 0,
+        sold: 0,
+        unit: ''
+      };
+    }
+  });
+
+  // 2. Sale एंट्रीज से सिर्फ Masters वाले आइटम्स का sold घटाओ (अनजान आइटम्स को इग्नोर करो)
+  allData.sales.slice(1).forEach(r => {
+    const item = String(r[3] || '').trim();
+    const qty = parseFloat(r[4]) || 0;
+    const unit = r[5] || '';
     
+    // अगर आइटम Masters में मौजूद है, सिर्फ तभी स्टॉक अपडेट करो
+    if (item && stockMap.hasOwnProperty(item)) {
+      stockMap[item].sold += qty;
+      if (unit && !stockMap[item].unit) stockMap[item].unit = unit;
+    }
+  });
 
-    <!-- 2. The New Professional Beelty Design -->
-   <!-- THE MODERN CORPORATE BEELTY DESIGN -->
-<div id="beelty-capture-area">
-    <div id="receipt-to-print" class="corporate-beelty">
-        <!-- Watermark -->
-        <!-- Text watermark ki jagah ab Image Watermark -->
-<div class="watermark-container">
-    <img src="Images/Background.png" class="watermark-img">
-</div>
+  // 3. Purchase एंट्रीज से सिर्फ Masters वाले आइटम्स का purchased जोड़ो
+  allData.purchase.slice(1).forEach(r => {
+    const item = String(r[3] || '').trim();
+    const qty = parseFloat(r[4]) || 0;
+    const rate = parseFloat(r[6]) || 0;
+    const amt = parseFloat(r[7]) || 0;
+    const unit = r[5] || '';
 
-       <!-- TOP HEADER: CONTACTS & LOGOS -->
-<div class="c-header">
-    <!-- LEFT SIDE: RAJU HIWALE + TRUCK LOGO -->
-    <div class="c-contact-left">
-        <div class="contact-top-row">
-            <span class="c-owner">Raju Hiwale</span><br>
-            <i class="bi bi-telephone-fill"></i> 9403691888 | 7744059190
+    // अगर आइटम Masters में मौजूद है, सिर्फ तभी स्टॉक में जोड़ो
+    if (item && stockMap.hasOwnProperty(item)) {
+      stockMap[item].purchased += qty;
+      if (unit && !stockMap[item].unit) stockMap[item].unit = unit;
+
+      // Rate tracking (Margin & Profit calculation ke liye)
+      if (qty > 0) {
+        if (!itemRateMap[item]) itemRateMap[item] = { qty: 0, amt: 0, last: 0, lastDate: null };
+        itemRateMap[item].qty += qty;
+        itemRateMap[item].amt += amt;
+        const d = parseAnyDate(r[0]);
+        if (!isNaN(d.getTime()) && (!itemRateMap[item].lastDate || d >= itemRateMap[item].lastDate)) {
+          itemRateMap[item].last = rate || (amt / qty);
+          itemRateMap[item].lastDate = d;
+        }
+      }
+    }
+  });
+}
+// item ka purchase rate: latest purchase entry ka rate, warna overall average
+function getPurchaseRate(item){
+  const key = String(item||'').trim();
+  const r = itemRateMap[key];
+  if(!r || !r.qty) return null;
+  return r.last || (r.amt/r.qty);
+}
+
+// ===== POPULATE ALL =====
+function populateAll(){
+  populateParties();
+  populateSales();
+  populatePurchase();
+  populatePayments();
+  populateStock();
+  updateDashboard();
+}
+
+// ===== DASHBOARD =====
+// ===== DASHBOARD (Updated Month-Wise Story Cards) =====
+let selectedReportMonthKey = null; // Default: Current Month
+
+function changeReportMonth(monthKey){
+  selectedReportMonthKey = monthKey;
+  renderSelectedMonth();
+}
+
+// ===== DASHBOARD (Single Clean Card with Month Selector) =====
+function updateDashboard(){
+  const masters = allData.masters || [];
+  const sales = (allData.sales || []).slice(1).filter(r => (parseFloat(r[4]) || 0) > 0);
+  const purchase = (allData.purchase || []).slice(1).filter(r => (parseFloat(r[4]) || 0) > 0);
+  const receipts = (allData.receipts || []).slice(1);
+  const payments = (allData.payments || []).slice(1);
+
+  let outstanding = 0;
+  Object.keys(balancesMap).forEach(name => {
+    const b = balancesMap[name].debit - balancesMap[name].credit;
+    if (b > 0) outstanding += b;
+  });
+  const stockItems = Object.keys(stockMap);
+
+  // 1. Hero Card
+  document.getElementById('heroDate').textContent = new Date().toLocaleDateString('hi-IN', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+  document.getElementById('heroParties').textContent = masters.slice(1).filter(r => r[1]).length;
+  document.getElementById('heroOutstanding').textContent = fmt(outstanding);
+  document.getElementById('heroStock').textContent = stockItems.length;
+
+  // 2. Top Selling Item
+  const itemQty = {}, itemRevenue = {};
+  sales.forEach(r => {
+    const item = String(r[3] || '').trim();
+    if (!item || !stockMap.hasOwnProperty(item)) return;
+    itemQty[item] = (itemQty[item] || 0) + (parseFloat(r[4]) || 0);
+    itemRevenue[item] = (itemRevenue[item] || 0) + (parseFloat(r[7]) || 0);
+  });
+  const topItemName = Object.keys(itemQty).sort((a, b) => itemQty[b] - itemQty[a])[0];
+  if (!topItemName) {
+    document.getElementById('topSellingItem').innerHTML = '<div class="empty" style="padding:6px 0;color:#EAF6EF;"><p>अभी कोई sale entry नहीं है</p></div>';
+  } else {
+    const unit = (stockMap[topItemName] && stockMap[topItemName].unit) || '';
+    document.getElementById('topSellingItem').innerHTML = `
+      <div class="top-item-row">
+        <div class="medal">🏆</div>
+        <div class="info">
+          <div class="name">${esc(topItemName)}</div>
+          <div class="meta">${itemQty[topItemName]} ${esc(unit)} बिके</div>
         </div>
-        <div class="logo-row-left">
-            <img src="Images/Truck.png" class="header-side-img">
+        <div class="revenue">
+          <div class="v">${fmt(itemRevenue[topItemName])}</div>
+          <div class="k">Revenue</div>
         </div>
-    </div>
+      </div>`;
+  }
 
-    <!-- CENTER: KTC BRANDING -->
-    <div class="c-logo-section">
-        <div class="c-atc-badge">
-            <span>K</span><span>T</span><span>C</span>
+  // 3. Populate Month Dropdown (All months available in data)
+  populateMonthDropdown();
+
+  // 4. Render the Selected / Running Month
+  renderSelectedMonth();
+}
+
+// Data me se sabhi months nikaal kar Dropdown me bharna
+function populateMonthDropdown(){
+  const allDates = [
+    ...(allData.sales || []).slice(1).map(r => r[0]),
+    ...(allData.purchase || []).slice(1).map(r => r[0]),
+    ...(allData.receipts || []).slice(1).map(r => r[0]),
+    ...(allData.payments || []).slice(1).map(r => r[0])
+  ];
+
+  const monthSet = new Set();
+  const now = new Date();
+  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  monthSet.add(currentKey); // Current month hamesha rahega
+
+  allDates.forEach(dateStr => {
+    const d = parseAnyDate(dateStr);
+    if (!isNaN(d.getTime())) {
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+      monthSet.add(key);
+    }
+  });
+
+  // Latest month upar, purane niche
+  const sortedMonths = Array.from(monthSet).sort().reverse();
+  
+  if (!selectedReportMonthKey || !monthSet.has(selectedReportMonthKey)) {
+    selectedReportMonthKey = currentKey; // Default to Running Month
+  }
+
+  const selectEl = document.getElementById('reportMonthSelect');
+  if (selectEl) {
+    selectEl.innerHTML = sortedMonths.map(key => {
+      const [y, m] = key.split('-');
+      const d = new Date(parseInt(y), parseInt(m) - 1, 1);
+      const isCurrent = (key === currentKey);
+      const label = d.toLocaleDateString('hi-IN', { month: 'long', year: 'numeric' }) + (isCurrent ? ' (चालू महीना)' : '');
+      const selected = (key === selectedReportMonthKey) ? 'selected' : '';
+      return `<option value="${key}" ${selected}>${label}</option>`;
+    }).join('');
+  }
+}
+
+// Chune huye mahine ka hisaab calculate aur render karna
+function renderSelectedMonth(){
+  if (!selectedReportMonthKey) return;
+  const [yStr, mStr] = selectedReportMonthKey.split('-');
+  const y = parseInt(yStr), m = parseInt(mStr) - 1;
+  const now = new Date();
+  const isCurrentMonth = (y === now.getFullYear() && m === now.getMonth());
+
+  const masters = allData.masters || [];
+  const sales = (allData.sales || []).slice(1).filter(r => (parseFloat(r[4]) || 0) > 0);
+  const purchase = (allData.purchase || []).slice(1).filter(r => (parseFloat(r[4]) || 0) > 0);
+  const receipts = (allData.receipts || []).slice(1);
+  const payments = (allData.payments || []).slice(1);
+
+  function avgPurchaseRates(cutoffDate){
+    const qtySum = {}, amtSum = {};
+    purchase.forEach(r => {
+      if (cutoffDate) { const d = parseAnyDate(r[0]); if (isNaN(d.getTime()) || d > cutoffDate) return; }
+      const item = String(r[3] || '').trim(); if (!item) return;
+      const qty = parseFloat(r[4]) || 0, amt = parseFloat(r[7]) || 0;
+      if (qty > 0) { qtySum[item] = (qtySum[item] || 0) + qty; amtSum[item] = (amtSum[item] || 0) + amt; }
+    });
+    const rates = {};
+    Object.keys(qtySum).forEach(item => { rates[item] = qtySum[item] ? amtSum[item] / qtySum[item] : 0; });
+    return rates;
+  }
+
+  function stockValueAsOf(cutoffDate){
+    const rates = avgPurchaseRates(cutoffDate);
+    const qtyMap = {};
+    masters.slice(1).forEach(r => {
+      const item = String(r[5] || '').trim();
+      if (item) qtyMap[item] = (qtyMap[item] || 0) + (parseFloat(r[6]) || 0);
+    });
+    const within = (dateStr) => {
+      if (!cutoffDate) return true;
+      const d = parseAnyDate(dateStr);
+      return !isNaN(d.getTime()) && d <= cutoffDate;
+    };
+    purchase.forEach(r => {
+      if (!within(r[0])) return;
+      const item = String(r[3] || '').trim(); if (!item || !qtyMap.hasOwnProperty(item)) return;
+      qtyMap[item] = (qtyMap[item] || 0) + (parseFloat(r[4]) || 0);
+    });
+    sales.forEach(r => {
+      if (!within(r[0])) return;
+      const item = String(r[3] || '').trim(); if (!item || !qtyMap.hasOwnProperty(item)) return;
+      qtyMap[item] = (qtyMap[item] || 0) - (parseFloat(r[4]) || 0);
+    });
+    let total = 0;
+    Object.keys(qtyMap).forEach(item => { total += (qtyMap[item] || 0) * (rates[item] || 0); });
+    return total;
+  }
+
+  function balancesAsOf(cutoffDate){
+    const map = {};
+    const touch = (name, debit, credit, date) => {
+      if (!name) return;
+      if (date) { const d = parseAnyDate(date); if (isNaN(d.getTime()) || d > cutoffDate) return; }
+      if (!map[name]) map[name] = { debit: 0, credit: 0 };
+      map[name].debit += debit; map[name].credit += credit;
+    };
+    masters.slice(1).forEach(r => {
+      const name = r[1], type = r[2], opening = parseFloat(r[4]) || 0;
+      if (!name || !opening) return;
+      if (isCreditorType(type)) touch(name, 0, opening, null); else touch(name, opening, 0, null);
+    });
+    sales.forEach(r => touch(r[2], parseFloat(r[7]) || 0, 0, r[0]));
+    purchase.forEach(r => touch(r[2], 0, parseFloat(r[7]) || 0, r[0]));
+    receipts.forEach(r => touch(r[2], parseFloat(r[3]) || 0, parseFloat(r[4]) || 0, r[0]));
+    payments.forEach(r => touch(r[2], parseFloat(r[3]) || 0, parseFloat(r[4]) || 0, r[0]));
+    let lena = 0, dena = 0;
+    Object.keys(map).forEach(name => {
+      const b = map[name].debit - map[name].credit;
+      if (b > 0) lena += b; else dena += -b;
+    });
+    return { lena, dena };
+  }
+
+  const inMonth = (dateStr) => {
+    const d = parseAnyDate(dateStr);
+    return !isNaN(d.getTime()) && d.getFullYear() === y && d.getMonth() === m;
+  };
+
+  const pur = purchase.filter(r => inMonth(r[0])).reduce((s, r) => s + (parseFloat(r[7]) || 0), 0);
+  const sal = sales.filter(r => inMonth(r[0])).reduce((s, r) => s + (parseFloat(r[7]) || 0), 0);
+  const recv = receipts.filter(r => inMonth(r[0])).reduce((s, r) => s + (parseFloat(r[4]) || parseFloat(r[3]) || 0), 0);
+  const pay = payments.filter(r => inMonth(r[0])).reduce((s, r) => s + (parseFloat(r[3]) || parseFloat(r[4]) || 0), 0);
+
+  const prevMonthEnd = new Date(y, m, 0, 23, 59, 59);
+  const openingBal = balancesAsOf(prevMonthEnd);
+
+  const monthEnd = isCurrentMonth ? now : new Date(y, m + 1, 0, 23, 59, 59);
+  const closingBal = balancesAsOf(monthEnd);
+  const closingStockVal = stockValueAsOf(monthEnd);
+
+  // Render to DOM
+  const container = document.getElementById('monthReportFlow');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="month-flow-card">
+      <!-- 1. Shuruat me Baki (Opening) -->
+      <div class="month-sub-section">
+        <div class="month-sub-title">🏁 1. महीने की शुरुआत में बाकी (Opening)</div>
+        <div class="m-pill-grid">
+          <div class="m-pill lena">
+            <div class="k">शुरू में लेना था</div>
+            <div class="v">${fmt(openingBal.lena)}</div>
+          </div>
+          <div class="m-pill dena">
+            <div class="k">शुरू में देना था</div>
+            <div class="v">${fmt(openingBal.dena)}</div>
+          </div>
         </div>
-        <h1 class="c-company-title">KUNAL TRANSPORT COMPANY</h1>
-        <div class="c-sub-text">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</div>
-        <div class="c-address-text-top">
-            <i class="bi bi-geo-alt-fill"></i> Lasur Station, Vaijapur Highway, Tq. Gangapur, Dist. Chh. Sambhajinagar
+      </div>
+
+      <!-- 2. Is Mahine ka Karobar (Purchase, Pay, Sale, Recv) -->
+      <div class="month-sub-section">
+        <div class="month-sub-title">🔄 2. इस महीने का लेन-देन (Karobar)</div>
+        <div class="m-pill-grid">
+          <div class="m-pill buy">
+            <div class="k">कुल माल खरीदा</div>
+            <div class="v">${fmt(pur)}</div>
+          </div>
+          <div class="m-pill pay">
+            <div class="k">पेमेंट दिया (भुगतान)</div>
+            <div class="v">${fmt(pay)}</div>
+          </div>
+          <div class="m-pill sell">
+            <div class="k">कुल माल बेचा</div>
+            <div class="v">${fmt(sal)}</div>
+          </div>
+          <div class="m-pill recv">
+            <div class="k">पेमेंट मिला (वसूली)</div>
+            <div class="v">${fmt(recv)}</div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- RIGHT SIDE: FIROJ SHAIKH + KTC LOGO -->
-    <div class="c-contact-right">
-        <div class="contact-top-row">
-            <span class="c-owner">Firoj Shaikh</span><br>
-            <i class="bi bi-telephone-fill"></i> 9527691888 | 9657691888
+      <!-- 3. Mahine ke Aakhir me Sthiti (Closing) -->
+      <div class="month-sub-section">
+        <div class="month-sub-title">📊 3. महीने के अंत में स्थिति (Closing)</div>
+        <div class="m-pill-grid cols-3">
+          <div class="m-pill lena">
+            <div class="k">कुल लेना बाकी</div>
+            <div class="v">${fmt(closingBal.lena)}</div>
+          </div>
+          <div class="m-pill dena">
+            <div class="k">कुल देना बाकी</div>
+            <div class="v">${fmt(closingBal.dena)}</div>
+          </div>
+          <div class="m-pill stock stock-pill">
+            <div class="k">गोदाम में माल (Stock)</div>
+            <div class="v">${fmt(closingStockVal)}</div>
+          </div>
         </div>
-        <div class="logo-row-right">
-            <img src="Images/ATC_Logo.png" class="header-side-img">
+      </div>
+    </div>`;
+}
+
+
+let showZeroStock = false;
+
+
+function toggleZeroStock(){
+  showZeroStock = !showZeroStock;
+  const listEl = document.getElementById('zeroStockList');
+  const iconEl = document.getElementById('zeroStockIcon');
+  if(listEl && iconEl){
+    listEl.style.display = showZeroStock ? 'block' : 'none';
+    iconEl.textContent = showZeroStock ? '▲ छिपाएं' : '▼ देखें';
+  }
+}
+
+// ===== STOCK =====
+function populateStock(resetPage){
+  if(resetPage) pageState.stock = 50;
+  const q = (document.getElementById('stockSearch')?.value||'').toLowerCase();
+  
+  let allItems = Object.keys(stockMap).map(name=>({
+    name, 
+    unit: stockMap[name].unit,
+    balance: (stockMap[name].opening||0) + (stockMap[name].purchased||0) - (stockMap[name].sold||0),
+    opening: stockMap[name].opening||0, 
+    purchased: stockMap[name].purchased||0, 
+    sold: stockMap[name].sold||0
+  }));
+
+  if(q){
+    allItems = allItems.filter(i=>i.name.toLowerCase().includes(q));
+  }
+
+  // 1. In-Stock (> 0) aur Minus (< 0) wale items
+  const activeItems = allItems.filter(i => i.balance !== 0);
+  activeItems.sort((a,b) => b.balance - a.balance); // Jyada stock upar, minus wale sabse neeche
+
+  // 2. Zero (0) Stock wale items
+  const zeroItems = allItems.filter(i => i.balance === 0);
+  zeroItems.sort((a,b) => a.name.localeCompare(b.name));
+
+  // Count badge me Active stock ki sankhya dikhao
+  document.getElementById('stockCount').textContent = activeItems.length + ' Active';
+
+  // --- Active items render karo ---
+  if(activeItems.length === 0){
+    document.getElementById('stockList').innerHTML = '<div class="empty" style="padding:14px;"><p>कोई एक्टिव स्टॉक आइटम नहीं है</p></div>';
+    document.getElementById('stockMoreWrap').style.display = 'none';
+  } else {
+    setRows('#stockList', activeItems.slice(0, pageState.stock).map(i=>`
+      <div class="list-row">
+        <div class="avatar">${esc(initials(i.name))}</div>
+        <div class="main">
+          <div class="title">${esc(i.name)}</div>
+          <div class="sub">${i.opening ? `Opening ${i.opening} · `:''}Purchase ${i.purchased} · Sale ${i.sold}</div>
         </div>
-    </div>
-</div>
-        <!-- Is line ko Select Trip waale div ke niche add karein -->
-<input type="hidden" id="slip_rowNum">
-<input type="hidden" id="slip_archiveRow">
-
-        <!-- Info Bar: Vehicle & Date -->
-        <div class="c-info-bar" data-wizard-step="1">
-            <div class="c-info-item">
-                <label>VEHICLE NO</label>
-                <input type="text" id="slip_vNo" class="c-input-bold" placeholder="MH 20 EL 0000" onblur="autoFillOwnerDriver(this.value)">
-            </div>
-            <div class="c-info-item text-end">
-                <label>DATE</label>
-                <input type="text" id="slip_date" class="c-input-bold" placeholder="DD-MM-YYYY">
-            </div>
+        <div class="amt" style="color:${i.balance < 0 ? 'var(--debit)' : 'var(--ink)'}; font-weight:700;">
+          ${i.balance} ${esc(i.unit)}
         </div>
+      </div>`));
+    renderMoreBtn('stock', 'stockMoreWrap', activeItems.length);
+  }
 
-        <!-- Body Section -->
-        <div class="c-body">
-            <div class="c-party-section" data-wizard-step="2">
-                <label>CONSIGNOR / PARTY NAME:</label>
-                <input type="text" id="slip_party" class="c-input-line" placeholder="Enter Party Name">
-            </div>
+  // --- 0 Stock Items Button aur Container ---
+  const zeroWrap = document.getElementById('zeroStockWrap');
+  const zeroBtnLabel = document.getElementById('zeroStockBtnLabel');
+  const zeroListEl = document.getElementById('zeroStockList');
+  const zeroIcon = document.getElementById('zeroStockIcon');
 
-            <div class="c-grid">
-                <!-- Route & Logistics -->
-                <div class="c-box" data-wizard-step="3">
-                    <h6 class="c-box-title">ROUTE DETAILS</h6>
-                    <div class="c-fline"><label>FROM:</label><input type="text" id="slip_from"></div>
-                    <div class="c-fline"><label>TO:</label><input type="text" id="slip_to"></div>
-                    <div class="c-fline mt-3"><label>LORRY OWNER:</label><input type="text" id="slip_lOwner" class="text-success fw-bold"></div>
-                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_oVillage"></div>
-                    <div class="c-fline"><label>CONTACT:</label><input type="text" id="slip_oMob"></div>
-                </div>
-
-                <!-- Driver Details -->
-                <div class="c-box" data-wizard-step="4">
-                    <h6 class="c-box-title">DRIVER DETAILS</h6>
-                    <div class="c-fline"><label>DRIVER NAME:</label><input type="text" id="slip_dName" class="text-primary fw-bold"></div>
-                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_dVillage"></div>
-                    <div class="c-fline"><label>CONTACT NO:</label><input type="text" id="slip_dMob"></div>
-                    <div class="c-fline"><label>LICENCE NO:</label><input type="text" id="slip_licence"></div>
-                </div>
-            </div>
-
-            <!-- Finance Table -->
-            <div class="c-finance-section" data-wizard-step="5">
-                <table class="c-table">
-                    <thead>
-                        <tr>
-                            <th>PARTICULARS / DESCRIPTION</th>
-                            <th class="text-end">AMOUNT (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-    <td>
-        FREIGHT CHARGES 
-        <small>(Rate: <input type="number" id="slip_rate" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> 
-        | Weight: <input type="number" step="0.001" id="slip_weight" oninput="calculateSlip()" style="width:80px; border-bottom:1px solid #ddd;"> TON)</small>
-    </td>
-    <td class="text-end">
-        <!-- 'readonly' hata diya hai taaki direct amount bhi daal sakein -->
-        <input type="number" id="slip_freight" oninput="calculateTotalFromManual()" class="fw-bold">
-    </td>
-</tr>
-                        <tr>
-    <td>
-        OVERLOADING CHARGES
-        <small>(Extra Wt: <input type="number" step="0.001" id="slip_overWeight" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> TON
-        | O.Rate: <input type="number" id="slip_overRate" oninput="calculateSlip()" style="width:65px; border-bottom:1px solid #ddd;" placeholder="if diff"> )</small>
-    </td>
-    <td class="text-end">
-        <!-- Overload ka rate normal freight rate se alag ho sakta hai; O.Rate khaali ho to normal Rate hi use hoga -->
-        <input type="number" id="slip_overCharge" oninput="calculateTotalFromManual()" class="text-warning fw-bold">
-    </td>
-</tr>
-                        <tr>
-                            <td>LESS: ADVANCE RECEIVED</td>
-                            <td class="text-end"><input type="number" id="slip_advance" oninput="calculateSlip()" class="text-danger"></td>
-                        </tr>
-                        <tr>
-                            <td>ADD: DRIVER PRICE / LOADING EXP.</td>
-                            <td class="text-end"><input type="number" id="slip_dPrice" oninput="calculateSlip()" class="text-primary"></td>
-                        </tr>
-                        <tr>
-                            <td>TIMING / DELIVERY TAT</td>
-                            <td class="text-end"><input type="text" id="slip_timing" placeholder="0 Hr"></td>
-                        </tr>
-                        <tr class="c-total-row">
-                            <td class="fw-bold">NET PAYABLE BALANCE</td>
-                            <td class="text-end fw-bold" style="font-size: 20px;">₹ <input type="text" id="slip_toPay" readonly style="width:120px; font-size:20px;"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Terms & Signatures -->
-        <!-- Footer Section (Terms, Signatures & Address combined) -->
-<div class="c-footer-new" data-wizard-step="5">
-    <div class="footer-top-row">
-        <!-- Notes & Conditions -->
-        <div class="c-notes">
-            <strong>Notes & Conditions:</strong>
-            <ul>
-                <li>Subject to Chh. Sambhajinagar Jurisdiction.</li>
-                <li>Not responsible for leakage/damage after delivery.</li>
-                <li>Payment should be made as per agreed terms.</li>
-            </ul>
-        </div>
-
-        <!-- Signatures Row -->
-        <div class="sigs-container">
-            <div class="sig-block">
-                <div class="sig-line"></div>
-                <span>DRIVER'S SIGNATURE</span>
-            </div>
-            <div class="sig-block official">
-                <img src="Images/Sign.png" class="official-seal">
-                <div class="sig-line"></div>
-                <span>FOR, KUNAL TRANSPORT COMPANY</span>
-            </div>
-        </div>
-    </div>
-</div>
-
- <!-- WIZARD NAV BAR: Step-by-step mobile fill -->
-    <div id="wizardNavBar" class="wizard-nav-bar">
-        <div id="wizardStepLabel" class="wizard-step-label">Step 1 of 5: Vehicle & Date</div>
-        <div class="wizard-nav-buttons">
-            <button type="button" id="wizardBackBtn" class="btn btn-outline-secondary btn-sm" onclick="wizardBack()">
-                <i class="bi bi-chevron-left"></i> Back
-            </button>
-            <button type="button" id="wizardNextBtn" class="btn btn-primary btn-sm flex-grow-1" onclick="wizardNext()">
-                Next <i class="bi bi-chevron-right"></i>
-            </button>
-        </div>
-    </div>
-
- <!-- 3. BUTTON SECTION (Ye zaroori hai) -->
-    <div class="slip-action-bar">
-        <button id="slipSubmitBtn" class="btn btn-success btn-lg w-100 shadow-lg fw-bold py-3" onclick="generateBeeltyPDF()">
-            <i class="bi bi-cloud-arrow-up-fill me-2"></i> FINALIZE, SAVE & WHATSAPP
-        </button>
-    </div>
-
-
-    <!-- "WHAT'S NEW" UPDATE NOTIFICATION MODAL -->
-    <!-- Jab bhi app update hokar deploy hoti hai (naya APP_VERSION script.js mein), -->
-    <!-- ye popup sabhi users ko ek baar dikhega aur bata dega ki kya naya add/fix hua hai -->
-    <div class="modal fade" id="whatsNewModal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 border-0 shadow-lg">
-                <div class="modal-header border-0 text-white" style="background: linear-gradient(45deg, #003366, #0056b3);">
-                    <h5 class="modal-title fw-bold"><i class="bi bi-stars me-2"></i>App Update Hui Hai!</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div id="whatsNewBody"><!-- Changelog yahan JS se bharega --></div>
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-primary fw-bold w-100" data-bs-dismiss="modal">
-                        <i class="bi bi-check-circle me-1"></i> Theek Hai, Samajh Gaya
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
-
+  if(zeroItems.length > 0){
+    zeroWrap.style.display = 'block';
+    zeroBtnLabel.textContent = `📦 0 स्टॉक वाले आइटम (${zeroItems.length})`;
     
+    // Agar search bar me kuch likha hai aur 0 stock me match mila, to automatically open kardo
+    const isSearching = q.length > 0;
+    const shouldOpen = isSearching || showZeroStock;
+    zeroListEl.style.display = shouldOpen ? 'block' : 'none';
+    zeroIcon.textContent = shouldOpen ? '▲ छिपाएं' : '▼ देखें';
+
+    setRows('#zeroStockList', zeroItems.map(i=>`
+      <div class="list-row" style="opacity:0.75;">
+        <div class="avatar" style="background:#E2E8F0; color:#475569;">${esc(initials(i.name))}</div>
+        <div class="main">
+          <div class="title" style="color:#475569;">${esc(i.name)}</div>
+          <div class="sub">${i.opening ? `Opening ${i.opening} · `:''}Purchase ${i.purchased} · Sale ${i.sold}</div>
+        </div>
+        <div class="amt" style="color:#94A3B8; font-weight:600;">0 ${esc(i.unit)}</div>
+      </div>`));
+  } else {
+    zeroWrap.style.display = 'none';
+  }
+}
+
+// ===== PARTIES =====
+function populateParties(resetPage){
+  if(resetPage) pageState.parties = PAGE_STEP;
+  const rows = (allData.masters||[]).slice(1).filter(r=>r[1]);
+  const q = (document.getElementById('partySearch')?.value||'').toLowerCase();
+  let filtered = q ? rows.filter(r=>String(r[1]||'').toLowerCase().includes(q)) : rows.slice();
+
+  filtered = filtered.filter(r=>{
+    if(partyFilterState==='all') return true;
+    const bal = balancesMap[r[1]];
+    const balAmt = bal ? bal.debit-bal.credit : 0;
+    if(partyFilterState==='debtor') return balAmt>0;
+    if(partyFilterState==='creditor') return balAmt<0;
+    if(partyFilterState==='clear') return balAmt===0;
+    return true;
+  });
+
+  document.getElementById('partiesCount').textContent = filtered.length;
+
+  if(filtered.length===0){
+    document.getElementById('partiesList').innerHTML = `<div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <p>Koi party nahi mili</p></div>`;
+  } else {
+    setRows('#partiesList', filtered.slice(0,pageState.parties).map(r=>{
+      const bal = balancesMap[r[1]];
+      const balAmt = bal ? bal.debit-bal.credit : 0;
+      const opening = parseFloat(r[4])||0;
+      return `<div class="list-row" onclick="openPartyLedger('${esc(r[1]).replace(/'/g,"\\'")}')">
+        <div class="avatar">${esc(initials(r[1]))}</div>
+        <div class="main">
+          <div class="title">${esc(r[1])}</div>
+          <div class="sub">${esc(r[2]||'-')}${opening?' · Opening '+fmt(opening):''}</div>
+        </div>
+        <div class="amt" style="color:${balAmt>0?'var(--credit)':balAmt<0?'var(--debit)':'var(--ink-soft)'}">${fmt(Math.abs(balAmt))}</div>
+      </div>`;
+    }));
+  }
+  renderMoreBtn('parties','partiesMoreWrap',filtered.length);
+
+  const options = rows.map(r=>`<option value="${esc(r[1])}">${esc(r[1])}</option>`);
+  const sel = document.getElementById('partySelect');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Choose Party...</option>' + options.join('');
+  if(cur) sel.value = cur;
+}
+
+// ===== SALES ===== (nayi entry sabse upar dikhti hai)
+function populateSales(resetPage){
+  if(resetPage) pageState.sales = PAGE_STEP;
+  const allRows = (allData.sales||[]).slice(1);
+  
+  // Group rows by bill number - ek bill me multiple items ho sakte hain
+  const billGroups = {};
+  let receiver = '', receiverDetail = '';
+  
+  for(let i=0; i<allRows.length; i++){
+    const r = allRows[i];
+    const qty = parseFloat(r[4])||0;
+    const bill = String(r[1]||'').trim();
+    
+    if(qty > 0){ // Item row
+      if(!billGroups[bill]){
+        billGroups[bill] = {
+          date: r[0],
+          bill: r[1],
+          party: r[2],
+          items: [],
+          totalAmount: 0,
+          receiver: '',
+          receiverDetail: ''
+        };
+      }
+      billGroups[bill].items.push({
+        item: r[3],
+        qty: qty,
+        unit: r[5],
+        rate: parseFloat(r[6])||0,
+        amount: parseFloat(r[7])||0
+      });
+      billGroups[bill].totalAmount += parseFloat(r[7])||0;
+    } else if(qty === 0 && r[3]){ // Receiver row
+      const itemVal = String(r[3]).split(':');
+      if(billGroups[bill]){
+        billGroups[bill].receiver = (itemVal[0]||'').trim();
+        billGroups[bill].receiverDetail = (itemVal[1]||'').trim();
+      }
+    }
+  }
+  
+  let displayRows = Object.values(billGroups);
+  
+  const q = (document.getElementById('salesSearch')?.value||'').toLowerCase();
+  let filtered = q ? displayRows.filter(d=>(String(d.party||'')+displayRows.flatMap(r=>r.items).map(it=>it.item).join('||')||'').toLowerCase().includes(q)) : displayRows.slice();
+  filtered = filtered.filter(d=>inRange(d.date, 'sales'));
+  filtered.sort((a,b)=>parseIndianDate(b.date)-parseIndianDate(a.date));
+  document.getElementById('salesCount').textContent = filtered.length;
+
+  if(filtered.length===0){
+    document.getElementById('salesList').innerHTML = '<div class="empty"><p>Koi sale entry nahi mili</p></div>';
+  } else {
+    setRows('#salesList', filtered.slice(0,pageState.sales).map(d=>{
+      return `<div class="entry-card">
+        <div class="entry-head">
+          <span class="tag sale">Sale</span>
+          <span class="entry-date">${formatDateDisplay(d.date)}</span>
+          <span class="entry-bill">${esc(d.bill)}</span>
+        </div>
+        <div class="entry-body">
+          <div class="entry-main">
+            <div class="entry-party">${esc(d.party)}</div>
+            <div class="entry-item">${d.items.map(it=>`${esc(it.item)}`).join(', ')}</div>
+          </div>
+          <div class="entry-details">
+            ${d.items.map(it=>`
+              <div class="detail-row">
+                <span class="label">${esc(it.item)}:</span>
+                <span class="value">${it.qty} ${esc(it.unit)} × ₹${fmt(it.rate)} = ₹${fmt(it.amount)}</span>
+              </div>
+            `).join('')}
+            <div class="detail-row amount" style="border-top:1px solid rgba(20,92,67,0.1);margin-top:8px;padding-top:8px;">
+              <span class="label">Total:</span>
+              <span class="value">₹${fmt(d.totalAmount)}</span>
+            </div>
+            ${d.receiver?`<div class="receiver-box"><span class="label">📦 Delivered to:</span> ${esc(d.receiver)} ${d.receiverDetail?`(${esc(d.receiverDetail)})`:''}</div>`:''}
+          </div>
+        </div>
+      </div>`;
+    }));
+  }
+  renderMoreBtn('sales','salesMoreWrap',filtered.length);
+}
+
+// ===== PURCHASE ===== (nayi entry sabse upar dikhti hai)
+function populatePurchase(resetPage){
+  if(resetPage) pageState.purchase = PAGE_STEP;
+  const allRows = (allData.purchase||[]).slice(1);
+  
+  // Group rows by bill number - ek bill me multiple items ho sakte hain
+  const billGroups = {};
+  
+  for(let i=0; i<allRows.length; i++){
+    const r = allRows[i];
+    const qty = parseFloat(r[4])||0;
+    const bill = String(r[1]||'').trim();
+    
+    if(qty > 0){ // Item row
+      if(!billGroups[bill]){
+        billGroups[bill] = {
+          date: r[0],
+          bill: r[1],
+          party: r[2],
+          items: [],
+          totalAmount: 0,
+          receiver: '',
+          receiverDetail: ''
+        };
+      }
+      billGroups[bill].items.push({
+        item: r[3],
+        qty: qty,
+        unit: r[5],
+        rate: parseFloat(r[6])||0,
+        amount: parseFloat(r[7])||0
+      });
+      billGroups[bill].totalAmount += parseFloat(r[7])||0;
+    } else if(qty === 0 && r[3]){ // Receiver row
+      const itemVal = String(r[3]).split(':');
+      if(billGroups[bill]){
+        billGroups[bill].receiver = (itemVal[0]||'').trim();
+        billGroups[bill].receiverDetail = (itemVal[1]||'').trim();
+      }
+    }
+  }
+  
+  let displayRows = Object.values(billGroups);
+  
+  const q = (document.getElementById('purchaseSearch')?.value||'').toLowerCase();
+  let filtered = q ? displayRows.filter(d=>(String(d.party||'')+displayRows.flatMap(r=>r.items).map(it=>it.item).join('||')||'').toLowerCase().includes(q)) : displayRows.slice();
+  filtered = filtered.filter(d=>inRange(d.date, 'purchase'));
+  filtered.sort((a,b)=>parseIndianDate(b.date)-parseIndianDate(a.date));
+  document.getElementById('purchaseCount').textContent = filtered.length;
+
+  if(filtered.length===0){
+    document.getElementById('purchaseList').innerHTML = '<div class="empty"><p>Koi purchase entry nahi mili</p></div>';
+  } else {
+    setRows('#purchaseList', filtered.slice(0,pageState.purchase).map(d=>{
+      return `<div class="entry-card is-purchase">
+        <div class="entry-head">
+          <span class="tag purchase">Purchase</span>
+          <span class="entry-date">${formatDateDisplay(d.date)}</span>
+          <span class="entry-bill">${esc(d.bill)}</span>
+        </div>
+        <div class="entry-body">
+          <div class="entry-main">
+            <div class="entry-party">${esc(d.party)}</div>
+            <div class="entry-item">${d.items.map(it=>`${esc(it.item)}`).join(', ')}</div>
+          </div>
+          <div class="entry-details">
+            ${d.items.map(it=>`
+              <div class="detail-row">
+                <span class="label">${esc(it.item)}:</span>
+                <span class="value">${it.qty} ${esc(it.unit)} × ₹${fmt(it.rate)} = ₹${fmt(it.amount)}</span>
+              </div>
+            `).join('')}
+            <div class="detail-row amount" style="border-top:1px solid rgba(20,92,67,0.1);margin-top:8px;padding-top:8px;">
+              <span class="label">Total:</span>
+              <span class="value">₹${fmt(d.totalAmount)}</span>
+            </div>
+            ${d.receiver?`<div class="receiver-box"><span class="label">📦 From:</span> ${esc(d.receiver)} ${d.receiverDetail?`(${esc(d.receiverDetail)})`:''}</div>`:''}
+          </div>
+        </div>
+      </div>`;
+    }));
+  }
+  renderMoreBtn('purchase','purchaseMoreWrap',filtered.length);
+}
+
+// ===== PAYMENTS ===== (nayi entry sabse upar dikhti hai)
+function populatePayments(resetPage){
+  if(resetPage) pageState.payments = PAGE_STEP;
+  const receipts = (allData.receipts||[]).slice(1);
+  const payments = (allData.payments||[]).slice(1);
+  const q = (document.getElementById('paymentsSearch')?.value||'').toLowerCase();
+  let all = [...receipts,...payments];
+  if(q) all = all.filter(r=>String(r[2]||'').toLowerCase().includes(q));
+  all = all.filter(r=>inRange(r[0], 'payments'));
+  all.sort((a,b)=>parseIndianDate(b[0])-parseIndianDate(a[0]));
+  document.getElementById('paymentsCount').textContent = all.length;
+
+  setRows('#paymentsTable tbody', all.slice(0,pageState.payments).map(r=>`
+    <tr>
+      <td>${formatDateDisplay(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td>
+      <td class="amt-cell">${fmt(r[3]||0)}</td><td class="amt-cell">${fmt(r[4]||0)}</td>
+      <td>${esc(r[5]||'')}</td>
+    </tr>`));
+  renderMoreBtn('payments','paymentsMoreWrap',all.length);
+}
+
+// ===== LEDGER =====
+let currentLedgerParty = null, currentLedgerBalance = 0, currentLedgerPhone = '';
+
+// Har row ke liye asli detail banata hai — party naam repeat karne ke bajaye
+// item/qty (sale, purchase) ya narration (receipt, payment) dikhata hai.
+function particularsFor(r, kind){
+  if(kind==='sale' || kind==='purchase'){
+    const item = r[3]||'', qty=r[4]||'', unit=r[5]||'';
+    let text = item + (qty ? ` × ${qty}${unit?' '+unit:''}` : '');
+    if(r[8]) text += ` (→ ${r[8]})`; // receiver (DHOODWALE)
+    return text;
+  }
+  return r[5] || (kind==='receipt' ? 'Payment Received' : 'Payment Made');
+}
+const LEDGER_TYPE = {
+  sale:     { tag: 'sale',    label: '🛒 Sale (माल)' },
+  purchase: { tag: 'purchase',label: '📦 Purchase (खरीद)' },
+  receipt:  { tag: 'recv',    label: '💵 Receipt (पेमेंट मिला)' },
+  payment:  { tag: 'pay',     label: '💸 Payment (भुगतान किया)' }
+};
+
+function showLedger(){
+  const partyName = document.getElementById('partySelect').value;
+  const shareBtn = document.getElementById('shareLedgerBtn');
+  if(!partyName){
+    document.getElementById('ledgerList').innerHTML = '';
+    document.getElementById('ledgerSummaryWrap').innerHTML = '';
+    shareBtn.style.display = 'none';
+    return;
+  }
+  currentLedgerParty = partyName;
+
+  // 1. Party ke Sales entries ko Bill ke hisaab se group karo
+  const partySales = (allData.sales || []).slice(1).filter(r => r[2] === partyName && (parseFloat(r[4]) || 0) > 0);
+  const saleGroups = {};
+  partySales.forEach((r, idx) => {
+    const billKey = 'sale_' + (r[1] ? String(r[1]).trim() : ('nobill_' + r[0] + '_' + idx));
+    if (!saleGroups[billKey]) {
+      saleGroups[billKey] = {
+        date: r[0],
+        bill: r[1] || '-',
+        kind: 'sale',
+        items: [],
+        debit: 0,
+        credit: 0,
+        receiver: r[8] || ''
+      };
+    }
+    const qty = parseFloat(r[4]) || 0;
+    const rate = parseFloat(r[6]) || 0;
+    const amt = parseFloat(r[7]) || (qty * rate);
+    saleGroups[billKey].items.push({
+      item: r[3] || 'Item',
+      qty: qty,
+      unit: r[5] || '',
+      rate: rate,
+      amount: amt
+    });
+    saleGroups[billKey].debit += amt;
+    if (r[8] && !saleGroups[billKey].receiver) {
+      saleGroups[billKey].receiver = r[8];
+    }
+  });
+
+  // 2. Party ke Purchase entries ko Bill ke hisaab se group karo
+  const partyPurchases = (allData.purchase || []).slice(1).filter(r => r[2] === partyName && (parseFloat(r[4]) || 0) > 0);
+  const purchaseGroups = {};
+  partyPurchases.forEach((r, idx) => {
+    const billKey = 'purc_' + (r[1] ? String(r[1]).trim() : ('nobill_' + r[0] + '_' + idx));
+    if (!purchaseGroups[billKey]) {
+      purchaseGroups[billKey] = {
+        date: r[0],
+        bill: r[1] || '-',
+        kind: 'purchase',
+        items: [],
+        debit: 0,
+        credit: 0,
+        receiver: r[8] || ''
+      };
+    }
+    const qty = parseFloat(r[4]) || 0;
+    const rate = parseFloat(r[6]) || 0;
+    const amt = parseFloat(r[7]) || (qty * rate);
+    purchaseGroups[billKey].items.push({
+      item: r[3] || 'Item',
+      qty: qty,
+      unit: r[5] || '',
+      rate: rate,
+      amount: amt
+    });
+    purchaseGroups[billKey].credit += amt;
+    if (r[8] && !purchaseGroups[billKey].receiver) {
+      purchaseGroups[billKey].receiver = r[8];
+    }
+  });
+
+  // 3. Receipts aur Payments
+  const partyReceipts = (allData.receipts || []).slice(1).filter(r => r[2] === partyName).map(r => ({
+    date: r[0],
+    bill: r[1] || '-',
+    kind: 'receipt',
+    items: [],
+    particulars: r[5] || 'Payment Received (रुपये जमा)',
+    debit: parseFloat(r[3]) || 0,
+    credit: parseFloat(r[4]) || 0,
+    receiver: ''
+  }));
+
+  const partyPayments = (allData.payments || []).slice(1).filter(r => r[2] === partyName).map(r => ({
+    date: r[0],
+    bill: r[1] || '-',
+    kind: 'payment',
+    items: [],
+    particulars: r[5] || 'Payment Made (भुगतान किया)',
+    debit: parseFloat(r[3]) || 0,
+    credit: parseFloat(r[4]) || 0,
+    receiver: ''
+  }));
+
+  // 4. Sabhi transactions ko combine karke Date ke hisaab se sort karo
+  const trans = [
+    ...Object.values(saleGroups),
+    ...Object.values(purchaseGroups),
+    ...partyReceipts,
+    ...partyPayments
+  ].sort((a, b) => parseIndianDate(a.date) - parseIndianDate(b.date));
+
+  // 5. Opening balance
+  const masterRow = (allData.masters || []).slice(1).find(r => r[1] === partyName);
+  const openingAmt = masterRow ? parseFloat(masterRow[4]) || 0 : 0;
+  const openingDebit = openingAmt && !isCreditorType(masterRow[2]) ? openingAmt : 0;
+  const openingCredit = openingAmt && isCreditorType(masterRow[2]) ? openingAmt : 0;
+  currentLedgerPhone = masterRow ? String(masterRow[3] || '').trim() : '';
+
+  // 6. Running Balance calculate karo aur Cards banao
+  let balance = openingDebit - openingCredit;
+  let totalDebit = openingDebit;
+  let totalCredit = openingCredit;
+  const cardsHtml = [];
+
+  trans.forEach(t => {
+    balance += (t.debit - t.credit);
+    if (!inRange(t.date, 'ledger')) return;
+    totalDebit += t.debit;
+    totalCredit += t.credit;
+
+    const meta = LEDGER_TYPE[t.kind] || { tag: 'sale', label: t.kind };
+    const balColor = balance > 0 ? 'var(--credit)' : balance < 0 ? 'var(--debit)' : 'var(--ink-soft)';
+    
+    let detailsHtml = '';
+    if (t.items && t.items.length > 0) {
+      detailsHtml = t.items.map(it => `
+        <div class="detail-row">
+          <span class="label">${esc(it.item)}:</span>
+          <span class="value">${it.qty} ${esc(it.unit)} × ₹${fmt(it.rate)} = ₹${fmt(it.amount)}</span>
+        </div>
+      `).join('');
+    } else if (t.particulars) {
+      detailsHtml = `
+        <div class="detail-row">
+          <span class="label">विवरण:</span>
+          <span class="value" style="font-weight:600;">${esc(t.particulars)}</span>
+        </div>
+      `;
+    }
+
+    cardsHtml.push(`
+      <div class="entry-card type-${t.kind}">
+        <div class="entry-head">
+          <span class="tag ${meta.tag}">${meta.label}</span>
+          <span class="entry-date">${formatDateDisplay(t.date)}</span>
+          <span class="entry-bill">${esc(t.bill)}</span>
+        </div>
+        <div class="entry-body">
+          <div class="entry-details">
+            ${detailsHtml}
+            ${t.debit ? `
+            <div class="detail-row amount" style="border-top:1px solid rgba(20,92,67,0.1);margin-top:6px;padding-top:6px;">
+              <span class="label">कुल Debit (+):</span>
+              <span class="value" style="color:var(--debit);font-weight:700;">₹${fmt(t.debit)}</span>
+            </div>` : ''}
+            ${t.credit ? `
+            <div class="detail-row amount" style="border-top:1px solid rgba(20,92,67,0.1);margin-top:6px;padding-top:6px;">
+              <span class="label">जमा Credit (-):</span>
+              <span class="value" style="color:var(--credit);font-weight:700;">₹${fmt(t.credit)}</span>
+            </div>` : ''}
+            <div class="detail-row amount">
+              <span class="label">बचा बैलेंस:</span>
+              <span class="value" style="color:${balColor};font-weight:800;">${fmt(Math.abs(balance))}</span>
+            </div>
+            ${t.receiver ? `<div class="receiver-box"><span class="label">📦 ${t.kind === 'purchase' ? 'From' : 'Delivered to'}:</span> ${esc(t.receiver)}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    `);
+  });
+
+  const rowsHtml = cardsHtml.reverse();
+
+  // Opening Balance Card (Gold Border)
+  if (openingAmt) {
+    const balColor0 = (openingDebit - openingCredit) > 0 ? 'var(--credit)' : (openingDebit - openingCredit) < 0 ? 'var(--debit)' : 'var(--ink-soft)';
+    rowsHtml.push(`
+      <div class="entry-card" style="border-left:4px solid var(--gold); background:#FFFDF7;">
+        <div class="entry-head">
+          <span class="tag" style="background:var(--gold-soft);color:var(--cover-dark);border:1px solid var(--gold);">🏛️ Opening Balance</span>
+          <span style="flex:1;"></span>
+        </div>
+        <div class="entry-body">
+          <div class="entry-details">
+            <div class="detail-row">
+              <span class="label">विवरण:</span>
+              <span class="value">शुरुआती बैलेंस (Opening)</span>
+            </div>
+            ${openingDebit ? `<div class="detail-row"><span class="label">Debit (+):</span><span class="value" style="color:var(--debit);font-weight:700;">₹${fmt(openingDebit)}</span></div>` : ''}
+            ${openingCredit ? `<div class="detail-row"><span class="label">Credit (-):</span><span class="value" style="color:var(--credit);font-weight:700;">₹${fmt(openingCredit)}</span></div>` : ''}
+            <div class="detail-row amount">
+              <span class="label">बैलेंस:</span>
+              <span class="value" style="color:${balColor0};font-weight:800;">${fmt(Math.abs(openingDebit - openingCredit))}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `);
+  }
+
+  document.getElementById('ledgerList').innerHTML = rowsHtml.length ? rowsHtml.join('') : '<div class="empty"><p>इस अवधि में कोई entry नहीं है</p></div>';
+  currentLedgerBalance = balance;
+
+  const balDir = balance > 0 ? 'आपको लेना है' : balance < 0 ? 'आपको देना है' : 'क्लियर ✅';
+  const balColor = balance > 0 ? 'var(--credit)' : balance < 0 ? 'var(--debit)' : 'var(--ink-soft)';
+  document.getElementById('ledgerSummaryWrap').innerHTML = `
+    <div class="ledger-summary">
+      <div class="pill"><div class="k">कुल Debit</div><div class="v" style="color:var(--debit)">${fmt(totalDebit)}</div></div>
+      <div class="pill"><div class="k">कुल Credit</div><div class="v" style="color:var(--credit)">${fmt(totalCredit)}</div></div>
+      <div class="pill"><div class="k">${balDir}</div><div class="v" style="color:${balColor}">${fmt(Math.abs(balance))}</div></div>
+    </div>`;
+
+  shareBtn.style.display = (trans.length || openingAmt) ? 'flex' : 'none';
+}
+
+// Contact number ko WhatsApp ke liye normalize karta hai (10-digit Indian number -> 91XXXXXXXXXX).
+// Agar number valid nahi mila to khaali string return hota hai.
+function formatPhoneForWhatsApp(phone){
+  let digits = String(phone||'').replace(/\D/g,'');
+  if(!digits) return '';
+  if(digits.length===10) digits = '91' + digits;
+  else if(digits.length===11 && digits.startsWith('0')) digits = '91' + digits.slice(1);
+  else if(digits.length!==12 || !digits.startsWith('91')) return ''; // anjaan format — manually search karna padega
+  return digits;
+}
+
+function shareLedger(){
+  if(!currentLedgerParty) return;
+  let bodyLine;
+  if(currentLedgerBalance>0){
+    bodyLine = `आपका ${fmt(Math.abs(currentLedgerBalance))} का बैलेंस बाकी है। कृपया जल्द से जल्द इसे क्लियर करें।`;
+  } else if(currentLedgerBalance<0){
+    bodyLine = `हमारी तरफ आपका ${fmt(Math.abs(currentLedgerBalance))} बैलेंस बाकी है। जल्द ही क्लियर कर देंगे।`;
+  } else {
+    bodyLine = `आपका खाता पूरी तरह क्लियर है। धन्यवाद!`;
+  }
+  const text = `पार्टी: ${currentLedgerParty}\n${bodyLine}\n— खान बाबा मुख़्तार खान`;
+  const phone = formatPhoneForWhatsApp(currentLedgerPhone);
+  // Number available ho to seedha usi party ki chat khulti hai, warna pehle jaisa normal WhatsApp open hota hai
+  const url = phone
+    ? `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
+    : `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+
+// ===== PWA: install prompt + service worker =====
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if(!localStorage.getItem('gsPashukhadyaInstallDismissed')){
+    document.getElementById('installBanner').classList.add('show');
+  }
+});
+document.getElementById('installGoBtn').addEventListener('click', async ()=>{
+  document.getElementById('installBanner').classList.remove('show');
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+});
+document.getElementById('installCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('installBanner').classList.remove('show');
+  localStorage.setItem('gsPashukhadyaInstallDismissed','1');
+});
+window.addEventListener('appinstalled', ()=>{
+  document.getElementById('installBanner').classList.remove('show');
+});
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(err=>console.error('SW register failed:', err));
+  });
+}
+
+// ===== INIT =====
+loadData(false);
+</script>
 </body>
 </html>
