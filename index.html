@@ -12,6 +12,7 @@
 <meta name="theme-color" content="#003366">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" href="Images/ATC_Logo.png">
+<link rel="icon" href="Images/ATC_Logo.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <!-- Service Worker Registration -->
@@ -25,35 +26,47 @@
 </head>
 <body>
 
-    <!-- Sidebar Menu -->
+   <!-- Sidebar Menu -->
     <div class="offcanvas offcanvas-start" id="sidebar">
-        <div class="offcanvas-header border-bottom">
-            <h5 class="fw-bold text-primary">KTC MENU</h5>
-            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+        <div class="offcanvas-header border-bottom" style="background: linear-gradient(135deg, #002347, #003366); color: white;">
+            <h5 class="fw-bold mb-0 text-white"><i class="bi bi-truck me-2 text-warning"></i>KTC MENU</h5>
+            <button class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
         </div>
-        <div class="offcanvas-body p-0">
+        <div class="offcanvas-body p-0 d-flex flex-column justify-content-between">
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item p-3" onclick="showSection('home')"><i class="bi bi-house-door me-2"></i> Home</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('home')"><i class="bi bi-house-door me-2 text-primary"></i> Home</a>
                 <a href="#" class="list-group-item p-3" onclick="showSection('new-trip')"><i class="bi bi-plus-circle me-2 text-primary"></i> New Trip Entry</a>
                 <a href="#" class="list-group-item p-3" onclick="showSection('view-trips')"><i class="bi bi-truck me-2 text-warning"></i> View All Trips</a>
                 <a href="#" class="list-group-item p-3" onclick="showSection('daily-followup')"><i class="bi bi-whatsapp me-2 text-success"></i> Daily Follow-up</a>
                 <a href="#" class="list-group-item p-3" onclick="showSection('accounts')"><i class="bi bi-wallet2 me-2 text-success"></i> Hisaab-Kitaab</a>
-               <a href="#" class="list-group-item p-3" onclick="showSection('loading-slip')">
-    <i class="bi bi-file-earmark-pdf me-2 text-danger"></i> Generate Loading Slip (Beelty)
+                <a href="#" class="list-group-item p-3" onclick="showSection('loading-slip')"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i> Generate Loading Slip (Beelty)</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('slip-history')"><i class="bi bi-folder-check me-2 text-warning"></i> Loading Slip History</a>
+                <a href="#" class="list-group-item p-3" onclick="showSection('vehicles')"><i class="bi bi-shield-check me-2 text-info"></i> Gaadi Documents & History</a>
+               <a href="#" class="list-group-item p-3" data-bs-toggle="modal" data-bs-target="#tabSolutionModal" style="background: linear-gradient(135deg, #001a33, #003366); color: #00d2ff !important; border-left: 4px solid #00d2ff;">
+    <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+            <img src="Images/Tab-Solutions-logo.png" alt="Tab Solution" style="height: 30px; width: auto; object-fit: contain;" class="me-2">
+            <div>
+                <small class="d-block text-white opacity-75" style="font-size: 10px;">SOFTWARE DEVELOPED BY</small>
+                <b style="font-size: 13px;" class="text-white">Tab Solution</b>
+            </div>
+        </div>
+        <span class="badge bg-info text-dark" style="font-size: 10px;">Contact</span>
+    </div>
 </a>
-<a href="#" class="list-group-item p-3" onclick="showSection('slip-history')">
-    <i class="bi bi-folder-check me-2 text-warning"></i> Loading Slip
-</a>
+            </div>
 
-                <a href="#" class="list-group-item p-3" onclick="showSection('vehicles')">
-    <i class="bi bi-folder-check me-2 text-info"></i> Gaadi Documents & History
-</a>
-                <hr>
-                <a href="#" class="list-group-item p-3 text-danger" onclick="location.reload()"><i class="bi bi-arrow-clockwise me-2"></i> Refresh App</a>
+            <!-- Sidebar Bottom Logout -->
+            <div class="p-3 border-top bg-light">
+                <button class="btn btn-outline-danger w-100 fw-bold d-flex align-items-center justify-content-center gap-2 py-2" onclick="logout()" style="border-radius:10px;">
+                    <i class="bi bi-box-arrow-right fs-5"></i>
+                    <span>Logout Account</span>
+                </button>
             </div>
         </div>
     </div>
 
+   
     <!-- LUXURY SMART LOCK SCREEN -->
 <!-- LOGIN SCREEN -->
 <div id="lock-screen">
@@ -64,11 +77,10 @@
 
         <div class="welcome-text">
             <h2 class="greet-title">TRANSPORT LOGIN</h2>
-            <p class="greet-subtitle">Kripya Username aur Password dalein</p>
+            <p class="greet-subtitle">Kripya Password dalein</p>
         </div>
 
         <div class="pin-container">
-            <input type="text" id="loginUser" class="form-control mb-2" placeholder="Username" style="letter-spacing: normal;">
             <input type="password" id="loginPass" class="form-control" placeholder="Password" style="letter-spacing: normal;">
             
             <div id="lock-error" class="error-msg hidden">
@@ -80,22 +92,34 @@
             <span>LOGIN SYSTEM</span>
             <i class="bi bi-box-arrow-in-right"></i>
         </button>
+       <!-- 🔒 LOCKSCREEN DEVELOPER BADGE WITH LOGO -->
+<div class="text-center mt-4 pt-2" data-bs-toggle="modal" data-bs-target="#tabSolutionModal" style="cursor: pointer;">
+    <small class="d-block text-white opacity-50" style="font-size: 10px; letter-spacing: 1.5px;">SYSTEM DEVELOPED BY</small>
+    <span class="badge px-3 py-2 mt-1 shadow-sm d-inline-flex align-items-center gap-2" style="background: rgba(0, 210, 255, 0.15); border: 1px solid #00d2ff; color: #00d2ff; font-size: 12px; letter-spacing: 0.5px; border-radius: 50px;">
+        <img src="Images/Tab-Solutions-logo.png" alt="Tab Solution" style="height: 18px; width: auto; object-fit: contain;">
+        <span>Tab Solution • Aftab Pathan</span>
+    </span>
+</div>
     </div>
 </div>
 
-    <!-- Top Navbar -->
-    <!-- Top Navbar -->
-    <nav class="navbar navbar-dark bg-primary p-3 shadow-sm sticky-top d-flex justify-content-between">
-        <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
-            <i class="bi bi-list fs-4"></i>
+    <!-- Top Navbar (Ultra-Luxury & Never Wraps) -->
+    <nav class="navbar navbar-dark app-top-navbar p-2 px-3 shadow-sm sticky-top d-flex flex-nowrap align-items-center justify-content-between">
+        <!-- Left: Menu Toggle -->
+        <button class="btn-menu-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" title="Menu">
+            <i class="bi bi-list"></i>
         </button>
-        <span class="navbar-brand fw-bold mb-0">KTC MANAGEMENT</span>
-        <button class="btn btn-outline-light btn-sm rounded-circle" onclick="logout()" title="Logout">
-            <i class="bi bi-power fs-5"></i>
+
+        <!-- Center: Company Title -->
+        <span class="navbar-brand text-truncate fw-bold mb-0 text-center flex-grow-1 px-2">KTC MANAGEMENT</span>
+
+        <!-- Right: Glowing Luxury Power Button -->
+        <button class="btn-logout-luxury" type="button" onclick="logout()" title="Logout">
+            <i class="bi bi-power"></i>
+            <span class="logout-text">Logout</span>
         </button>
     </nav>
 
-    <div class="container py-4">
         
         <!-- HOME SECTION -->
     <!-- HOME SECTION -->
@@ -106,7 +130,7 @@
             <div>
                 <small id="greetingText" class="opacity-75">Good Morning,</small>
                 <h3 class="fw-bold mb-0">Kunal Transport Company</h3>
-                <p style="font-size: 11px; letter-spacing: 1px;" class="mb-0 text-info">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</p>
+                <p style="font-size: 11px; letter-spacing: 1px;" class="mb-0 text-info">FEROZ PATHAN — DAILY SERVICE, ALL INDIA</p>
             </div>
             <div class="live-clock text-end">
                 <h5 id="homeTime" class="mb-0 fw-bold">00:00</h5>
@@ -196,6 +220,24 @@
             <!-- Dynamic Data -->
         </div>
     </div>
+
+    <!-- 🏠 TAB SOLUTION FOOTER BRANDING ON HOME SCREEN -->
+    <!-- 🏠 HOME SCREEN FOOTER BRANDING WITH LOGO -->
+<div class="px-3 mt-4 mb-5 pb-3">
+    <div class="text-center p-3 rounded-4 shadow-sm" style="background: #ffffff; border: 1px dashed #003366;">
+        <img src="Images/Tab-Solutions-logo.png" alt="Tab Solution" style="height: 38px; width: auto; object-fit: contain; margin-bottom: 6px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#tabSolutionModal">
+        <div class="d-flex align-items-center justify-content-center gap-2 mb-1">
+            <span class="fw-bold" style="color: #003366; font-size: 13px;">Kunal Transport Company</span>
+            <span class="badge bg-success" style="font-size: 9px;">KTC v1.0</span>
+        </div>
+        <small class="text-muted d-block mb-2" style="font-size: 11px;">
+            Designed & Powered by <b class="text-primary" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#tabSolutionModal">Tab Solution (Aftab Pathan)</b>
+        </small>
+        <button type="button" class="btn btn-sm btn-outline-primary px-3 py-1 fw-bold" data-bs-toggle="modal" data-bs-target="#tabSolutionModal" style="border-radius: 50px; font-size: 11px;">
+            <i class="bi bi-person-vcard me-1"></i> Developer Info & Contact
+        </button>
+    </div>
+</div>
 
     <!-- Floating Action Button -->
     <button class="fab-btn shadow-lg" onclick="showSection('new-trip')">
@@ -370,18 +412,25 @@
                     </div>
                 </form>
 
-                <!-- Wizard Nav -->
-                <div class="d-flex gap-2 mt-4">
-                    <button type="button" id="tripBackBtn" class="btn btn-outline-secondary hidden" onclick="tripWizardBack()">
-                        <i class="bi bi-chevron-left"></i> Back
-                    </button>
-                    <button type="button" id="tripNextBtn" class="btn btn-primary flex-fill fw-bold" onclick="tripWizardNext()">
-                        Next <i class="bi bi-chevron-right"></i>
-                    </button>
-                    <button type="button" id="submitBtn" class="btn btn-success flex-fill fw-bold hidden" onclick="submitTrip()">
-                        <i class="bi bi-cloud-arrow-up-fill me-1"></i> <span id="submitBtnText">SAVE TRIP</span>
-                    </button>
-                </div>
+                <!-- Wizard Nav (New Trip Entry) -->
+<div class="d-flex flex-wrap gap-2 mt-4">
+    <button type="button" id="tripBackBtn" class="btn btn-outline-secondary hidden" onclick="tripWizardBack()">
+        <i class="bi bi-chevron-left"></i> Back
+    </button>
+    <button type="button" id="tripNextBtn" class="btn btn-primary flex-fill fw-bold" onclick="tripWizardNext()">
+        Next <i class="bi bi-chevron-right"></i>
+    </button>
+    
+    <!-- 🟩 SIRF SAVE KARNE KE LIYE -->
+    <button type="button" id="submitBtn" class="btn btn-success flex-fill fw-bold hidden" onclick="submitTrip(false)">
+        <i class="bi bi-cloud-arrow-up-fill me-1"></i> <span id="submitBtnText">SAVE TRIP</span>
+    </button>
+
+    <!-- 🟥 SAVE BHI KARO AUR BEELTY BHI BANAO -->
+    <button type="button" id="submitBeeltyBtn" class="btn btn-danger flex-fill fw-bold hidden" onclick="submitTrip(true)">
+        <i class="bi bi-file-earmark-pdf-fill me-1"></i> SAVE & BEELTY 📄
+    </button>
+</div>
                 <button type="button" id="tripCancelEditBtn" class="btn btn-link text-danger w-100 mt-2 hidden" onclick="cancelTripEdit()">
                     Cancel Edit
                 </button>
@@ -506,209 +555,197 @@
 
 
 <!-- LOADING SLIP SECTION -->
-<!-- LOADING SLIP SECTION -->
 <div id="loading-slip-section" class="app-section hidden">
-    <!-- SEARCH AREA UPDATED -->
-<div class="card p-3 mb-3 shadow-sm border-0 bg-white" style="border-radius: 15px;">
-    <label class="fw-bold text-primary mb-2">Search Record or Enter New Vehicle</label>
-    <div class="input-group">
-        <!-- list="vehicleListOptions" hi autocomplete enable karega -->
-        <input type="text" id="slipSearchVNo" class="form-control" list="vehicleListOptions" placeholder="Enter Vehicle No (e.g. MH 20)...">
-        <datalist id="vehicleListOptions"></datalist>
+    <!-- SEARCH AREA -->
+    <div class="card p-3 mb-3 shadow-sm border-0 bg-white" style="border-radius: 15px;">
+        <label class="fw-bold text-primary mb-2">Search Record or Enter New Vehicle</label>
+        <div class="input-group">
+            <input type="text" id="slipSearchVNo" class="form-control" list="vehicleListOptions" placeholder="Enter Vehicle No (e.g. MH 20)...">
+            <datalist id="vehicleListOptions"></datalist>
+            <button class="btn btn-primary px-4 fw-bold" onclick="searchVehicleForSlip()">
+                <i class="bi bi-search me-1"></i> GO
+            </button>
+        </div>
         
-        <button class="btn btn-primary px-4 fw-bold" onclick="searchVehicleForSlip()">
-            <i class="bi bi-search me-1"></i> GO
-        </button>
-    </div>
-    
-    <!-- Agar record mil jaye toh dropdown yahan dikhega -->
-    <div id="tripSelectionArea" class="mt-3 hidden p-2 bg-light rounded border">
-        <small class="text-muted d-block mb-1 fw-bold">Multiple Trips Found. Select One:</small>
-        <select id="tripSelectDropdown" class="form-select form-select-sm" onchange="fillSlipFromSelection()"></select>
-    </div>
-    
-    <!-- Nayi gaadi ke liye message -->
-    <div id="newVehicleAlert" class="mt-2 hidden">
-        <span class="badge bg-warning text-dark"><i class="bi bi-info-circle"></i> New Vehicle: Manual Entry Mode Active</span>
-    </div>
-</div>
-
-    
-
-    <!-- 2. The New Professional Beelty Design -->
-   <!-- THE MODERN CORPORATE BEELTY DESIGN -->
-<div id="beelty-capture-area">
-    <div id="receipt-to-print" class="corporate-beelty">
-        <!-- Watermark -->
-        <!-- Text watermark ki jagah ab Image Watermark -->
-<div class="watermark-container">
-    <img src="Images/Background.png" class="watermark-img">
-</div>
-
-       <!-- TOP HEADER: CONTACTS & LOGOS -->
-<div class="c-header">
-    <!-- LEFT SIDE: RAJU HIWALE + TRUCK LOGO -->
-    <div class="c-contact-left">
-        <div class="contact-top-row">
-            <span class="c-owner">Raju Hiwale</span><br>
-            <i class="bi bi-telephone-fill"></i> 9403691888 | 7744059190
+        <div id="tripSelectionArea" class="mt-3 hidden p-2 bg-light rounded border">
+            <small class="text-muted d-block mb-1 fw-bold">Multiple Trips Found. Select One:</small>
+            <select id="tripSelectDropdown" class="form-select form-select-sm" onchange="fillSlipFromSelection()"></select>
         </div>
-        <div class="logo-row-left">
-            <img src="Images/Truck.png" class="header-side-img">
+        
+        <div id="newVehicleAlert" class="mt-2 hidden">
+            <span class="badge bg-warning text-dark"><i class="bi bi-info-circle"></i> New Vehicle: Manual Entry Mode Active</span>
         </div>
     </div>
 
-    <!-- CENTER: KTC BRANDING -->
-    <div class="c-logo-section">
-        <div class="c-atc-badge">
-            <span>K</span><span>T</span><span>C</span>
-        </div>
-        <h1 class="c-company-title">KUNAL TRANSPORT COMPANY</h1>
-        <div class="c-sub-text">कुणाल ट्रान्सपोर्ट सर्विसेस — DAILY SERVICE, ALL INDIA</div>
-        <div class="c-address-text-top">
-            <i class="bi bi-geo-alt-fill"></i> Lasur Station, Vaijapur Highway, Tq. Gangapur, Dist. Chh. Sambhajinagar
-        </div>
-    </div>
-
-    <!-- RIGHT SIDE: FIROJ SHAIKH + KTC LOGO -->
-    <div class="c-contact-right">
-        <div class="contact-top-row">
-            <span class="c-owner">Firoj Shaikh</span><br>
-            <i class="bi bi-telephone-fill"></i> 9527691888 | 9657691888
-        </div>
-        <div class="logo-row-right">
-            <img src="Images/ATC_Logo.png" class="header-side-img">
-        </div>
-    </div>
-</div>
-        <!-- Is line ko Select Trip waale div ke niche add karein -->
-<input type="hidden" id="slip_rowNum">
-<input type="hidden" id="slip_archiveRow">
-
-        <!-- Info Bar: Vehicle & Date -->
-        <div class="c-info-bar" data-wizard-step="1">
-            <div class="c-info-item">
-                <label>VEHICLE NO</label>
-                <input type="text" id="slip_vNo" class="c-input-bold" placeholder="MH 20 EL 0000" onblur="autoFillOwnerDriver(this.value)">
-            </div>
-            <div class="c-info-item text-end">
-                <label>DATE</label>
-                <input type="text" id="slip_date" class="c-input-bold" placeholder="DD-MM-YYYY">
-            </div>
-        </div>
-
-        <!-- Body Section -->
-        <div class="c-body">
-            <div class="c-party-section" data-wizard-step="2">
-                <label>CONSIGNOR / PARTY NAME:</label>
-                <input type="text" id="slip_party" class="c-input-line" placeholder="Enter Party Name">
+    <!-- 2. BEELTY CAPTURE AREA (SIRF AUR SIRF BEELTY) -->
+    <div id="beelty-capture-area">
+        <div id="receipt-to-print" class="corporate-beelty">
+            <!-- Watermark -->
+            <div class="watermark-container">
+                <img src="Images/Background.png" class="watermark-img">
             </div>
 
-            <div class="c-grid">
-                <!-- Route & Logistics -->
-                <div class="c-box" data-wizard-step="3">
-                    <h6 class="c-box-title">ROUTE DETAILS</h6>
-                    <div class="c-fline"><label>FROM:</label><input type="text" id="slip_from"></div>
-                    <div class="c-fline"><label>TO:</label><input type="text" id="slip_to"></div>
-                    <div class="c-fline mt-3"><label>LORRY OWNER:</label><input type="text" id="slip_lOwner" class="text-success fw-bold"></div>
-                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_oVillage"></div>
-                    <div class="c-fline"><label>CONTACT:</label><input type="text" id="slip_oMob"></div>
+            <!-- TOP HEADER: CONTACTS & LOGOS -->
+            <div class="c-header">
+                <!-- LEFT SIDE -->
+                <div class="c-contact-left">
+                    <div class="contact-top-row">
+                        <span class="c-owner">Raju Hiwale</span><br>
+                        <i class="bi bi-telephone-fill"></i> 9403691888 | 7744059190
+                    </div>
+                    <div class="logo-row-left">
+                        <img src="Images/Truck.png" class="header-side-img">
+                    </div>
                 </div>
 
-                <!-- Driver Details -->
-                <div class="c-box" data-wizard-step="4">
-                    <h6 class="c-box-title">DRIVER DETAILS</h6>
-                    <div class="c-fline"><label>DRIVER NAME:</label><input type="text" id="slip_dName" class="text-primary fw-bold"></div>
-                    <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_dVillage"></div>
-                    <div class="c-fline"><label>CONTACT NO:</label><input type="text" id="slip_dMob"></div>
-                    <div class="c-fline"><label>LICENCE NO:</label><input type="text" id="slip_licence"></div>
+                <!-- CENTER: KTC BRANDING -->
+                <div class="c-logo-section">
+                    <div class="c-atc-badge">
+                        <span>K</span><span>T</span><span>C</span>
+                    </div>
+                    <h1 class="c-company-title">KUNAL TRANSPORT COMPANY</h1>
+                    <div class="c-sub-text">FEROZ PATHAN — DAILY SERVICE, ALL INDIA</div>
+                    <div class="c-address-text-top">
+                        <i class="bi bi-geo-alt-fill"></i> Lasur Station, Vaijapur Highway, Tq. Gangapur, Dist. Chh. Sambhajinagar
+                    </div>
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="c-contact-right">
+                    <div class="contact-top-row">
+                        <span class="c-owner">Firoj Shaikh</span><br>
+                        <i class="bi bi-telephone-fill"></i> 9527691888 | 9657691888
+                    </div>
+                    <div class="logo-row-right">
+                        <img src="Images/ATC_Logo.png" class="header-side-img">
+                    </div>
                 </div>
             </div>
 
-            <!-- Finance Table -->
-            <div class="c-finance-section" data-wizard-step="5">
-                <table class="c-table">
-                    <thead>
-                        <tr>
-                            <th>PARTICULARS / DESCRIPTION</th>
-                            <th class="text-end">AMOUNT (₹)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-    <td>
-        FREIGHT CHARGES 
-        <small>(Rate: <input type="number" id="slip_rate" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> 
-        | Weight: <input type="number" step="0.001" id="slip_weight" oninput="calculateSlip()" style="width:80px; border-bottom:1px solid #ddd;"> TON)</small>
-    </td>
-    <td class="text-end">
-        <!-- 'readonly' hata diya hai taaki direct amount bhi daal sakein -->
-        <input type="number" id="slip_freight" oninput="calculateTotalFromManual()" class="fw-bold">
-    </td>
-</tr>
-                        <tr>
-    <td>
-        OVERLOADING CHARGES
-        <small>(Extra Wt: <input type="number" step="0.001" id="slip_overWeight" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> TON
-        | O.Rate: <input type="number" id="slip_overRate" oninput="calculateSlip()" style="width:65px; border-bottom:1px solid #ddd;" placeholder="if diff"> )</small>
-    </td>
-    <td class="text-end">
-        <!-- Overload ka rate normal freight rate se alag ho sakta hai; O.Rate khaali ho to normal Rate hi use hoga -->
-        <input type="number" id="slip_overCharge" oninput="calculateTotalFromManual()" class="text-warning fw-bold">
-    </td>
-</tr>
-                        <tr>
-                            <td>LESS: ADVANCE RECEIVED</td>
-                            <td class="text-end"><input type="number" id="slip_advance" oninput="calculateSlip()" class="text-danger"></td>
-                        </tr>
-                        <tr>
-                            <td>ADD: DRIVER PRICE / LOADING EXP.</td>
-                            <td class="text-end"><input type="number" id="slip_dPrice" oninput="calculateSlip()" class="text-primary"></td>
-                        </tr>
-                        <tr>
-                            <td>TIMING / DELIVERY TAT</td>
-                            <td class="text-end"><input type="text" id="slip_timing" placeholder="0 Hr"></td>
-                        </tr>
-                        <tr class="c-total-row">
-                            <td class="fw-bold">NET PAYABLE BALANCE</td>
-                            <td class="text-end fw-bold" style="font-size: 20px;">₹ <input type="text" id="slip_toPay" readonly style="width:120px; font-size:20px;"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <input type="hidden" id="slip_rowNum">
+            <input type="hidden" id="slip_archiveRow">
 
-        <!-- Terms & Signatures -->
-        <!-- Footer Section (Terms, Signatures & Address combined) -->
-<div class="c-footer-new" data-wizard-step="5">
-    <div class="footer-top-row">
-        <!-- Notes & Conditions -->
-        <div class="c-notes">
-            <strong>Notes & Conditions:</strong>
-            <ul>
-                <li>Subject to Chh. Sambhajinagar Jurisdiction.</li>
-                <li>Not responsible for leakage/damage after delivery.</li>
-                <li>Payment should be made as per agreed terms.</li>
-            </ul>
-        </div>
-
-        <!-- Signatures Row -->
-        <div class="sigs-container">
-            <div class="sig-block">
-                <div class="sig-line"></div>
-                <span>DRIVER'S SIGNATURE</span>
+            <!-- Info Bar: Vehicle & Date -->
+            <div class="c-info-bar" data-wizard-step="1">
+                <div class="c-info-item">
+                    <label>VEHICLE NO</label>
+                    <input type="text" id="slip_vNo" class="c-input-bold" placeholder="MH 20 EL 0000" onblur="autoFillOwnerDriver(this.value)">
+                </div>
+                <div class="c-info-item text-end">
+                    <label>DATE</label>
+                    <input type="text" id="slip_date" class="c-input-bold" placeholder="DD-MM-YYYY">
+                </div>
             </div>
-            <div class="sig-block official">
-                <img src="Images/Sign.png" class="official-seal">
-                <div class="sig-line"></div>
-                <span>FOR, KUNAL TRANSPORT COMPANY</span>
-            </div>
-        </div>
-    </div>
-</div>
 
- <!-- WIZARD NAV BAR: Step-by-step mobile fill -->
-    <div id="wizardNavBar" class="wizard-nav-bar">
+            <!-- Body Section -->
+            <div class="c-body">
+                <div class="c-party-section" data-wizard-step="2">
+                    <label>CONSIGNOR / PARTY NAME:</label>
+                    <input type="text" id="slip_party" class="c-input-line" placeholder="Enter Party Name">
+                </div>
+
+                <div class="c-grid">
+                    <!-- Route Details -->
+                    <div class="c-box" data-wizard-step="3">
+                        <h6 class="c-box-title">ROUTE DETAILS</h6>
+                        <div class="c-fline"><label>FROM:</label><input type="text" id="slip_from"></div>
+                        <div class="c-fline"><label>TO:</label><input type="text" id="slip_to"></div>
+                        <div class="c-fline mt-3"><label>LORRY OWNER:</label><input type="text" id="slip_lOwner" class="text-success fw-bold"></div>
+                        <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_oVillage"></div>
+                        <div class="c-fline"><label>CONTACT:</label><input type="text" id="slip_oMob"></div>
+                    </div>
+
+                    <!-- Driver Details -->
+                    <div class="c-box" data-wizard-step="4">
+                        <h6 class="c-box-title">DRIVER DETAILS</h6>
+                        <div class="c-fline"><label>DRIVER NAME:</label><input type="text" id="slip_dName" class="text-primary fw-bold"></div>
+                        <div class="c-fline"><label>VILLAGE:</label><input type="text" id="slip_dVillage"></div>
+                        <div class="c-fline"><label>CONTACT NO:</label><input type="text" id="slip_dMob"></div>
+                        <div class="c-fline"><label>LICENCE NO:</label><input type="text" id="slip_licence"></div>
+                    </div>
+                </div>
+
+                <!-- Finance Table -->
+                <div class="c-finance-section" data-wizard-step="5">
+                    <table class="c-table">
+                        <thead>
+                            <tr>
+                                <th>PARTICULARS / DESCRIPTION</th>
+                                <th class="text-end">AMOUNT (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    FREIGHT CHARGES 
+                                    <small>(Rate: <input type="number" id="slip_rate" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> 
+                                    | Weight: <input type="number" step="0.001" id="slip_weight" oninput="calculateSlip()" style="width:80px; border-bottom:1px solid #ddd;"> TON)</small>
+                                </td>
+                                <td class="text-end">
+                                    <input type="number" id="slip_freight" oninput="calculateTotalFromManual()" class="fw-bold">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    OVERLOADING CHARGES
+                                    <small>(Extra Wt: <input type="number" step="0.001" id="slip_overWeight" oninput="calculateSlip()" style="width:70px; border-bottom:1px solid #ddd;"> TON
+                                    | O.Rate: <input type="number" id="slip_overRate" oninput="calculateSlip()" style="width:65px; border-bottom:1px solid #ddd;" placeholder="if diff"> )</small>
+                                </td>
+                                <td class="text-end">
+                                    <input type="number" id="slip_overCharge" oninput="calculateTotalFromManual()" class="text-warning fw-bold">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>LESS: ADVANCE RECEIVED</td>
+                                <td class="text-end"><input type="number" id="slip_advance" oninput="calculateSlip()" class="text-danger"></td>
+                            </tr>
+                            <tr>
+                                <td>ADD: DRIVER PRICE / LOADING EXP.</td>
+                                <td class="text-end"><input type="number" id="slip_dPrice" oninput="calculateSlip()" class="text-primary"></td>
+                            </tr>
+                            <tr>
+                                <td>TIMING / DELIVERY TAT</td>
+                                <td class="text-end"><input type="text" id="slip_timing" placeholder="0 Hr"></td>
+                            </tr>
+                            <tr class="c-total-row">
+                                <td class="fw-bold">NET PAYABLE BALANCE</td>
+                                <td class="text-end fw-bold" style="font-size: 20px;">₹ <input type="text" id="slip_toPay" readonly style="width:120px; font-size:20px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Terms & Signatures (BEELTY ENDS HERE) -->
+            <div class="c-footer-new" data-wizard-step="5">
+                <div class="footer-top-row">
+                    <div class="c-notes">
+                        <strong>Notes & Conditions:</strong>
+                        <ul>
+                            <li>Subject to Chh. Sambhajinagar Jurisdiction.</li>
+                            <li>Not responsible for leakage/damage after delivery.</li>
+                            <li>Payment should be made as per agreed terms.</li>
+                        </ul>
+                    </div>
+
+                    <div class="sigs-container">
+                        <div class="sig-block">
+                            <div class="sig-line"></div>
+                            <span>DRIVER'S SIGNATURE</span>
+                        </div>
+                        <div class="sig-block official">
+                            <img src="Images/Sign.png" class="official-seal">
+                            <div class="sig-line"></div>
+                            <span>FOR, KUNAL TRANSPORT COMPANY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- ✅ BEELTY DIV YAHAN BAND HO GAYI -->
+    </div> <!-- ✅ CAPTURE AREA YAHAN BAND HO GAYA -->
+
+    <!-- ✅ WIZARD BUTTONS AB BEELTY KE BAHAR HAIN -->
+    <div id="wizardNavBar" class="wizard-nav-bar mt-2">
         <div id="wizardStepLabel" class="wizard-step-label">Step 1 of 5: Vehicle & Date</div>
         <div class="wizard-nav-buttons">
             <button type="button" id="wizardBackBtn" class="btn btn-outline-secondary btn-sm" onclick="wizardBack()">
@@ -720,12 +757,13 @@
         </div>
     </div>
 
- <!-- 3. BUTTON SECTION (Ye zaroori hai) -->
-    <div class="slip-action-bar">
+    <!-- ✅ SAVE BUTTON AB BEELTY KE BAHAR HAI -->
+    <div class="slip-action-bar mt-3">
         <button id="slipSubmitBtn" class="btn btn-success btn-lg w-100 shadow-lg fw-bold py-3" onclick="generateBeeltyPDF()">
             <i class="bi bi-cloud-arrow-up-fill me-2"></i> FINALIZE, SAVE & WHATSAPP
         </button>
     </div>
+</div>
 
 
     <!-- "WHAT'S NEW" UPDATE NOTIFICATION MODAL -->
@@ -749,6 +787,70 @@
             </div>
         </div>
     </div>
+
+    <!-- ================= TAB SOLUTION (AFTAB PATHAN) DIGITAL CARD MODAL ================= -->
+<div class="modal fade" id="tabSolutionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="background: #001529; color: #ffffff; border-radius: 20px; overflow: hidden;">
+            
+            <!-- Card Header (With Real Logo) -->
+<div class="p-4 text-center position-relative" style="background: linear-gradient(135deg, #002244 0%, #001122 100%); border-bottom: 2px solid #00d2ff;">
+    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
+    
+    <!-- 🖼️ ASLI LOGO WITH GLOW -->
+    <div class="mb-2">
+        <img src="Images/Tab-Solutions-logo.png" alt="Tab Solution Logo" class="img-fluid" style="max-height: 70px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,210,255,0.45));">
+    </div>
+    
+    <p class="small text-info mb-2" style="letter-spacing: 1px;">Smart Solutions, Better Business</p>
+    <h3 class="fw-bold mb-0 text-white">AFTAB PATHAN</h3>
+    <small class="badge bg-primary px-3 py-1 mt-1">Founder & Developer</small>
+</div>
+
+            <!-- Card Body: Services & Contacts -->
+            <div class="modal-body p-4">
+                <div class="row g-2 text-center mb-3">
+                    <div class="col-6">
+                        <div class="p-2 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,210,255,0.2);">
+                            <small class="text-muted d-block" style="font-size: 10px;">CALL / WHATSAPP</small>
+                            <a href="tel:8329962703" class="text-white fw-bold text-decoration-none" style="font-size: 13px;">+91 8329962703</a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 rounded" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(0,210,255,0.2);">
+                            <small class="text-muted d-block" style="font-size: 10px;">ALTERNATE NO</small>
+                            <a href="tel:7773966580" class="text-white fw-bold text-decoration-none" style="font-size: 13px;">+91 7773966580</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-2 rounded mb-3 text-center" style="background: rgba(255,255,255,0.03); font-size: 12px; color: #94a3b8;">
+                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> At Ohar, Jatwada Road, Aurangabad, Maharashtra 431001
+                </div>
+
+                <!-- Services Grid -->
+                <h6 class="fw-bold text-info mb-2" style="font-size: 12px; letter-spacing: 0.5px;">OUR SERVICES:</h6>
+                <div class="row g-2 mb-3" style="font-size: 11px;">
+                    <div class="col-6"><div class="p-2 rounded bg-dark border border-secondary"><i class="bi bi-file-earmark-spreadsheet-fill text-success me-1"></i> Google Sheets & Automation</div></div>
+                    <div class="col-6"><div class="p-2 rounded bg-dark border border-secondary"><i class="bi bi-calculator-fill text-warning me-1"></i> Accounting & MIS</div></div>
+                    <div class="col-6"><div class="p-2 rounded bg-dark border border-secondary"><i class="bi bi-window-stack text-info me-1"></i> Business Web Apps</div></div>
+                    <div class="col-6"><div class="p-2 rounded bg-dark border border-secondary"><i class="bi bi-globe text-primary me-1"></i> Website Development</div></div>
+                    <div class="col-12"><div class="p-2 rounded bg-dark border border-secondary text-center"><i class="bi bi-gear-wide-connected text-danger me-1"></i> Business Process Solutions</div></div>
+                </div>
+
+                <!-- Direct WhatsApp Lead Button -->
+                <a href="https://api.whatsapp.com/send?phone=918329962703&text=Hi%20Aftab%20Pathan,%20I%20saw%20your%20software%20and%20want%20to%20inquire%20about%20business%20software%20services." target="_blank" class="btn btn-success w-100 fw-bold py-2 shadow" style="border-radius: 12px; font-size: 14px;">
+                    <i class="bi bi-whatsapp me-2"></i> Contact on WhatsApp for New Software
+                </a>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="modal-footer border-0 justify-content-center pt-0 pb-3" style="font-size: 11px; color: #64748b;">
+                Smart Tools. Better Management. Stronger Business.
+            </div>
+        </div>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ktc-app-cache-v1'; // Files change karne par ye number badhao (v2, v3...) taaki purana cache clear ho
+const CACHE_NAME = 'ktc-app-cache-v34'; // Files change karne par ye number badhao (v2, v3...) taaki purana cache clear ho
 // REMINDER: Jab bhi naya update deploy karein — is number ko badhao (v2 -> v3...)
 // AUR script.js mein APP_VERSION + APP_CHANGELOG bhi update karo, taaki:
 //   1. Sabhi users ko purana cache clear hokar naye files (turant) milein

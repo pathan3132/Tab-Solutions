@@ -1872,3 +1872,662 @@ body { background-color: #f4f7f9; font-family: 'Segoe UI', Roboto, sans-serif; }
     border-bottom: 1px dashed rgba(0,0,0,0.08);
 }
 #tripReviewBox .d-flex:last-child { border-bottom: none; }
+
+/* ================= BEELTY FOOTER & COMPACT FIT FIX ================= */
+.corporate-beelty {
+    width: 794px !important;
+    min-height: 1100px !important;
+    max-height: 1122px !important;
+    background: #ffffff !important;
+    padding: 25px 35px !important; /* Padding kam ki taaki footer andar rahe */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
+    border: 1px solid #ddd !important;
+}
+
+/* Sections Gap Compact */
+.c-info-bar { margin-top: 10px !important; padding: 8px 20px !important; }
+.c-party-section { margin-top: 10px !important; padding-bottom: 5px !important; }
+.c-grid { margin-top: 12px !important; gap: 15px !important; }
+.c-box { padding: 10px 12px !important; }
+.c-box-title { margin-bottom: 8px !important; padding-bottom: 4px !important; }
+.c-fline { margin-bottom: 6px !important; }
+
+/* Finance Table Padding Compact */
+.c-finance-section { margin-top: 12px !important; }
+.c-table th { padding: 6px 10px !important; font-size: 11px !important; }
+.c-table td { padding: 6px 10px !important; font-size: 13px !important; }
+.c-table input { font-size: 14px !important; }
+#slip_toPay { font-size: 22px !important; }
+
+/* Footer Neatly Inside Card */
+.c-footer-new {
+    margin-top: 15px !important;
+    padding-top: 10px !important;
+    border-top: 1.5px solid #cbd5e1 !important;
+    width: 100% !important;
+}
+
+.footer-top-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin-bottom: 5px !important;
+}
+
+.c-notes {
+    width: 45% !important;
+    font-size: 9.5px !important;
+    line-height: 1.3 !important;
+}
+.c-notes ul { padding-left: 15px !important; margin: 2px 0 0 0 !important; }
+
+.sigs-container {
+    width: 50% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+}
+
+.sig-block {
+    text-align: center !important;
+    flex: 1 !important;
+    position: relative !important;
+}
+
+.sig-line {
+    border-bottom: 1.5px solid #64748b !important;
+    height: 30px !important;
+    margin-bottom: 4px !important;
+}
+
+.official-seal {
+    width: 75px !important;
+    position: absolute !important;
+    top: -5px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 1 !important;
+}
+
+.sig-block span {
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    display: block !important;
+}
+
+/* ================= COMPLETE BEELTY AUTO-FIT & FOOTER FIX ================= */
+#beelty-capture-area {
+    width: 100% !important;
+    background: #525659 !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding: 20px 10px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+}
+
+/* Beelty Box Auto Content Fit (No Fixed Height) */
+.corporate-beelty {
+    width: 794px !important;
+    height: auto !important;
+    min-height: auto !important;
+    background: #ffffff !important;
+    padding: 25px 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    border: 2px solid #002347 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+    margin: 0 auto !important;
+}
+
+/* Wizard Mode (Step-by-Step me No Giant Gap) */
+#receipt-to-print.wizard-mode {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 15px 20px !important;
+}
+
+/* ================= ZERO-GAP BEELTY FIX (INSTANT TIGHT FIT) ================= */
+.corporate-beelty {
+    width: 794px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: #ffffff !important;
+    padding: 20px 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* space-between HATA DIYA - Ab gap nahi banega */
+    box-sizing: border-box !important;
+    position: relative !important;
+    border: 2px solid #002347 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1) !important;
+    margin: 0 auto !important;
+}
+
+/* Wizard Mode & Body */
+#receipt-to-print.wizard-mode {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 15px 20px !important;
+}
+
+.c-body {
+    flex: none !important;
+    flex-grow: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Finance Table aur Footer ka Gap Sirf 10px */
+.c-finance-section {
+    margin-top: 8px !important;
+    margin-bottom: 0px !important;
+}
+
+.c-footer-new {
+    margin-top: 10px !important; /* Bada gap khatam, sirf 10px gap rahega */
+    padding-top: 8px !important;
+    border-top: 1.5px solid #cbd5e1 !important;
+    width: 100% !important;
+    flex: none !important;
+}
+
+.footer-top-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.c-notes {
+    width: 48% !important;
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+}
+.c-notes ul { padding-left: 14px !important; margin: 2px 0 0 0 !important; }
+
+.sigs-container {
+    width: 48% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+}
+
+.sig-block {
+    text-align: center !important;
+    flex: 1 !important;
+    position: relative !important;
+}
+
+.sig-line {
+    border-bottom: 1.5px solid #64748b !important;
+    height: 25px !important;
+    margin-bottom: 3px !important;
+}
+
+.official-seal {
+    width: 85px !important;            /* ⬅️ 1. SIZE (Chhota / Bada) */
+    position: absolute !important;
+    top: -40px !important;             /* ⬅️ 2. POSITION (Upar / Niche) */
+    left: 50% !important;              /* ⬅️ 3. POSITION (Left / Right) */
+    transform: translateX(-50%) !important;
+    z-index: 1 !important;
+}
+
+.sig-block span {
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    display: block !important;
+}
+
+/* ================= ROYAL TRANSPORT THEME BEELTY ================= */
+#beelty-capture-area {
+    width: 100% !important;
+    background: #1e293b !important; /* Modern Slate Screen Background */
+    display: flex !important;
+    justify-content: center !important;
+    padding: 25px 10px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    height: auto !important;
+}
+
+/* 📜 Authentic Ivory Paper Container with Royal Border */
+.corporate-beelty {
+    width: 794px !important;
+    height: auto !important;
+    min-height: auto !important;
+    background: #fffdf9 !important; /* Warm Premium Bill Paper */
+    padding: 28px 34px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    border: 3px double #002347 !important; /* Royal Double Border */
+    outline: 1.5px solid #d4af37 !important; /* Inner Gold Trim */
+    outline-offset: -7px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important;
+    margin: 0 auto !important;
+}
+
+/* Wizard Mode */
+#receipt-to-print.wizard-mode {
+    height: auto !important;
+    padding: 18px 22px !important;
+}
+
+/* 🏢 Top Header Design */
+.c-header {
+    border-bottom: 2.5px solid #002347 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 6px !important;
+}
+
+.contact-top-row {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+    padding: 5px 8px !important;
+    font-size: 11.5px !important;
+    color: #002347 !important;
+    font-weight: 700 !important;
+}
+.contact-top-row .c-owner {
+    color: #002347 !important;
+    font-weight: 900 !important;
+    font-size: 13px !important;
+}
+
+.c-atc-badge span {
+    background: linear-gradient(135deg, #002347, #003366) !important;
+    color: #ffd700 !important; /* Gold Letters */
+    border: 1px solid #d4af37 !important;
+    padding: 3px 10px !important;
+    font-size: 26px !important;
+    font-weight: 900 !important;
+    border-radius: 4px !important;
+}
+
+.c-company-title {
+    color: #002347 !important;
+    font-size: 24px !important;
+    font-weight: 900 !important;
+    letter-spacing: 1px !important;
+}
+
+.c-sub-text {
+    color: #b45309 !important; /* Rich Amber Gold Tagline */
+    font-weight: 800 !important;
+    font-size: 11px !important;
+}
+
+.c-address-text-top {
+    font-size: 10px !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+/* 🚚 Info Bar (Vehicle & Date) */
+.c-info-bar {
+    background: linear-gradient(135deg, #002347 0%, #0f3d68 100%) !important;
+    border-radius: 6px !important;
+    padding: 8px 18px !important;
+    margin-top: 8px !important;
+    border: 1px solid #d4af37 !important;
+}
+.c-info-item label {
+    color: #fde047 !important; /* Golden Yellow Labels */
+    font-size: 10px !important;
+    font-weight: 800 !important;
+}
+.c-info-bar input {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    border-bottom: 1.5px solid rgba(253, 224, 71, 0.6) !important;
+}
+
+/* 📦 Party Section */
+.c-party-section {
+    margin-top: 10px !important;
+    padding: 6px 12px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-left: 4px solid #002347 !important;
+    border-radius: 4px !important;
+}
+.c-party-section label {
+    color: #002347 !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+}
+.c-party-section input {
+    color: #0f172a !important;
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    border-bottom: 1.5px solid #94a3b8 !important;
+}
+
+/* 🗺️ Route Box (Emerald Green Theme) */
+.c-grid { margin-top: 10px !important; gap: 14px !important; }
+
+.c-box[data-wizard-step="3"] {
+    background: #fcfdfd !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-top: 3.5px solid #166534 !important; /* Forest Green */
+    border-radius: 6px !important;
+    padding: 10px 14px !important;
+}
+.c-box[data-wizard-step="3"] .c-box-title {
+    color: #166534 !important;
+    font-weight: 900 !important;
+}
+
+/* 👤 Driver Box (Royal Blue Theme) */
+.c-box[data-wizard-step="4"] {
+    background: #fcfdfd !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-top: 3.5px solid #1e40af !important; /* Royal Blue */
+    border-radius: 6px !important;
+    padding: 10px 14px !important;
+}
+.c-box[data-wizard-step="4"] .c-box-title {
+    color: #1e40af !important;
+    font-weight: 900 !important;
+}
+
+.c-fline {
+    border-bottom: 1px dashed #e2e8f0 !important;
+    margin-bottom: 5px !important;
+    padding-bottom: 2px !important;
+}
+.c-fline label {
+    font-size: 10.5px !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+}
+.c-fline input {
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+}
+
+/* 📊 Finance Table */
+.c-finance-section { margin-top: 10px !important; }
+.c-table {
+    border: 1.5px solid #002347 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+}
+.c-table th {
+    background: #002347 !important;
+    color: #ffd700 !important; /* Gold Header Text */
+    font-size: 11px !important;
+    padding: 7px 10px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+}
+.c-table td {
+    padding: 6px 10px !important;
+    font-size: 12.5px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    color: #1e293b !important;
+}
+.c-table input {
+    font-weight: 800 !important;
+    font-size: 13.5px !important;
+}
+
+/* 💰 Net Payable Hero Row (Golden Champagne Highlight) */
+.c-total-row {
+    background: linear-gradient(90deg, #fef3c7 0%, #fffbeb 100%) !important;
+    border-top: 2px solid #b45309 !important;
+}
+.c-total-row td {
+    color: #78350f !important;
+    font-weight: 900 !important;
+    font-size: 14px !important;
+}
+#slip_toPay {
+    color: #002347 !important;
+    font-size: 22px !important;
+    font-weight: 900 !important;
+}
+
+/* ✍️ Footer Section */
+.c-footer-new {
+    margin-top: 10px !important;
+    padding-top: 8px !important;
+    border-top: 1.5px solid #002347 !important;
+    background: transparent !important;
+}
+.c-notes {
+    background: #f8fafc !important;
+    border: 1px dashed #cbd5e1 !important;
+    border-radius: 4px !important;
+    padding: 6px 8px !important;
+    font-size: 9px !important;
+    color: #475569 !important;
+}
+.c-notes strong { color: #002347 !important; }
+
+.sig-block span {
+    color: #002347 !important;
+    font-weight: 800 !important;
+    font-size: 8.5px !important;
+}
+.sig-line {
+    border-bottom: 1.5px solid #002347 !important;
+    height: 25px !important;
+}
+
+/* ================= LUXURY NAVBAR & LOGOUT BUTTON ================= */
+.navbar {
+    background: linear-gradient(135deg, #001a33 0%, #003366 100%) !important;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout-nav {
+    background: rgba(220, 53, 69, 0.18);
+    border: 1.5px solid rgba(255, 99, 115, 0.4);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-logout-nav i {
+    font-size: 16px;
+    color: #ff6b7a;
+    transition: all 0.25s ease;
+}
+
+/* Hover & Active Glowing Effect */
+.btn-logout-nav:hover {
+    background: #dc3545;
+    border-color: #ff4757;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(220, 53, 69, 0.5);
+}
+
+.btn-logout-nav:hover i {
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.btn-logout-nav:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Screens Styling */
+@media (max-width: 576px) {
+    .btn-logout-nav {
+        padding: 7px 10px;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+    }
+    .btn-logout-nav i {
+        font-size: 17px;
+    }
+}
+/* ================= ULTRA-LUXURY NAVBAR & LOGOUT BUTTON ================= */
+.app-top-navbar {
+    background: linear-gradient(135deg, #001a33 0%, #002e5b 100%) !important;
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+    min-height: 56px !important;
+    box-sizing: border-box !important;
+}
+
+/* Left Menu Icon */
+.btn-menu-icon {
+    all: unset !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 22px !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    transition: all 0.2s ease !important;
+}
+.btn-menu-icon:hover {
+    background: rgba(255, 255, 255, 0.22) !important;
+    color: #ffd700 !important;
+}
+
+/* Center Title (Single Line with Auto Ellipsis) */
+.app-top-navbar .navbar-brand {
+    font-size: 15px !important;
+    letter-spacing: 0.5px !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+}
+
+/* Right Luxury Logout Button */
+.btn-logout-luxury {
+    all: unset !important; /* Default grey browser box remove */
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.25) 0%, rgba(220, 53, 69, 0.5) 100%) !important;
+    border: 1.5px solid rgba(255, 107, 122, 0.6) !important;
+    color: #ffffff !important;
+    height: 34px !important;
+    padding: 0 14px !important;
+    border-radius: 50px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.35) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-logout-luxury i {
+    font-size: 16px !important;
+    color: #ff808e !important;
+    transition: all 0.25s ease !important;
+}
+
+.btn-logout-luxury:hover {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%) !important;
+    border-color: #ff6b7a !important;
+    box-shadow: 0 4px 16px rgba(220, 53, 69, 0.6) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-logout-luxury:hover i {
+    color: #ffffff !important;
+    transform: rotate(90deg) !important;
+}
+
+.btn-logout-luxury:active {
+    transform: scale(0.94) !important;
+}
+
+/* Mobile Screens Styling (Chhoti screen par circular glowing power badge) */
+@media (max-width: 576px) {
+    .app-top-navbar .navbar-brand {
+        font-size: 13px !important;
+    }
+    .btn-logout-luxury {
+        padding: 0 !important;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+    }
+    .btn-logout-luxury .logout-text {
+        display: none !important;
+    }
+    .btn-logout-luxury i {
+        font-size: 17px !important;
+    }
+}
+
+/* ================= TAB SOLUTION DIGITAL CARD STYLES ================= */
+.tab-logo-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-key {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: #00d2ff;
+    border: 2px solid #00d2ff;
+    padding: 4px 16px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3), inset 0 2px 4px rgba(255,255,255,0.2);
+}
+
+.tab-sub {
+    font-size: 9px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+    margin-top: 3px;
+}
