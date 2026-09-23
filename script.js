@@ -339,6 +339,10 @@ window.onload = () => {
         loadHomeRecent();
     }
 
+    if (localStorage.getItem('ktc_unlocked') === 'true') {
+    setTimeout(showSystemReadyWelcome, 500);
+}
+
     window.currentSlipHistory = getLocalSlipsCache();
     if (window.currentSlipHistory.length > 0) {
         renderSlipHistoryList();
@@ -389,6 +393,8 @@ async function handleLogin() {
             document.getElementById('lock-screen').classList.add('lock-hidden');
             syncDataFromServer(true);
             syncSlipsFromServer();
+            setTimeout(showSystemReadyWelcome, 300);
+
         } else {
             errorMsg.classList.remove('hidden');
             errorMsg.innerText = data.error;
@@ -2170,3 +2176,64 @@ document.addEventListener('input', function(e) {
         e.target.value = formatIndianVehicleNumber(e.target.value);
     }
 });
+
+// ================= LUXURY WELCOME BANNER TRIGGER =================
+function showSystemReadyWelcome() {
+    const banner = document.getElementById('welcome-banner');
+    if (!banner) return;
+
+    banner.classList.remove('hidden');
+
+    // 4 second baad smoothly fade-out ho jayega
+    setTimeout(() => {
+        const card = banner.querySelector('.welcome-banner-card');
+        if (card) {
+            card.style.animation = 'welcomeSlideUp 0.6s ease forwards';
+            setTimeout(() => {
+                banner.classList.add('hidden');
+                card.style.animation = '';
+            }, 600);
+        }
+    }, 3800);
+}
+
+// ================= MISSING SEARCH & EDIT CANCEL FUNCTIONS =================
+
+// 🔍 Search Trips in View All Trips
+function filterTrips() {
+    const query = (document.getElementById('tripSearch')?.value || '').toLowerCase().trim();
+    const cards = document.querySelectorAll('#tripCardsContainer .trip-card');
+    
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(query)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+window.filterTrips = filterTrips;
+
+// 🔍 Search Vehicle in Fleet / RC Section
+function filterVehicles() {
+    const query = (document.getElementById('vSearch')?.value || '').toLowerCase().trim();
+    const items = document.querySelectorAll('#vehicleCardsContainer .v-list-item');
+    
+    items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if (text.includes(query)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+window.filterVehicles = filterVehicles;
+
+// ❌ Cancel Trip Edit
+function cancelTripEdit() {
+    resetTripWizard();
+    showSection('view-trips');
+}
+window.cancelTripEdit = cancelTripEdit;
